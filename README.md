@@ -6,6 +6,14 @@
 
 Serwer: **hostowane na [Mikrusie](https://mikr.us)** — dziękujemy za wsparcie projektu.
 
+Wersja 1.7.82: mniej danych. Ilustracje obiektów przeszły z PNG na WebP — osiem
+plików waży 91 KB zamiast 12,4 MB, wyglądają tak samo, a APK chudnie o 12 MB.
+Mapa Ukrainy (pół megabajta) pobiera się dopiero, gdy są tam alarmy, zamiast przy
+każdym otwarciu. Serwer przysyła tylko tę część stanu, która się zmieniła, a przy
+pełnej ciszy w kraju telefon pyta co 15 zamiast co 5 sekund — gdy cokolwiek jest
+podniesione, tempo zostaje bez zmian. Zdjęcie maszyny w zwiniętej karcie jest
+większe. Punktacja i alarmowanie bez zmian. Szczegóły: `docs/RELEASE_1.7.82.md`.
+
 Wersja 1.7.81: alarm da się odczytać czytnikiem ekranu. Ekran alarmu jest oknem
 `alertdialog` — czytnik przerywa to, co czyta, i podaje poziom oraz województwo,
 a tabulator krąży po jego przyciskach zamiast schodzić na zasłoniętą mapę.
