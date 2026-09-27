@@ -54,17 +54,20 @@ const TYPE_META = {
   recon:    { label: "Dron rozpoznawczy",  color: "#c9d1dc" },
   unknown:  { label: "Obiekt powietrzny",  color: "#8a93a6" },
 };
-/* Ilustracje AI klas obiektów — nie zdjęcia ani wzorzec identyfikacji. */
+/* Ilustracje AI klas obiektów — nie zdjęcia ani wzorzec identyfikacji.
+   WebP 900x600 zamiast PNG 1536x1024 (27.09.2026): karta rysuje je na 285 px,
+   więc 900 px starcza na ekrany 3x, a plik waży ~12 KB zamiast ~1,6 MB.
+   Obrazy były największą pozycją transferu — 127 GB w dobie szczytu. */
 const THREAT_PHOTOS = {
-  kab: { file: "kab-ai.png" },
-  uav: { file: "uav-ai.png" },
-  shahed: { file: "shahed-ai.png" },
-  fpv: { file: "fpv-ai.png" },
-  recon: { file: "recon-ai.png" },
-  missile: { file: "missile-ai.png" },
-  ballistic: { file: "ballistic-ai.png" },
-  mig31k: { file: "mig31k-ai.png" },
-  cruise: { file: "missile-ai.png" },
+  kab: { file: "kab-ai.webp" },
+  uav: { file: "uav-ai.webp" },
+  shahed: { file: "shahed-ai.webp" },
+  fpv: { file: "fpv-ai.webp" },
+  recon: { file: "recon-ai.webp" },
+  missile: { file: "missile-ai.webp" },
+  ballistic: { file: "ballistic-ai.webp" },
+  mig31k: { file: "mig31k-ai.webp" },
+  cruise: { file: "missile-ai.webp" },
 };
 const UI = window.I18N || { isEn:false, isUk:false, t:(pl)=>pl, tr:s=>s, voiv:s=>s, type:(k,s)=>s, confidence:(k,s)=>s };
 
@@ -630,11 +633,48 @@ const connBadge = document.getElementById("conn-badge");
    gubi niczego, a właściwy alarm przy zamkniętej aplikacji i tak idzie powiadomieniem
    push. Serwer nadal obsługuje WebSocket dla starszych wersji aplikacji. */
 const POLL_ALARM_MS = 2000;     // trwa alarm — patrzymy uważniej
-const POLL_CALM_MS = 5000;      // spokój — stan i tak zmienia się rzadziej
+const POLL_ACTIVE_MS = 5000;    // gdziekolwiek w kraju podniesiony poziom
+/* Pełna cisza w całym kraju. Pomiar z 27.09.2026: taki stan trwa ~93,5% czasu,
+   a ticki serwera przychodzą wtedy co ~16 s — pytanie co 5 s nic nie wnosiło.
+   W szczycie ticki idą co 2 s i wtedy rzadsze pytanie wprost dzieli ruch, ale
+   wtedy i tak jesteśmy na jednym z dwóch szybszych poziomów. */
+const POLL_CALM_MS = 15000;
 const POLL_BUSY_MS = 10000;     // serwer prosi o przerwę (503)
 const POLL_LOST_MS = 12000;     // tyle bez odpowiedzi = pokazujemy „brak połączenia"
 let pollTimer = null, pollVer = null, pollEtag = null, pollBusyFlag = false;
 let pollInFlight = false, pollLastOk = 0;
+/* Część pomocnicza stanu: samoloty ADS-B i stan źródeł. Zmienia się wolniej niż
+   reszta (pomiar 27.09.2026: na 11 ticków `adsb` zmieniło się 4 razy, `health`
+   ani razu), więc serwer podaje ją osobno, a część główna niesie jej odcisk
+   `aux_v`. Dobieramy ją tylko wtedy, gdy odcisk się zmienił.
+   Gdy serwer jest starszy i nie zna podziału, `aux_v` nie przychodzi — wtedy
+   pełny stan ma te sekcje w środku i nie pytamy o nic więcej. */
+let auxDane = null, auxWersja = null, ostatniaGlowna = null;
+
+function zlozStan(glowna) {
+  // Serwer BEZ podziału (starszy writer w trakcie wdrożenia, wycofanie wydania)
+  // przysyła pełny stan razem z adsb i health. Nałożenie na niego zapamiętanej
+  // części pomocniczej zamroziłoby samoloty na ostatnio pobranej pozycji — i nikt
+  // by tego nie zgłosił, bo mapa wyglądałaby normalnie. Wtedy zapamiętaną część
+  // wyrzucamy i bierzemy to, co przyszło.
+  if (glowna && glowna.adsb) { auxDane = null; auxWersja = null; return glowna; }
+  return auxDane ? { ...glowna, ...auxDane } : glowna;
+}
+
+async function pobierzAux(wersja) {
+  const base = apiBase(); if (!base) return;
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const r = await fetch(base + "/api/state?part=aux", { cache: "no-store", signal: ctrl.signal });
+    clearTimeout(timer);
+    if (!r.ok) return;
+    const d = await r.json();
+    if (!d || typeof d !== "object" || !d.adsb) return;   // nie nadpisujemy dobrych danych śmieciem
+    auxDane = d; auxWersja = wersja;
+    if (ostatniaGlowna) applyState(zlozStan(ostatniaGlowna));
+  } catch {}
+}
 /* Krótkie zerwanie (przejazd tunelem, zmiana sieci) trwa sekundy i wracało samo,
    a komunikat zdążył mignąć i straszył. Pokazujemy go dopiero, gdy połączenia nie
    ma dłużej niż CONN_LOST_DELAY_MS. */
@@ -752,7 +792,15 @@ async function probeBackend(base) {
     const timer = setTimeout(() => ctrl.abort(), 4000);
     const r = await fetch(base + "/api/state", { signal: ctrl.signal, cache: "no-store" });
     clearTimeout(timer);
-    if (r.ok) { applyState(await r.json()); return true; }
+    if (r.ok) {
+      const d = await r.json();
+      // pełny stan ma obie części — bierzemy z niego świeże `adsb`/`health`,
+      // żeby późniejsze scalanie nie podłożyło starszych; odcisk zerujemy,
+      // więc pierwszy tick części głównej dobierze aktualną wersję
+      if (d && d.adsb) { auxDane = { adsb: d.adsb, health: d.health }; auxWersja = null; }
+      applyState(d);
+      return true;
+    }
   } catch {}
   return false;
 }
@@ -765,7 +813,11 @@ function pollDelay() {
   const mine = myVoiv();
   const alarm = (mine && voivs[mine]?.alert_level && voivs[mine].alert_level !== "none")
     || Object.values(voivs).some(v => v.alert_level === "high");
-  return alarm ? POLL_ALARM_MS : POLL_CALM_MS;
+  if (alarm) return POLL_ALARM_MS;
+  // cokolwiek podniesionego gdziekolwiek w Polsce = zostajemy przy dotychczasowym
+  // tempie; zwalniamy wyłącznie, gdy cały kraj jest spokojny
+  const cos = Object.values(voivs).some(v => v.alert_level && v.alert_level !== "none");
+  return cos ? POLL_ACTIVE_MS : POLL_CALM_MS;
 }
 
 function schedulePoll(delay) {
@@ -793,7 +845,10 @@ async function pollState() {
     // Dwie drogi do tej samej odpowiedzi „nic nowego", bo każda działa gdzie indziej:
     // parametr v rozumie nasz serwer (i Cloudflare, gdy klucz cache obejmuje parametry),
     // a nagłówek If-None-Match obsługuje sam brzeg Cloudflare, oddając 304 bez pytania nas.
-    const adres = base + "/api/state" + (pollVer ? "?v=" + encodeURIComponent(pollVer) : "");
+    // Kolejność parametrów jest stała (`part`, potem `v`), bo Cloudflare traktuje
+    // każdy inny zapis adresu jako osobny wpis w pamięci brzegu.
+    const adres = base + "/api/state?part=main"
+      + (pollVer ? "&v=" + encodeURIComponent(pollVer) : "");
     const r = await fetch(adres, {
       cache: "no-store", signal: ctrl.signal,
       headers: pollEtag ? { "If-None-Match": pollEtag } : undefined,
@@ -807,16 +862,22 @@ async function pollState() {
     } else if (r.ok) {
       const dane = await r.json();
       pollOk();
-      if (!dane?.unchanged) {                  // pełny stan = nowa wersja
+      if (!dane?.unchanged) {                  // nowa wersja części głównej
         pollVer = dane?.fusion?.ts || null;
         try { pollEtag = r.headers?.get?.("ETag") || null; } catch { pollEtag = null; }
-        applyState(dane);
+        ostatniaGlowna = dane;
+        applyState(zlozStan(dane));
+        if (typeof dane.aux_v === "string" && dane.aux_v && dane.aux_v !== auxWersja)
+          pobierzAux(dane.aux_v);
       }
     } else {
       throw new Error("HTTP " + r.status);
     }
   } catch {
-    if (Date.now() - pollLastOk > POLL_LOST_MS) showConnLost();
+    // Próg musi być wielokrotnością bieżącego odstępu, nie stałą: przy pytaniu
+    // co 15 s pojedyncza nieudana próba przekroczyłaby 12 s i baner „brak
+    // połączenia" wyskakiwałby po jednym zgubionym pakiecie.
+    if (Date.now() - pollLastOk > Math.max(POLL_LOST_MS, 2.5 * pollDelay())) showConnLost();
   } finally {
     pollInFlight = false;
     schedulePoll();
@@ -1219,7 +1280,7 @@ async function initMap() {
     // (bez nakładek i szczelin), Krym w granicach Ukrainy. Wersja jest w NAZWIE
     // pliku: Cloudflare przy .geojson pomija ?v= (14.09.2026 nowy plik doszedł
     // dopiero po wygaśnięciu wpisu), więc przy zmianie danych → nowa nazwa.
-    const kraje = await (await fetch("assets/kraje-v2.geojson")).json();
+    const kraje = await (await fetch("assets/kraje-v2.geojson?v=1.7.82")).json();
     map.addSource("kraje", { type: "geojson", data: kraje, promoteId: "iso" });
     // Android WebView wyświetla ciemną mapę bardziej płasko niż przeglądarka
     // desktopowa, więc w aplikacji krycie jest trochę wyższe.
@@ -1252,7 +1313,7 @@ async function initMap() {
        więc jej granica idealnie pokrywa się z warstwami wojewódzkimi — koniec
        rozjazdu z zgrubnymi poligonami sąsiadów. Delikatny błękit + jeden czysty
        kontur = kraj czytelnie wyróżniony bez krzykliwości. */
-    const pl = await (await fetch("assets/polska.geojson")).json();
+    const pl = await (await fetch("assets/polska.geojson?v=1.7.82")).json();
     map.addSource("pl", { type: "geojson", data: pl });
     /* Stonowane: szeroka poświata (6–14 px z rozmyciem) robiła „futrzastą",
        poszarpaną krawędź i mapa wyglądała jak podgląd debugowy. Zostaje cienki,
@@ -1264,7 +1325,7 @@ async function initMap() {
       paint: { "line-color": "#8fb4ee", "line-opacity": 0.85,
         "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.9, 7, 1.6] } });
 
-    const gj = await (await fetch("assets/wojewodztwa.geojson")).json();
+    const gj = await (await fetch("assets/wojewodztwa.geojson?v=1.7.82")).json();
     voivGeo = gj;
     map.addSource("voiv", { type: "geojson", data: gj, promoteId: "nazwa" });
 
@@ -1319,10 +1380,11 @@ async function initMap() {
        (decyzja usera 15.09.2026). Pod warstwą obwodów punktowanych, żeby ich różowy
        obrys był na wierzchu. Kraje bałtyckie podświetlamy przez feature-state „kraje”. */
     try {
-      const rejony = await (await fetch("assets/rejony-ua-v1.geojson")).json();
-      for (const f of rejony.features)
-        (raionsByOblast[f.properties.o] = raionsByOblast[f.properties.o] || []).push(f.properties.k);
-      map.addSource("rejony", { type: "geojson", data: rejony, promoteId: "k" });
+      // Źródło powstaje PUSTE, na swoim miejscu w kolejności warstw. Geometrię
+      // (156 KB po gzipie) dociąga wczytajGeoUA() dopiero przy pierwszym alarmie
+      // — patrz komentarz przy uaGeo. Dzięki temu kolejność warstw jest ustalona
+      // raz, przy starcie, i nic nie może wylądować nad Polską.
+      map.addSource("rejony", { type: "geojson", data: emptyFC(), promoteId: "k" });
       const lvl = ["coalesce", ["feature-state", "alert"], ""];
       const col = ["match", lvl, "red", "#ff4d5e", "#ffb020"];
       map.addLayer({ id: "rejony-alert-fill", type: "fill", source: "rejony",
@@ -1343,8 +1405,7 @@ async function initMap() {
       paintRaionAlerts(histMode ? [] : state?.neptun?.alert_areas);
     } catch (err) { console.warn("rejony UA", err); }
     try {
-      const obwody = await (await fetch("assets/obwody-ua.geojson")).json();
-      map.addSource("obwody", { type: "geojson", data: obwody, promoteId: "oblast" });
+      map.addSource("obwody", { type: "geojson", data: emptyFC(), promoteId: "oblast" });
       const on = ["boolean", ["feature-state", "active"], false];
       const w = ["coalesce", ["feature-state", "w"], 0];
       map.addLayer({ id: "obwody-fill", type: "fill", source: "obwody",
@@ -2006,7 +2067,7 @@ function planePopupHTML(p, heli, uid) {
   const row = (l, v) => (v == null || v === "") ? ""
     : `<tr><td style="color:#68758c;padding-right:8px;vertical-align:top">${l}</td><td><b>${v}</b></td></tr>`;
   return `<div>
-    <div id="${uid}-box" style="display:none;margin:-2px 0 6px">
+    <div id="${uid}-box" class="ac-photo" style="display:none;margin:-2px 0 6px">
       <img id="${uid}" alt="" style="width:100%;max-height:220px;object-fit:contain;border-radius:6px;display:block">
       <div class="ph-cr" style="font-size:10px;color:#68758c;margin-top:2px"></div>
     </div>
@@ -2199,8 +2260,10 @@ function oblastsFrom(sigs) {
   return m;
 }
 function paintOblasts(sigs) {
+  ostatnieObwodyUA = sigs;
   if (!mapReady || !map.getSource("obwody")) return;
   const next = oblastsFrom(sigs);
+  if (next.size) wczytajGeoUA("obwody");        // jest co rysować — dociągnij granice
   for (const k of new Set([...oblastInfo.keys(), ...next.keys()]))
     map.setFeatureState({ source: "obwody", id: k },
       { active: next.has(k), w: next.get(k)?.w || 0 });
@@ -2209,6 +2272,46 @@ function paintOblasts(sigs) {
 
 /* ── alarmy u sąsiadów tylko do obserwacji (bez punktów, 15.09.2026) ── */
 let raionsByOblast = {};           // obwód (ukr., bez „область”) → klucze rejonów z mapy
+
+/* Geometria Ukrainy: obwody 328 KB + rejony 156 KB po gzipie, razem prawie pół
+   megabajta. Do 27.09.2026 pobierała się przy KAŻDYM wejściu na stronę, choć
+   warstwa obwodów ma fill-opacity 0, dopóki nie ma alarmu — a 24.09.2026 było
+   231 tys. odsłon w dobę. Płacili za to głównie ludzie na danych komórkowych
+   w trakcie zdarzenia, czyli dokładnie ci, którym ma być lekko.
+
+   Odkładamy WYŁĄCZNIE pobranie danych: warstwy i ich obsługa kliknięć powstają
+   przy starcie, puste, więc kolejność rysowania jest ustalona raz na zawsze.
+   Po nieudanym pobraniu wracamy do stanu „nie wczytane" i spróbujemy przy
+   następnym alarmie. */
+const uaGeo = { rejony: null, obwody: null };      // null | "wczytuje" | "gotowe"
+const UA_GEO_PLIKI = {
+  rejony: "assets/rejony-ua-v1.geojson?v=1.7.82",
+  obwody: "assets/obwody-ua.geojson?v=1.7.82",
+};
+let ostatnieRejonyUA = null, ostatnieObwodyUA = null;   // do przemalowania po pobraniu
+
+async function wczytajGeoUA(ktore) {
+  if (uaGeo[ktore] || !mapReady) return;
+  uaGeo[ktore] = "wczytuje";
+  try {
+    const gj = await (await fetch(UA_GEO_PLIKI[ktore])).json();
+    const zrodlo = map.getSource(ktore);
+    if (!zrodlo || !gj?.features?.length) { uaGeo[ktore] = null; return; }
+    if (ktore === "rejony") {
+      raionsByOblast = {};
+      for (const f of gj.features)
+        (raionsByOblast[f.properties.o] = raionsByOblast[f.properties.o] || []).push(f.properties.k);
+    }
+    zrodlo.setData(gj);
+    uaGeo[ktore] = "gotowe";
+    // alarm był wcześniej niż geometria — malujemy jeszcze raz, już po danych
+    if (ktore === "rejony") paintRaionAlerts(ostatnieRejonyUA);
+    else paintOblasts(ostatnieObwodyUA);
+  } catch (err) {
+    uaGeo[ktore] = null;
+    console.warn("geometria UA", ktore, err);
+  }
+}
 let raionAlertInfo = new Map();    // klucz rejonu → wpis alarmu NEPTUN-a
 let countryAlerts = new Map();     // ISO3 kraju z trwającym alarmem -> opis do karty
 const UA_LATIN = { а:"a",б:"b",в:"v",г:"h",ґ:"g",д:"d",е:"e",є:"ie",ж:"zh",з:"z",и:"y",і:"i",ї:"i",й:"i",
@@ -2230,7 +2333,9 @@ function raionKey(name) {
 }
 const oblastShort = s => String(s || "").replace(/^м\.\s*/, "").replace(/\s+область$/i, "").trim();
 function paintRaionAlerts(areas) {
+  ostatnieRejonyUA = areas;
   if (!mapReady || !map.getSource("rejony")) return;
+  if ((areas || []).length) wczytajGeoUA("rejony");
   const next = new Map();
   const rank = { red: 2, yellow: 1 };
   const put = (k, a) => { const prev = next.get(k);
@@ -2241,7 +2346,9 @@ function paintRaionAlerts(areas) {
     } else {
       const k = raionKey(a.k || a.n);
       if ((raionsByOblast[oblastShort(a.o)] || []).includes(k)) put(k, a);
-      else if (!paintRaionAlerts.warned?.has(k)) {
+      // Dopóki granice się nie wczytały, raionsByOblast jest puste i KAŻDY rejon
+      // wyglądałby na nieznany — ostrzegamy dopiero, gdy jest z czym porównywać.
+      else if (uaGeo.rejony === "gotowe" && !paintRaionAlerts.warned?.has(k)) {
         (paintRaionAlerts.warned = paintRaionAlerts.warned || new Set()).add(k);
         console.warn("Strażnik: rejon bez granic na mapie", a.n, a.o, k);
       }
@@ -4256,7 +4363,7 @@ let camData = null, camTimer = null, camIndex = null;
    dzięki temu przycisk pojawia się wszędzie tam, gdzie faktycznie coś jest. */
 async function loadCams() {
   if (camData) return camData;
-  try { camData = await (await fetch("assets/kamery.json")).json(); }
+  try { camData = await (await fetch("assets/kamery.json?v=1.7.82")).json(); }
   catch { camData = {}; }
   camIndex = new Set(Object.entries(camData).filter(([, l]) => l.length).map(([v]) => v));
   return camData;

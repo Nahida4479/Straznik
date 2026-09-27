@@ -39,6 +39,19 @@
   <p class="fineprint">Wersję zainstalowaną na telefonie sprawdzisz w aplikacji: <kbd>⚙</kbd> → zakładka <kbd>Aplikacja</kbd> → „Wersja aplikacji”. Tam też jest przycisk <kbd>⬆ Sprawdź aktualizacje</kbd>.</p>
 </div></header>
 <main id="content" class="wrap">
+<section id="v1-7-82">
+  <h2>1.7.82 — Mniej danych: lżejsza aplikacja i mniej pobierania</h2>
+  <p class="fineprint">Wydanie 1.7.82 · 27 września 2026 · <a href="https://github.com/cukierrro/Straznik/releases/tag/v1.7.82">Pełny opis wydania</a></p>
+  <ul>
+    <li>Aplikacja waży o 12 MB mniej. Osiem ilustracji klas obiektów przeszło z PNG na WebP — razem 91 KB zamiast 12,4 MB, przy tym samym wyglądzie.</li>
+    <li>Mapa Ukrainy, prawie pół megabajta, pobiera się dopiero wtedy, gdy są tam alarmy. Wcześniej ładowała się przy każdym otwarciu, choć zwykle nie było na niej nic widać.</li>
+    <li>Serwer przysyła tylko tę część stanu, która się zmieniła. Pozycje samolotów cywilnych i stan źródeł zmieniają się rzadziej niż dane o zagrożeniach i nie muszą przychodzić za każdym razem.</li>
+    <li>Przy pełnej ciszy w całym kraju telefon pyta serwer co 15 sekund zamiast co 5, co oszczędza baterię i transfer. Gdy gdziekolwiek jest podniesiony poziom, tempo zostaje takie jak dotąd, a przy alarmie jest szybsze.</li>
+    <li>Zdjęcie maszyny w zwiniętej karcie jest większe. Dotąd kurczyło się do znaczka pośrodku pustego pasa.</li>
+    <li>Pliki mapy zostają w przeglądarce rok zamiast doby, więc powracający użytkownik nie pobiera ich ponownie.</li>
+  </ul>
+  <p class="fineprint">To wydanie niczego nie dodaje — zmniejsza zużycie danych, pamięci i baterii. Punktacja, progi i alarmowanie zostają bez zmian.</p>
+</section>
 <section id="v1-7-81">
   <h2>1.7.81 — Alarm da się odczytać czytnikiem ekranu</h2>
   <p class="fineprint">Wydanie 1.7.81 · 26 września 2026 · <a href="https://github.com/cukierrro/Straznik/releases/tag/v1.7.81">Pełny opis wydania</a></p>

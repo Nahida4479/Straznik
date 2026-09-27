@@ -2035,7 +2035,7 @@ function shouldScorePansa(dz, info, seen, now) {
 }
 async function loadVoivPolys() {
   if (voivPolys) return voivPolys;
-  const gj = await (await fetch("assets/wojewodztwa.geojson")).json();
+  const gj = await (await fetch("assets/wojewodztwa.geojson?v=1.7.82")).json();
   voivPolys = gj.features.map(f => [f.properties.nazwa,
     f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates]);
   return voivPolys;

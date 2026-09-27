@@ -39,6 +39,19 @@
   <p class="fineprint">To see which version your phone has, open the app: <kbd>⚙</kbd> → the <kbd>App</kbd> tab → “App version”. The <kbd>⬆ Check for updates</kbd> button is right there too.</p>
 </div></header>
 <main id="content" class="wrap">
+<section id="v1-7-82">
+  <h2>1.7.82 — Less data: a lighter app and fewer downloads</h2>
+  <p class="fineprint">Release 1.7.82 · 27 September 2026 · <a href="https://github.com/cukierrro/Straznik/releases/tag/v1.7.82">Full release notes</a></p>
+  <ul>
+    <li>The app is 12 MB smaller. Eight object-class illustrations moved from PNG to WebP — 91 KB in total instead of 12.4 MB, and they look the same.</li>
+    <li>The map of Ukraine, almost half a megabyte, is downloaded only when there are alerts there. It used to load on every visit even though it usually showed nothing.</li>
+    <li>The server now sends only the part of the state that changed. Civil aircraft positions and source health change less often than threat data and no longer come with every update.</li>
+    <li>When the whole country is quiet, the phone asks the server every 15 seconds instead of every 5, which saves battery and data. Whenever any region is raised the pace stays as before, and during an alert it is faster.</li>
+    <li>The aircraft photo in the collapsed card is bigger. It used to shrink to a stamp floating in an empty band.</li>
+    <li>Map files now stay in the browser for a year instead of a day, so a returning visitor does not download them again.</li>
+  </ul>
+  <p class="fineprint">This release adds nothing — it reduces data, memory and battery use. Scoring, thresholds and alerting are unchanged.</p>
+</section>
 <section id="v1-7-81">
   <h2>1.7.81 — The alarm can be read by a screen reader</h2>
   <p class="fineprint">Release 1.7.81 · 26 September 2026 · <a href="https://github.com/cukierrro/Straznik/releases/tag/v1.7.81">Full release notes</a></p>

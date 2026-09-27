@@ -138,10 +138,19 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
 #ac-card.big { right: 8px; width: auto; max-height: 74vh; max-height: 74dvh; border-radius: 14px;
   bottom: calc(var(--tabbar-h) + var(--safe-b) + var(--stack-h, 0px) + 12px);
   padding: 14px 16px 16px; font-size: 12.5px; line-height: 1.45; }
-/* w miniaturze zdjęcie jest tylko podglądem, nie połową karty */
-#ac-card:not(.big) .thr-photo img,
-/* !important, bo karta samolotu ustawia max-height w atrybucie style */
-#ac-card:not(.big) #ac-card-body img { max-height: 44px !important; }
+/* W zwiniętej karcie zdjęcie jest podglądem, nie połową karty — ale 44 px robiło
+   z niego znaczek pocztowy pływający pośrodku pustego pasa na całą szerokość
+   (zgłoszenie użytkownika 27.09.2026). Dwie reguły, bo te obrazy różnią się kadrem.
+
+   Zdjęcia z biblioteki modeli są kadrowane ciasno na maszynie, więc `cover` wypełnia
+   pas i nic istotnego nie ucina. !important, bo karta samolotu ustawia wysokość
+   w atrybucie style. */
+#ac-card:not(.big) .ac-photo img { height: 110px !important; max-height: 110px !important;
+  object-fit: cover !important; }
+/* Ilustracje AI powstały z zapasem marginesu i całym obiektem w kadrze (patrz
+   assets/threats/AI-ILLUSTRATIONS.md), więc tu zostaje `contain` — `cover` obciąłby
+   skrzydła. W górę idzie sam rozmiar. */
+#ac-card:not(.big) .thr-photo img { max-height: 96px; }
 #ac-card:not(.big) .thr-photo-note { display: none; }
 /* Nagłówek karty strefy musi omijać przyciski (zwiń/zamknij), które leżą
    absolutnie w prawym górnym rogu — bez tego długa nazwa typu strefy chowała się
