@@ -122,8 +122,9 @@ w całości, bo powstawały z zapasem marginesu i wypełnienie obcięłoby im sk
 
 ## Uwagi techniczne
 
-Klucze cache `app.js`, `engine.js`, `pl-outline.js` i `style.css` podbite na
-`1.7.82`; znaczniki wersji dostały też biblioteka mapy i pliki granic, dzięki
+Klucze cache `engine.js`, `pl-outline.js` i `style.css` podbite na `1.7.82`,
+`app.js` na `1.7.82a` — jego treść zmieniła się jeszcze po ustawieniu klucza
+(poprawka ścieżki wycofania), a klucz musi opisywać dokładnie jedną treść; znaczniki wersji dostały też biblioteka mapy i pliki granic, dzięki
 czemu obejmuje je roczny cache.
 
 `scripts/test_klucze_cache.cjs` sprawdza teraz także zasoby pobierane z `app.js`
