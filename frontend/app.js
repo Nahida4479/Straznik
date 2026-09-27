@@ -652,6 +652,12 @@ let pollInFlight = false, pollLastOk = 0;
 let auxDane = null, auxWersja = null, ostatniaGlowna = null;
 
 function zlozStan(glowna) {
+  // Serwer BEZ podziału (starszy writer w trakcie wdrożenia, wycofanie wydania)
+  // przysyła pełny stan razem z adsb i health. Nałożenie na niego zapamiętanej
+  // części pomocniczej zamroziłoby samoloty na ostatnio pobranej pozycji — i nikt
+  // by tego nie zgłosił, bo mapa wyglądałaby normalnie. Wtedy zapamiętaną część
+  // wyrzucamy i bierzemy to, co przyszło.
+  if (glowna && glowna.adsb) { auxDane = null; auxWersja = null; return glowna; }
   return auxDane ? { ...glowna, ...auxDane } : glowna;
 }
 

@@ -114,7 +114,33 @@ console.log('5. W tle nie pytamy');
 const tlo = await symulacja({ widoczna: false });
 sprawdz(tlo.zapytan === 0, `aplikacja w tle nie odpytuje serwera (${tlo.zapytan})`);
 
-console.log('6. Po stronie kodu nie ma już gniazda');
+console.log('6. Scalanie części stanu (ścieżka wdrożenia i wycofania)');
+{
+  // Bierzemy prawdziwy kod scalania z app.js i sprawdzamy go na trzech sytuacjach.
+  const ctx = { console };
+  vm.createContext(ctx);
+  vm.runInContext('let auxDane = null, auxWersja = null;' + String.fromCharCode(10)
+    + cut('function zlozStan(glowna)', 'async function pobierzAux'), ctx);
+
+  const bezAux = vm.runInContext('zlozStan({ fusion: 1 })', ctx);
+  sprawdz(bezAux.adsb === undefined && bezAux.fusion === 1,
+    'sama część główna przed pobraniem pomocniczej przechodzi bez zmian');
+
+  vm.runInContext('auxDane = { adsb: "POMOCNICZE", health: {} }; auxWersja = "abc";', ctx);
+  sprawdz(vm.runInContext('zlozStan({ fusion: 2 }).adsb', ctx) === 'POMOCNICZE',
+    'część pomocnicza dokleja się do części głównej');
+
+  // Serwer bez podziału (starszy writer albo wycofane wydanie) przysyła pełny stan.
+  // Nałożenie na niego zapamiętanej części pomocniczej zamroziłoby samoloty,
+  // a mapa wyglądałaby normalnie — nikt by tego nie zgłosił.
+  const pelny = vm.runInContext('zlozStan({ fusion: 3, adsb: "SWIEZE", health: {} })', ctx);
+  sprawdz(pelny.adsb === 'SWIEZE',
+    'pełny stan ze starszego serwera NIE jest nadpisywany starą częścią pomocniczą');
+  sprawdz(vm.runInContext('auxDane === null && auxWersja === null', ctx),
+    'i zapamiętana część pomocnicza jest wtedy wyrzucana');
+}
+
+console.log('7. Po stronie kodu nie ma już gniazda');
 sprawdz(!/new WebSocket\(/.test(src), 'klient nie otwiera WebSocketu');
 sprawdz(!/\/ws\?v=2/.test(src), 'i nie zna już adresu gniazda');
 sprawdz(/api\/state" \+ \(pollVer/.test(src) || /\?v=/.test(src), 'zapytania niosą wersję stanu');
