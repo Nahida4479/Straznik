@@ -1374,10 +1374,11 @@ async function initMap() {
        (decyzja usera 15.09.2026). Pod warstwą obwodów punktowanych, żeby ich różowy
        obrys był na wierzchu. Kraje bałtyckie podświetlamy przez feature-state „kraje”. */
     try {
-      const rejony = await (await fetch("assets/rejony-ua-v1.geojson?v=1.7.82")).json();
-      for (const f of rejony.features)
-        (raionsByOblast[f.properties.o] = raionsByOblast[f.properties.o] || []).push(f.properties.k);
-      map.addSource("rejony", { type: "geojson", data: rejony, promoteId: "k" });
+      // Źródło powstaje PUSTE, na swoim miejscu w kolejności warstw. Geometrię
+      // (156 KB po gzipie) dociąga wczytajGeoUA() dopiero przy pierwszym alarmie
+      // — patrz komentarz przy uaGeo. Dzięki temu kolejność warstw jest ustalona
+      // raz, przy starcie, i nic nie może wylądować nad Polską.
+      map.addSource("rejony", { type: "geojson", data: emptyFC(), promoteId: "k" });
       const lvl = ["coalesce", ["feature-state", "alert"], ""];
       const col = ["match", lvl, "red", "#ff4d5e", "#ffb020"];
       map.addLayer({ id: "rejony-alert-fill", type: "fill", source: "rejony",
@@ -1398,8 +1399,7 @@ async function initMap() {
       paintRaionAlerts(histMode ? [] : state?.neptun?.alert_areas);
     } catch (err) { console.warn("rejony UA", err); }
     try {
-      const obwody = await (await fetch("assets/obwody-ua.geojson?v=1.7.82")).json();
-      map.addSource("obwody", { type: "geojson", data: obwody, promoteId: "oblast" });
+      map.addSource("obwody", { type: "geojson", data: emptyFC(), promoteId: "oblast" });
       const on = ["boolean", ["feature-state", "active"], false];
       const w = ["coalesce", ["feature-state", "w"], 0];
       map.addLayer({ id: "obwody-fill", type: "fill", source: "obwody",
@@ -2254,8 +2254,10 @@ function oblastsFrom(sigs) {
   return m;
 }
 function paintOblasts(sigs) {
+  ostatnieObwodyUA = sigs;
   if (!mapReady || !map.getSource("obwody")) return;
   const next = oblastsFrom(sigs);
+  if (next.size) wczytajGeoUA("obwody");        // jest co rysować — dociągnij granice
   for (const k of new Set([...oblastInfo.keys(), ...next.keys()]))
     map.setFeatureState({ source: "obwody", id: k },
       { active: next.has(k), w: next.get(k)?.w || 0 });
@@ -2264,6 +2266,46 @@ function paintOblasts(sigs) {
 
 /* ── alarmy u sąsiadów tylko do obserwacji (bez punktów, 15.09.2026) ── */
 let raionsByOblast = {};           // obwód (ukr., bez „область”) → klucze rejonów z mapy
+
+/* Geometria Ukrainy: obwody 328 KB + rejony 156 KB po gzipie, razem prawie pół
+   megabajta. Do 27.09.2026 pobierała się przy KAŻDYM wejściu na stronę, choć
+   warstwa obwodów ma fill-opacity 0, dopóki nie ma alarmu — a 24.09.2026 było
+   231 tys. odsłon w dobę. Płacili za to głównie ludzie na danych komórkowych
+   w trakcie zdarzenia, czyli dokładnie ci, którym ma być lekko.
+
+   Odkładamy WYŁĄCZNIE pobranie danych: warstwy i ich obsługa kliknięć powstają
+   przy starcie, puste, więc kolejność rysowania jest ustalona raz na zawsze.
+   Po nieudanym pobraniu wracamy do stanu „nie wczytane" i spróbujemy przy
+   następnym alarmie. */
+const uaGeo = { rejony: null, obwody: null };      // null | "wczytuje" | "gotowe"
+const UA_GEO_PLIKI = {
+  rejony: "assets/rejony-ua-v1.geojson?v=1.7.82",
+  obwody: "assets/obwody-ua.geojson?v=1.7.82",
+};
+let ostatnieRejonyUA = null, ostatnieObwodyUA = null;   // do przemalowania po pobraniu
+
+async function wczytajGeoUA(ktore) {
+  if (uaGeo[ktore] || !mapReady) return;
+  uaGeo[ktore] = "wczytuje";
+  try {
+    const gj = await (await fetch(UA_GEO_PLIKI[ktore])).json();
+    const zrodlo = map.getSource(ktore);
+    if (!zrodlo || !gj?.features?.length) { uaGeo[ktore] = null; return; }
+    if (ktore === "rejony") {
+      raionsByOblast = {};
+      for (const f of gj.features)
+        (raionsByOblast[f.properties.o] = raionsByOblast[f.properties.o] || []).push(f.properties.k);
+    }
+    zrodlo.setData(gj);
+    uaGeo[ktore] = "gotowe";
+    // alarm był wcześniej niż geometria — malujemy jeszcze raz, już po danych
+    if (ktore === "rejony") paintRaionAlerts(ostatnieRejonyUA);
+    else paintOblasts(ostatnieObwodyUA);
+  } catch (err) {
+    uaGeo[ktore] = null;
+    console.warn("geometria UA", ktore, err);
+  }
+}
 let raionAlertInfo = new Map();    // klucz rejonu → wpis alarmu NEPTUN-a
 let countryAlerts = new Map();     // ISO3 kraju z trwającym alarmem -> opis do karty
 const UA_LATIN = { а:"a",б:"b",в:"v",г:"h",ґ:"g",д:"d",е:"e",є:"ie",ж:"zh",з:"z",и:"y",і:"i",ї:"i",й:"i",
@@ -2285,7 +2327,9 @@ function raionKey(name) {
 }
 const oblastShort = s => String(s || "").replace(/^м\.\s*/, "").replace(/\s+область$/i, "").trim();
 function paintRaionAlerts(areas) {
+  ostatnieRejonyUA = areas;
   if (!mapReady || !map.getSource("rejony")) return;
+  if ((areas || []).length) wczytajGeoUA("rejony");
   const next = new Map();
   const rank = { red: 2, yellow: 1 };
   const put = (k, a) => { const prev = next.get(k);
@@ -2296,7 +2340,9 @@ function paintRaionAlerts(areas) {
     } else {
       const k = raionKey(a.k || a.n);
       if ((raionsByOblast[oblastShort(a.o)] || []).includes(k)) put(k, a);
-      else if (!paintRaionAlerts.warned?.has(k)) {
+      // Dopóki granice się nie wczytały, raionsByOblast jest puste i KAŻDY rejon
+      // wyglądałby na nieznany — ostrzegamy dopiero, gdy jest z czym porównywać.
+      else if (uaGeo.rejony === "gotowe" && !paintRaionAlerts.warned?.has(k)) {
         (paintRaionAlerts.warned = paintRaionAlerts.warned || new Set()).add(k);
         console.warn("Strażnik: rejon bez granic na mapie", a.n, a.o, k);
       }
