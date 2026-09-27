@@ -38,7 +38,13 @@ const { execFileSync } = require('node:child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const INDEX = 'frontend/index.html';
-const WZOR_ZASOBU = /(?:src|href)="([A-Za-z0-9._-]+)\?v=([^"]*)"/g;
+/* Zasoby z ?v= wiszą nie tylko w index.html. Od 27.09.2026 wersję w adresie mają też
+   pliki .geojson i lista kamer, pobierane z app.js i engine.js — dostały przez to roczny
+   cache w przeglądarce. Gdyby test ich nie pilnował, zapomniany klucz oznaczałby starą
+   mapę granic u użytkownika przez rok: ta sama pułapka, dla której ten test powstał,
+   tylko znacznie dotkliwsza niż przy pliku .js. */
+const ZRODLA = [INDEX, 'frontend/app.js', 'frontend/engine.js'];
+const WZOR_ZASOBU = /["']((?:[A-Za-z0-9._-]+\/)*[A-Za-z0-9._-]+)\?v=([A-Za-z0-9._-]*)["']/g;
 
 function git(...args) {
   return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
@@ -51,11 +57,13 @@ function gitCiche(...args) {
 
 /* Wszystkie lokalne zasoby podpięte w index.html razem z ich kluczem. */
 function podpiete() {
-  const html = fs.readFileSync(path.join(ROOT, INDEX), 'utf8');
   const out = [];
-  for (const m of html.matchAll(WZOR_ZASOBU)) {
-    const plik = `frontend/${m[1]}`;
-    if (fs.existsSync(path.join(ROOT, plik))) out.push({ nazwa: m[1], plik, klucz: m[2] });
+  for (const zrodlo of ZRODLA) {
+    const tekst = fs.readFileSync(path.join(ROOT, zrodlo), 'utf8');
+    for (const m of tekst.matchAll(WZOR_ZASOBU)) {
+      const plik = `frontend/${m[1]}`;
+      if (fs.existsSync(path.join(ROOT, plik))) out.push({ nazwa: m[1], plik, klucz: m[2], zrodlo });
+    }
   }
   return out;
 }
@@ -71,9 +79,11 @@ function stanMain() {
   // nie wnosi własnej treści — nie ma czego porównywać.
   let wyprzedzamy = true;
   try { git('merge-base', '--is-ancestor', 'HEAD', ref); wyprzedzamy = false; } catch { /* wyprzedzamy */ }
-  const html = gitCiche('show', `${ref}:${INDEX}`);
-  const klucze = new Map();
-  if (html) for (const m of html.matchAll(WZOR_ZASOBU)) klucze.set(m[1], m[2]);
+  const klucze = new Map();   // "plik źródłowy|nazwa zasobu" -> klucz
+  for (const zrodlo of ZRODLA) {
+    const tekst = gitCiche('show', `${ref}:${zrodlo}`);
+    if (tekst) for (const m of tekst.matchAll(WZOR_ZASOBU)) klucze.set(`${zrodlo}|${m[1]}`, m[2]);
+  }
   return { ref, wyprzedzamy, klucze };
 }
 
@@ -89,8 +99,8 @@ test('index.html w ogóle podpina zasoby z kluczem (test nie zjada sam siebie)',
   assert.ok(ZASOBY.length >= 5, `znalazłem tylko ${ZASOBY.length} zasobów z ?v= — zmienił się zapis w index.html?`);
 });
 
-for (const { nazwa, plik, klucz } of ZASOBY) {
-  test(`${nazwa}: klucz ?v=${klucz} nie jest starszy od pliku`, () => {
+for (const { nazwa, plik, klucz, zrodlo } of ZASOBY) {
+  test(`${nazwa} (z ${zrodlo}): klucz ?v=${klucz} nie jest starszy od pliku`, () => {
     if (git('status', '--porcelain', '--', plik)) {
       // Plik ma niezacommitowane zmiany — klucz podbija się przy commicie, nie teraz.
       return;
@@ -98,18 +108,21 @@ for (const { nazwa, plik, klucz } of ZASOBY) {
     const cPlik = git('log', '-1', '--format=%H', '--', plik);
     // -G: ostatni commit, który ruszył linię pasującą do wzorca w index.html
     const wzor = nazwa.split('.').join('[.]') + '[?]v=';
-    const cKlucz = git('log', '-1', '--format=%H', '-G', wzor, '--', INDEX);
+    const cKlucz = git('log', '-1', '--format=%H', '-G', wzor, '--', zrodlo);
+    // Klucz dopiero wpisany i jeszcze niezacommitowany: w historii źródła nie ma go
+    // z czym porównać. Sprawdzi się przy następnym uruchomieniu, już po commicie.
+    if (!cKlucz && git('status', '--porcelain', '--', zrodlo)) return;
     assert.ok(cPlik, `brak historii dla ${plik}`);
-    assert.ok(cKlucz, `nie znalazłem w historii index.html linii z ${nazwa}?v=`);
+    assert.ok(cKlucz, `nie znalazłem w historii ${zrodlo} linii z ${nazwa}?v=`);
     let ok = true;
     try { git('merge-base', '--is-ancestor', cPlik, cKlucz); } catch { ok = false; }
     assert.ok(ok,
       `${plik} zmieniono w ${cPlik.slice(0, 7)} (${git('log', '-1', '--format=%ad', '--date=short', cPlik)}), `
       + `a klucz ?v=${klucz} ostatnio ruszono w ${cKlucz.slice(0, 7)} `
-      + `(${git('log', '-1', '--format=%ad', '--date=short', cKlucz)}) — podbij klucz w ${INDEX}`);
+      + `(${git('log', '-1', '--format=%ad', '--date=short', cKlucz)}) — podbij klucz w ${zrodlo}`);
   });
 
-  test(`${nazwa}: klucz ?v=${klucz} nie powtarza klucza z origin/main`, (t) => {
+  test(`${nazwa} (z ${zrodlo}): klucz ?v=${klucz} nie powtarza klucza z origin/main`, (t) => {
     if (!MAIN) return t.skip('brak origin/main lokalnie — nie ma z czym porównać');
     if (!MAIN.wyprzedzamy) return t.skip('gałąź nie wyprzedza origin/main — nie wnosi własnej treści');
     if (git('status', '--porcelain', '--', plik)) {
@@ -118,8 +131,8 @@ for (const { nazwa, plik, klucz } of ZASOBY) {
     const zMain = tresc(MAIN.ref, plik);
     if (!zMain) return;                        // plik dodany na gałęzi, main go nie zna
     if (tresc('HEAD', plik) === zMain) return; // ta sama treść może mieć ten sam klucz
-    const kluczMain = MAIN.klucze.get(nazwa);
-    if (kluczMain === undefined) return;       // main nie podpina tego pliku w index.html
+    const kluczMain = MAIN.klucze.get(`${zrodlo}|${nazwa}`);
+    if (kluczMain === undefined) return;       // main nie podpina tego pliku w tym źródle
     assert.notEqual(klucz, kluczMain,
       `${plik} różni się od wersji z origin/main (${MAIN.ref.slice(0, 7)}), `
       + `a klucz ?v=${klucz} jest dokładnie ten sam co tam — ten klucz Cloudflare i przeglądarki `
