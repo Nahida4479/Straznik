@@ -152,6 +152,15 @@ sprawdz(re.fullmatch(r"[a-zA-Z0-9\-_.~%]+", notify.fcm_topic_krytyczny("łódzki
 
 # Ładunek krytyczny jest odrobinę większy (słownik zamiast napisu) — limit APNs
 # obowiązuje tak samo, a przy przepełnieniu blok iOS ma odpaść jak dotąd.
+# Chwila przepisywania telefonu: zapis na nowy temat jest już zrobiony, wypis ze
+# starego jeszcze nie (bezpieczna kolejność ustalona z sesją iOS 28.09.2026).
+# Ten sam alarm leci wtedy na oba tematy i MUSI skleić się w jeden baner.
+sprawdz(k["apns"]["headers"]["apns-collapse-id"] == "voiv_lubelskie",
+        "temat krytyczny skleja się z zwykłym — jeden baner, nie dwa")
+sprawdz(k["apns"]["headers"]["apns-collapse-id"]
+        == zakodowana("voiv_lubelskie", dict(DANE, voiv="lubelskie"))["apns"]["headers"]["apns-collapse-id"],
+        "oba warianty mają identyczny apns-collapse-id")
+sprawdz(kaps["thread-id"] == "voiv_lubelskie", "wątek powiadomień wspólny dla obu tematów")
 sprawdz(bajty_apns(k) <= 4096, f"ładunek krytyczny mieści się w limicie ({bajty_apns(k)} B)")
 sprawdz(notify._apns_config("voiv_lubelskie_krytyczne", ogromne, True) is None,
         "przepełnienie zdejmuje blok iOS także na temacie krytycznym")

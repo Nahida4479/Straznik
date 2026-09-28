@@ -48,6 +48,22 @@ FCM_RETRIES = 3
 # więc na krytyczny temat musi lecieć KAŻDY poziom (żółty też), inaczej ci ludzie
 # przestaliby dostawać ostrzeżenia. Krytyczny jest wyłącznie DŹWIĘK czerwonego.
 CRITICAL_TOPIC_SUFFIX = "_krytyczne"
+
+
+def _temat_bazowy(topic: str) -> str:
+    """Temat bez sufiksu krytycznego — do sklejania powiadomień na iPhonie.
+
+    Zgłoszone przez sesję iOS 28.09.2026: przepisanie telefonu z `voiv_X` na
+    `voiv_X_krytyczne` to dwie operacje w Firebase i bezpieczna kolejność
+    (najpierw zapis, potem wypis) zostawia chwilę, w której telefon siedzi na
+    obu tematach. Gdyby `apns-collapse-id` różnił się między wariantami, iPhone
+    pokazałby wtedy DWA banery o tym samym zdarzeniu. Ten sam identyfikator
+    sprawia, że system skleja je w jeden — a przy alarmie liczy się jedna
+    jasna informacja, nie dwie takie same.
+    """
+    if topic.endswith(CRITICAL_TOPIC_SUFFIX):
+        return topic[: -len(CRITICAL_TOPIC_SUFFIX)]
+    return topic
 # Audyt bezpieczeństwa 16.09.2026: FCM i Web Push dzieliły domyślną pulę wątków, więc
 # zalew (fałszywych) subskrypcji Web Push kolejkował wysyłkę alarmu do aplikacji.
 # FCM ma własną pulę, a Web Push idzie najwyżej po WEBPUSH_CONCURRENCY naraz.
@@ -151,7 +167,9 @@ def _apns_config(topic: str, data: dict, critical: bool = False):
             # z gotowego ładunku, więc wiadomość sprzed kwadransa zawyłaby syreną jak
             # świeża. Dlatego po dziesięciu minutach APNs ma ją po prostu skasować.
             "apns-expiration": str(int(time.time()) + APNS_EXPIRATION_S),
-            "apns-collapse-id": topic,                             # jak collapse_key
+            # bez sufiksu krytycznego: w chwili przepisywania telefonu ten sam
+            # alarm leci na oba tematy i ma się skleić w jeden baner
+            "apns-collapse-id": _temat_bazowy(topic),              # jak collapse_key
         },
         payload=messaging.APNSPayload(aps=messaging.Aps(
             alert=messaging.ApsAlert(title=title, body="\n".join(lines + tail)),
@@ -162,7 +180,7 @@ def _apns_config(topic: str, data: dict, critical: bool = False):
             sound=(messaging.CriticalSound(name="alarm_syrena.wav", critical=True, volume=1.0)
                    if (critical and high) else
                    ("alarm_syrena.wav" if high else "alert_uwaga.wav")),
-            thread_id=topic,
+            thread_id=_temat_bazowy(topic),
             # firebase-admin 7.5 nie ma pola interruption_level — idzie przez custom_data.
             # Czerwony jako „time-sensitive" przebija tryb Skupienia, żółty jako
             # „active" nie budzi w nocy (decyzja 18.09.2026). Przy zgodzie na alarm
