@@ -2576,12 +2576,13 @@ function trackSpeed(t) {
   return measuredTrackSpeed(t) ?? TYPE_SPEED_KMH[t.type] ?? null; // zapas mapy: prędkość typowa dla klasy
 }
 
-/* Dead-reckoning między aktualizacjami — reguły SDK Neptuna (audyt G5). 92%
-   pozycji nie zmienia się między migawkami, a znacznik jechał prędkością typową
-   dla klasy i kursem „kursem na X” nawet 30 km. Teraz przesuwamy tylko przy
-   ZMIERZONEJ prędkości i kursie z ruchu, od chwili potwierdzenia w źródle,
-   najwyżej 18 km i nie dłużej niż 7 min (później dane uznajemy za nieaktualne). */
-const PREDICT_MAX_KM = 18, PREDICT_MAX_S = 420;
+/* Dead-reckoning USUNIĘTY 28.09.2026. Znacznik jechał zmierzonym kursem nawet
+   18 km przed ostatni meldunek i pod Dorohuskiem wjeżdżał nad Polskę, choć sam
+   meldunek został 0,2 km za granicą: karta pokazywała „odległość od granicy PL:
+   0,2”, a ikona z okręgiem ±4 km stała 3 km w głębi kraju (nagranie czytelnika,
+   zdarzenie z 28.09.2026). NEPTUN to zgłoszenia ludzi, nie radar — pozycji,
+   której nikt nie zgłosił, nie wolno dorysowywać, a już na pewno nie po polskiej
+   stronie granicy. Płynność ruchu daje glide między PRAWDZIWYMI meldunkami. */
 /* Ile minut od ostatniego meldunku o obiekcie (NEPTUN potwierdza zgłoszeniami). */
 function threatAgeMin(t, nowMs) {
   const seen = Date.parse(t.confirmedAt || t.updatedAt || "");
@@ -2599,22 +2600,6 @@ function ageLabel(min) {
   if (min < 60) return `${min} ${jm}`;
   const h = Math.floor(min / 60), m = min % 60;
   return m ? `${h} ${jg} ${m} ${jm}` : `${h} ${jg}`;
-}
-
-function predict(t, nowMs) {
-  let lat = t.lat, lon = t.lon;
-  if (isApproxPosition(t)) return { lat, lon };
-  const hdg = t.velocity?.bearingDeg ?? measuredHeading(t);
-  const speed = t.velocity?.speedKmh ?? measuredTrackSpeed(t);
-  if (speed && hdg != null) {
-    const base = Date.parse(t.confirmedAt || t.updatedAt || "") || threatsReceivedAt;
-    const dts = Math.max(0, (nowMs - base) / 1000);
-    if (dts > PREDICT_MAX_S) return { lat, lon };
-    const d = Math.min(speed * dts / 3600, PREDICT_MAX_KM);
-    lat += (d / 110.57) * Math.cos(hdg * Math.PI / 180);
-    lon += (d / (111.32 * Math.cos(lat * Math.PI / 180))) * Math.sin(hdg * Math.PI / 180);
-  }
-  return { lat, lon };
 }
 
 /* Identyfikatory obiektów NEPTUN, które teraz wnoszą punkty (lustro panelu
@@ -2693,7 +2678,7 @@ function animate(ts) {
     if (t.lat == null || isNationalThreat(t)) continue;   // alarm ogólnokrajowy → komunikat
     const meta = TYPE_META[t.type] || { color: "#8a93a6" };
     present.add(String(t.id ?? ""));
-    const p = glidePosition(t, predict(t, now), now);
+    const p = glidePosition(t, { lat: t.lat, lon: t.lon }, now);
     // Zgłoszenie 14.09.2026: dziób ikony (kurs NEPTUN-a „kursem na X”) pokazywał
     // w inną stronę niż trasa i linia kierunku liczone z ruchu. Kurs zmierzony
     // z ruchu ma pierwszeństwo — ikona, przesuwanie i karta mówią to samo.
