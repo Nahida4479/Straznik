@@ -1315,6 +1315,12 @@ async function initMap() {
        kontur = kraj czytelnie wyróżniony bez krzykliwości. */
     const pl = await (await fetch("assets/polska.geojson?v=1.7.82")).json();
     map.addSource("pl", { type: "geojson", data: pl });
+    plMapRings = [];   // ten sam kontur do blokady granicy w predict()
+    for (const f of pl.features || []) {
+      const g = f.geometry;
+      if (g?.type === "Polygon") plMapRings.push(g.coordinates[0]);
+      else if (g?.type === "MultiPolygon") for (const q of g.coordinates) plMapRings.push(q[0]);
+    }
     /* Stonowane: szeroka poświata (6–14 px z rozmyciem) robiła „futrzastą",
        poszarpaną krawędź i mapa wyglądała jak podgląd debugowy. Zostaje cienki,
        spokojny kontur i delikatne wypełnienie; wyraźna poświata jest zarezerwowana
@@ -2614,7 +2620,24 @@ function inPolandRing(lat, lon, ring) {
   }
   return inside;
 }
+/* Kontur, który rysuje mapa (assets/polska.geojson), ma pierwszeństwo przed
+   uproszczonym PL_OUTLINE: pod Dorohuskiem różnią się o setki metrów, a obiekt
+   nie może wejść nad Polskę na mapie ani na jedną klatkę. */
+let plMapRings = null;   // [[lon, lat], ...] z polska.geojson, ustawiane w initMap
+function inPlMapRings(lat, lon) {
+  let w = false;
+  for (const r of plMapRings) {
+    let ins = false;
+    for (let i = 0, j = r.length - 1; i < r.length; j = i++) {
+      const [xi, yi] = r[i], [xj, yj] = r[j];
+      if ((yi > lat) !== (yj > lat) && lon < ((xj - xi) * (lat - yi)) / (yj - yi) + xi) ins = !ins;
+    }
+    if (ins) w = !w;
+  }
+  return w;
+}
 function inPoland(lat, lon) {
+  if (plMapRings) return inPlMapRings(lat, lon);
   return typeof PL_OUTLINE !== "undefined" && PL_OUTLINE.rings.some(r => inPolandRing(lat, lon, r));
 }
 function kmToPolandApprox(lat, lon) {
