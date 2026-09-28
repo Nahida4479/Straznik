@@ -115,7 +115,7 @@ const UI_STUB = { lang: "pl", isEn: false, isUk: false,
   t: (pl, en, uk) => UI_STUB.lang === "en" ? en : UI_STUB.lang === "uk" ? (uk !== undefined ? uk : en) : pl };
 const wiek = { UI: UI_STUB };
 vm.createContext(wiek);
-vm.runInContext(cut('function threatAgeMin', String.fromCharCode(10) + 'function predict'), wiek);
+vm.runInContext(cut('function threatAgeMin', String.fromCharCode(10) + '/* Identyfikatory'), wiek);
 const T = Date.UTC(2026, 8, 17, 20, 0, 0);
 assert.equal(wiek.threatAgeMin({ updatedAt: new Date(T - 7 * 60000).toISOString() }, T), 7, 'wiek liczony z updatedAt');
 assert.equal(wiek.threatAgeMin({ confirmedAt: new Date(T - 90 * 60000).toISOString(), updatedAt: new Date(T).toISOString() }, T), 90,
