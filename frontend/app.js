@@ -5,7 +5,7 @@
 
 /* ── konfiguracja / API base ─────────────────────────────────────────────── */
 const IS_APP = location.protocol === "capacitor:" || location.protocol === "file:" ||
-               (window.Capacitor !== undefined);
+  (window.Capacitor !== undefined);
 // Przycisk instalacyjny jest przeznaczony dla strony WWW. W zainstalowanej
 // aplikacji aktualizacje obsługuje osobny mechanizm w Ustawieniach.
 if (IS_APP) document.querySelectorAll(".web-only").forEach(el => { el.hidden = true; });
@@ -42,17 +42,17 @@ function apiBase() {
 }
 
 const TYPE_META = {
-  uav:      { label: "Dron / BpSP",        color: "#ffb020" },
-  shahed:   { label: "Shahed",             color: "#ff8c1a" },
-  fpv:      { label: "FPV (lokalny)",      color: "#8a93a6" },
-  missile:  { label: "Rakieta maner.",     color: "#ff4d5e" },
-  cruise:   { label: "Rakieta maner.",     color: "#ff4d5e" },
-  ballistic:{ label: "Balistyczna",        color: "#ff2db0" },
-  kab:      { label: "KAB",                color: "#ffd23b" },
-  mig31k:   { label: "MiG-31K (nosiciel)", color: "#c06bff" },
+  uav: { label: "Dron / BpSP", color: "#ffb020" },
+  shahed: { label: "Shahed", color: "#ff8c1a" },
+  fpv: { label: "FPV (lokalny)", color: "#8a93a6" },
+  missile: { label: "Rakieta maner.", color: "#ff4d5e" },
+  cruise: { label: "Rakieta maner.", color: "#ff4d5e" },
+  ballistic: { label: "Balistyczna", color: "#ff2db0" },
+  kab: { label: "KAB", color: "#ffd23b" },
+  mig31k: { label: "MiG-31K (nosiciel)", color: "#c06bff" },
   // biało-szary: po nowej sylwetce BpSP żółty rozpoznawczy za bardzo go przypominał
-  recon:    { label: "Dron rozpoznawczy",  color: "#c9d1dc" },
-  unknown:  { label: "Obiekt powietrzny",  color: "#8a93a6" },
+  recon: { label: "Dron rozpoznawczy", color: "#c9d1dc" },
+  unknown: { label: "Obiekt powietrzny", color: "#8a93a6" },
 };
 /* Ilustracje AI klas obiektów — nie zdjęcia ani wzorzec identyfikacji.
    WebP 900x600 zamiast PNG 1536x1024 (27.09.2026): karta rysuje je na 285 px,
@@ -69,7 +69,7 @@ const THREAT_PHOTOS = {
   mig31k: { file: "mig31k-ai.webp" },
   cruise: { file: "missile-ai.webp" },
 };
-const UI = window.I18N || { isEn:false, isUk:false, t:(pl)=>pl, tr:s=>s, voiv:s=>s, type:(k,s)=>s, confidence:(k,s)=>s };
+const UI = window.I18N || { isEn: false, isUk: false, t: (pl) => pl, tr: s => s, voiv: s => s, type: (k, s) => s, confidence: (k, s) => s };
 
 /* <dialog>.showModal() ustawia fokus na pierwszym elemencie, do którego można trafić
    klawiaturą. Gdy leży on niżej (lista źródeł zaczyna się od odnośników), przeglądarka
@@ -137,52 +137,52 @@ const MIL_ROLES = {
   AS32: "śmigłowiec (Super Puma)", A109: "śmigłowiec lekki", A139: "śmigłowiec (AW139)",
 };
 const ROLE_EN = {
-  "transport taktyczny":"tactical transport", "lekki transport / patrol (Bryza)":"light transport / patrol (Bryza)",
-  "transport strategiczny (Atlas)":"strategic transport (Atlas)", "transport strategiczny (Globemaster)":"strategic transport (Globemaster)",
-  "transport ciężki (Galaxy)":"heavy transport (Galaxy)", "transport ciężki":"heavy transport",
-  "latający tankowiec (KC-135)":"aerial refuelling tanker (KC-135)", "latający tankowiec (Pegasus)":"aerial refuelling tanker (Pegasus)",
-  "tankowiec / transport (MRTT)":"tanker / transport (MRTT)", "AWACS — wczesne ostrzeganie":"AWACS — airborne early warning",
-  "wczesne ostrzeganie (Wedgetail)":"airborne early warning (Wedgetail)", "myśliwiec wielozadaniowy":"multirole fighter",
-  "myśliwiec 5. gen. (Lightning II)":"5th-generation fighter (Lightning II)", "myśliwiec przewagi powietrznej":"air-superiority fighter",
-  "myśliwiec (Eurofighter Typhoon)":"fighter (Eurofighter Typhoon)", "myśliwiec (Rafale)":"fighter (Rafale)",
-  "myśliwiec (Gripen)":"fighter (Gripen)", "myśliwiec (MiG-29)":"fighter (MiG-29)", "myśliwsko-bombowy (Su-22)":"fighter-bomber (Su-22)",
-  "patrolowy morski (Poseidon)":"maritime patrol (Poseidon)", "dron rozpoznawczy (Phoenix)":"reconnaissance drone (Phoenix)",
-  "dron rozpoznawczy (Global Hawk)":"reconnaissance drone (Global Hawk)", "dron rozpoznawczo-uderzeniowy (Reaper)":"reconnaissance/strike drone (Reaper)",
-  "rozpoznanie / łącznikowy":"reconnaissance / liaison", "rozpoznanie specjalne":"special reconnaissance", "rozpoznanie / VIP":"reconnaissance / VIP",
-  "VIP / sztabowy":"VIP / command transport", "szkolno-treningowy (Texan II)":"trainer (Texan II)", "szkolno-bojowy (Albatros)":"combat trainer (Albatros)",
-  "śmigłowiec wielozadaniowy (Black Hawk)":"multirole helicopter (Black Hawk)", "śmigłowiec szturmowy (Apache)":"attack helicopter (Apache)",
-  "śmigłowiec transportowy (Chinook)":"transport helicopter (Chinook)", "śmigłowiec transportowy (Mi-8)":"transport helicopter (Mi-8)",
-  "śmigłowiec transportowy (Mi-17)":"transport helicopter (Mi-17)", "śmigłowiec szturmowy (Mi-24)":"attack helicopter (Mi-24)",
-  "śmigłowiec wielozadaniowy (Sokół)":"multirole helicopter (Sokół)", "śmigłowiec lekki":"light helicopter",
-  "śmigłowiec (Caracal)":"helicopter (Caracal)", "śmigłowiec (Super Puma)":"helicopter (Super Puma)", "śmigłowiec (AW139)":"helicopter (AW139)",
-  "latający tankowiec":"aerial refuelling tanker", "myśliwiec":"fighter", "transport strategiczny":"strategic transport",
-  "patrolowy morski":"maritime patrol", "dron rozpoznawczy":"reconnaissance drone", "śmigłowiec wielozadaniowy":"multirole helicopter",
-  "śmigłowiec szturmowy":"attack helicopter", "śmigłowiec transportowy":"transport helicopter", "śmigłowiec":"helicopter"
+  "transport taktyczny": "tactical transport", "lekki transport / patrol (Bryza)": "light transport / patrol (Bryza)",
+  "transport strategiczny (Atlas)": "strategic transport (Atlas)", "transport strategiczny (Globemaster)": "strategic transport (Globemaster)",
+  "transport ciężki (Galaxy)": "heavy transport (Galaxy)", "transport ciężki": "heavy transport",
+  "latający tankowiec (KC-135)": "aerial refuelling tanker (KC-135)", "latający tankowiec (Pegasus)": "aerial refuelling tanker (Pegasus)",
+  "tankowiec / transport (MRTT)": "tanker / transport (MRTT)", "AWACS — wczesne ostrzeganie": "AWACS — airborne early warning",
+  "wczesne ostrzeganie (Wedgetail)": "airborne early warning (Wedgetail)", "myśliwiec wielozadaniowy": "multirole fighter",
+  "myśliwiec 5. gen. (Lightning II)": "5th-generation fighter (Lightning II)", "myśliwiec przewagi powietrznej": "air-superiority fighter",
+  "myśliwiec (Eurofighter Typhoon)": "fighter (Eurofighter Typhoon)", "myśliwiec (Rafale)": "fighter (Rafale)",
+  "myśliwiec (Gripen)": "fighter (Gripen)", "myśliwiec (MiG-29)": "fighter (MiG-29)", "myśliwsko-bombowy (Su-22)": "fighter-bomber (Su-22)",
+  "patrolowy morski (Poseidon)": "maritime patrol (Poseidon)", "dron rozpoznawczy (Phoenix)": "reconnaissance drone (Phoenix)",
+  "dron rozpoznawczy (Global Hawk)": "reconnaissance drone (Global Hawk)", "dron rozpoznawczo-uderzeniowy (Reaper)": "reconnaissance/strike drone (Reaper)",
+  "rozpoznanie / łącznikowy": "reconnaissance / liaison", "rozpoznanie specjalne": "special reconnaissance", "rozpoznanie / VIP": "reconnaissance / VIP",
+  "VIP / sztabowy": "VIP / command transport", "szkolno-treningowy (Texan II)": "trainer (Texan II)", "szkolno-bojowy (Albatros)": "combat trainer (Albatros)",
+  "śmigłowiec wielozadaniowy (Black Hawk)": "multirole helicopter (Black Hawk)", "śmigłowiec szturmowy (Apache)": "attack helicopter (Apache)",
+  "śmigłowiec transportowy (Chinook)": "transport helicopter (Chinook)", "śmigłowiec transportowy (Mi-8)": "transport helicopter (Mi-8)",
+  "śmigłowiec transportowy (Mi-17)": "transport helicopter (Mi-17)", "śmigłowiec szturmowy (Mi-24)": "attack helicopter (Mi-24)",
+  "śmigłowiec wielozadaniowy (Sokół)": "multirole helicopter (Sokół)", "śmigłowiec lekki": "light helicopter",
+  "śmigłowiec (Caracal)": "helicopter (Caracal)", "śmigłowiec (Super Puma)": "helicopter (Super Puma)", "śmigłowiec (AW139)": "helicopter (AW139)",
+  "latający tankowiec": "aerial refuelling tanker", "myśliwiec": "fighter", "transport strategiczny": "strategic transport",
+  "patrolowy morski": "maritime patrol", "dron rozpoznawczy": "reconnaissance drone", "śmigłowiec wielozadaniowy": "multirole helicopter",
+  "śmigłowiec szturmowy": "attack helicopter", "śmigłowiec transportowy": "transport helicopter", "śmigłowiec": "helicopter"
 };
 const ROLE_UK = {
-  "transport taktyczny":"тактичний транспорт", "lekki transport / patrol (Bryza)":"легкий транспорт / патруль (Bryza)",
-  "transport strategiczny (Atlas)":"стратегічний транспорт (Atlas)", "transport strategiczny (Globemaster)":"стратегічний транспорт (Globemaster)",
-  "transport ciężki (Galaxy)":"важкий транспорт (Galaxy)", "transport ciężki":"важкий транспорт",
-  "latający tankowiec (KC-135)":"повітряний танкер (KC-135)", "latający tankowiec (Pegasus)":"повітряний танкер (Pegasus)",
-  "tankowiec / transport (MRTT)":"танкер / транспорт (MRTT)", "AWACS — wczesne ostrzeganie":"AWACS — раннє попередження",
-  "wczesne ostrzeganie (Wedgetail)":"раннє попередження (Wedgetail)", "myśliwiec wielozadaniowy":"багатоцільовий винищувач",
-  "myśliwiec 5. gen. (Lightning II)":"винищувач 5-го покоління (Lightning II)", "myśliwiec przewagi powietrznej":"винищувач переваги в повітрі",
-  "myśliwiec (Eurofighter Typhoon)":"винищувач (Eurofighter Typhoon)", "myśliwiec (Rafale)":"винищувач (Rafale)",
-  "myśliwiec (Gripen)":"винищувач (Gripen)", "myśliwiec (MiG-29)":"винищувач (МіГ-29)",
-  "myśliwsko-bombowy (Su-22)":"винищувач-бомбардувальник (Су-22)",
-  "patrolowy morski (Poseidon)":"морський патрульний (Poseidon)", "dron rozpoznawczy (Phoenix)":"розвідувальний дрон (Phoenix)",
-  "dron rozpoznawczy (Global Hawk)":"розвідувальний дрон (Global Hawk)", "dron rozpoznawczo-uderzeniowy (Reaper)":"розвідувально-ударний дрон (Reaper)",
-  "rozpoznanie / łącznikowy":"розвідка / зв\u2019язок", "rozpoznanie specjalne":"спеціальна розвідка", "rozpoznanie / VIP":"розвідка / VIP",
-  "VIP / sztabowy":"VIP / штабний", "szkolno-treningowy (Texan II)":"навчально-тренувальний (Texan II)",
-  "szkolno-bojowy (Albatros)":"навчально-бойовий (Albatros)",
-  "śmigłowiec wielozadaniowy (Black Hawk)":"багатоцільовий гелікоптер (Black Hawk)", "śmigłowiec szturmowy (Apache)":"ударний гелікоптер (Apache)",
-  "śmigłowiec transportowy (Chinook)":"транспортний гелікоптер (Chinook)", "śmigłowiec transportowy (Mi-8)":"транспортний гелікоптер (Мі-8)",
-  "śmigłowiec transportowy (Mi-17)":"транспортний гелікоптер (Мі-17)", "śmigłowiec szturmowy (Mi-24)":"ударний гелікоптер (Мі-24)",
-  "śmigłowiec wielozadaniowy (Sokół)":"багатоцільовий гелікоптер (Sokół)", "śmigłowiec lekki":"легкий гелікоптер",
-  "śmigłowiec (Caracal)":"гелікоптер (Caracal)", "śmigłowiec (Super Puma)":"гелікоптер (Super Puma)", "śmigłowiec (AW139)":"гелікоптер (AW139)",
-  "latający tankowiec":"повітряний танкер", "myśliwiec":"винищувач", "transport strategiczny":"стратегічний транспорт",
-  "patrolowy morski":"морський патрульний", "dron rozpoznawczy":"розвідувальний дрон", "śmigłowiec wielozadaniowy":"багатоцільовий гелікоптер",
-  "śmigłowiec szturmowy":"ударний гелікоптер", "śmigłowiec transportowy":"транспортний гелікоптер", "śmigłowiec":"гелікоптер"
+  "transport taktyczny": "тактичний транспорт", "lekki transport / patrol (Bryza)": "легкий транспорт / патруль (Bryza)",
+  "transport strategiczny (Atlas)": "стратегічний транспорт (Atlas)", "transport strategiczny (Globemaster)": "стратегічний транспорт (Globemaster)",
+  "transport ciężki (Galaxy)": "важкий транспорт (Galaxy)", "transport ciężki": "важкий транспорт",
+  "latający tankowiec (KC-135)": "повітряний танкер (KC-135)", "latający tankowiec (Pegasus)": "повітряний танкер (Pegasus)",
+  "tankowiec / transport (MRTT)": "танкер / транспорт (MRTT)", "AWACS — wczesne ostrzeganie": "AWACS — раннє попередження",
+  "wczesne ostrzeganie (Wedgetail)": "раннє попередження (Wedgetail)", "myśliwiec wielozadaniowy": "багатоцільовий винищувач",
+  "myśliwiec 5. gen. (Lightning II)": "винищувач 5-го покоління (Lightning II)", "myśliwiec przewagi powietrznej": "винищувач переваги в повітрі",
+  "myśliwiec (Eurofighter Typhoon)": "винищувач (Eurofighter Typhoon)", "myśliwiec (Rafale)": "винищувач (Rafale)",
+  "myśliwiec (Gripen)": "винищувач (Gripen)", "myśliwiec (MiG-29)": "винищувач (МіГ-29)",
+  "myśliwsko-bombowy (Su-22)": "винищувач-бомбардувальник (Су-22)",
+  "patrolowy morski (Poseidon)": "морський патрульний (Poseidon)", "dron rozpoznawczy (Phoenix)": "розвідувальний дрон (Phoenix)",
+  "dron rozpoznawczy (Global Hawk)": "розвідувальний дрон (Global Hawk)", "dron rozpoznawczo-uderzeniowy (Reaper)": "розвідувально-ударний дрон (Reaper)",
+  "rozpoznanie / łącznikowy": "розвідка / зв\u2019язок", "rozpoznanie specjalne": "спеціальна розвідка", "rozpoznanie / VIP": "розвідка / VIP",
+  "VIP / sztabowy": "VIP / штабний", "szkolno-treningowy (Texan II)": "навчально-тренувальний (Texan II)",
+  "szkolno-bojowy (Albatros)": "навчально-бойовий (Albatros)",
+  "śmigłowiec wielozadaniowy (Black Hawk)": "багатоцільовий гелікоптер (Black Hawk)", "śmigłowiec szturmowy (Apache)": "ударний гелікоптер (Apache)",
+  "śmigłowiec transportowy (Chinook)": "транспортний гелікоптер (Chinook)", "śmigłowiec transportowy (Mi-8)": "транспортний гелікоптер (Мі-8)",
+  "śmigłowiec transportowy (Mi-17)": "транспортний гелікоптер (Мі-17)", "śmigłowiec szturmowy (Mi-24)": "ударний гелікоптер (Мі-24)",
+  "śmigłowiec wielozadaniowy (Sokół)": "багатоцільовий гелікоптер (Sokół)", "śmigłowiec lekki": "легкий гелікоптер",
+  "śmigłowiec (Caracal)": "гелікоптер (Caracal)", "śmigłowiec (Super Puma)": "гелікоптер (Super Puma)", "śmigłowiec (AW139)": "гелікоптер (AW139)",
+  "latający tankowiec": "повітряний танкер", "myśliwiec": "винищувач", "transport strategiczny": "стратегічний транспорт",
+  "patrolowy morski": "морський патрульний", "dron rozpoznawczy": "розвідувальний дрон", "śmigłowiec wielozadaniowy": "багатоцільовий гелікоптер",
+  "śmigłowiec szturmowy": "ударний гелікоптер", "śmigłowiec transportowy": "транспортний гелікоптер", "śmigłowiec": "гелікоптер"
 };
 const roleText = role => UI.t(role, ROLE_EN[role] || role, ROLE_UK[role] || ROLE_EN[role] || role);
 // pełne nazwy modeli — adsb.lol często nie zwraca pola desc
@@ -223,8 +223,8 @@ function acRole(type, desc) {
   for (const [re, role] of ROLE_FALLBACK) if (desc && re.test(desc)) return role;
   return null;
 }
-const HELI_TYPES = new Set(["H60","S70","H64","H47","MI8","MI17","MI24","W3","EC35",
-  "EC45","H145","H225","AS32","A109","A139","UH1","AH1","H500","EH10","LYNX","PUMA"]);
+const HELI_TYPES = new Set(["H60", "S70", "H64", "H47", "MI8", "MI17", "MI24", "W3", "EC35",
+  "EC45", "H145", "H225", "AS32", "A109", "A139", "UH1", "AH1", "H500", "EH10", "LYNX", "PUMA"]);
 function isHeli(cat, type, desc) {
   return cat === "A7" || HELI_TYPES.has(type) ||
     /helicopter|black\s*hawk|apache|chinook|mi-?[128]|sok[oó][lł]|caracal|puma/i.test(desc || "");
@@ -274,10 +274,12 @@ const oblastPL = (s) => {
   return placeName(s);
 };
 /* transliteracja ukraińskiej cyrylicy na polską łacinkę (nazwy miejscowości) */
-const TR = { "а":"a","б":"b","в":"w","г":"h","ґ":"g","д":"d","е":"e","є":"je","ж":"ż","з":"z",
-  "и":"y","і":"i","ї":"ji","й":"j","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r",
-  "с":"s","т":"t","у":"u","ф":"f","х":"ch","ц":"c","ч":"cz","ш":"sz","щ":"szcz","ь":"","ю":"ju",
-  "я":"ja","'":"", "’":"" };
+const TR = {
+  "а": "a", "б": "b", "в": "w", "г": "h", "ґ": "g", "д": "d", "е": "e", "є": "je", "ж": "ż", "з": "z",
+  "и": "y", "і": "i", "ї": "ji", "й": "j", "к": "k", "л": "l", "м": "m", "н": "n", "о": "o", "п": "p", "р": "r",
+  "с": "s", "т": "t", "у": "u", "ф": "f", "х": "ch", "ц": "c", "ч": "cz", "ш": "sz", "щ": "szcz", "ь": "", "ю": "ju",
+  "я": "ja", "'": "", "’": ""
+};
 function translit(s) {
   if (!s) return "";
   let out = "";
@@ -292,12 +294,14 @@ function translit(s) {
 /* Angielska transliteracja ukraińskiej cyrylicy (oficjalny system KMU 2010).
    W wersji angielskiej karta pisała „Szewczenkowe (Charkiwszczyzna)" — polską
    łacinką, nieczytelną dla anglojęzycznego odbiorcy (zgłoszone 13.09.2026). */
-const TR_EN = { "а":"a","б":"b","в":"v","г":"h","ґ":"g","д":"d","е":"e","є":"ie","ж":"zh","з":"z",
-  "и":"y","і":"i","ї":"i","й":"i","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r",
-  "с":"s","т":"t","у":"u","ф":"f","х":"kh","ц":"ts","ч":"ch","ш":"sh","щ":"shch","ь":"","ю":"iu",
-  "я":"ia","'":"", "’":"", "ʼ":"" };
+const TR_EN = {
+  "а": "a", "б": "b", "в": "v", "г": "h", "ґ": "g", "д": "d", "е": "e", "є": "ie", "ж": "zh", "з": "z",
+  "и": "y", "і": "i", "ї": "i", "й": "i", "к": "k", "л": "l", "м": "m", "н": "n", "о": "o", "п": "p", "р": "r",
+  "с": "s", "т": "t", "у": "u", "ф": "f", "х": "kh", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "shch", "ь": "", "ю": "iu",
+  "я": "ia", "'": "", "’": "", "ʼ": ""
+};
 // na początku słowa: Є→Ye, Ї→Yi, Й→Y, Ю→Yu, Я→Ya
-const TR_EN_INITIAL = { "є":"ye","ї":"yi","й":"y","ю":"yu","я":"ya" };
+const TR_EN_INITIAL = { "є": "ye", "ї": "yi", "й": "y", "ю": "yu", "я": "ya" };
 function translitEn(s) {
   if (!s) return "";
   let out = "", prevLetter = false;
@@ -372,14 +376,16 @@ function nationalText(t) {
   const tail = {
     watch: UI.t("monitoring, nie alarm", "monitoring, not an alert", "моніторинг, а не тривога"),
     alarm: UI.t("alarm w całej Ukrainie", "alert across Ukraine", "тривога по всій Україні"),
-    unknown: "" }[kind];
+    unknown: ""
+  }[kind];
   const name = mig ? (UI.t("Start MiG-31K", "MiG-31K take-off", "Зліт МіГ-31К")) : UI.type(t.type, meta.label);
   const head = name + (tail ? ` — ${tail}` : "") + (time ? ` · ${UI.t("od", "since", "від")} ${time}` : "");
   const what = mig ? (UI.t("Zarejestrowano start MiG-31K — nosiciela rakiet Kindżał. ", "A MiG-31K take-off has been recorded — the carrier of Kinzhal missiles. ", "Зафіксовано зліт МіГ-31К — носія ракет «Кинджал». ")) : "";
   const status = {
     watch: UI.t("Alarmu nie ogłoszono w całej Ukrainie — obowiązują alarmy w poszczególnych obwodach. To ostrzeżenie o ryzyku, a nie sygnał, by się ukryć. ", "The alert has not been declared across the whole of Ukraine — alerts apply in individual regions. This is a risk warning, not a signal to take shelter. ", "Тривогу не оголошено по всій Україні — діють тривоги в окремих областях. Це попередження про ризик, а не сигнал ховатися. "),
     alarm: UI.t("Alarm ogłoszono w całej Ukrainie. ", "An alert has been declared across the whole of Ukraine. ", "Тривогу оголошено по всій Україні. "),
-    unknown: "" }[kind];
+    unknown: ""
+  }[kind];
   const body = what + status + (UI.t("Pozycja nie jest znana, więc nie ma go na mapie. Dla Polski: nie dolicza punktów.", "The position is unknown, so it is not on the map. For Poland: no points added.", "Позиція невідома, тому його немає на мапі. Для Польщі: балів не додає."));
   const chip = mig ? "MiG-31K" : UI.type(t.type, meta.label);
   return { head, body, chip, color: meta.color };
@@ -401,8 +407,7 @@ function renderNationalBanner(threats) {
   el.className = "";
   el.innerHTML = list.map(t => {
     const x = nationalText(t);
-    return `<div class="nat-row" style="--nat:${x.color}"><b>${esc(x.head)}</b><br><span class="muted">${
-      esc(x.body)}</span></div>`;
+    return `<div class="nat-row" style="--nat:${x.color}"><b>${esc(x.head)}</b><br><span class="muted">${esc(x.body)}</span></div>`;
   }).join("");
 }
 /* W historii: tylko plakietka w nagłówku paska (stała wysokość — nic nie skacze
@@ -416,11 +421,10 @@ function renderNationalChip(threats) {
   el.dataset.key = key;
   if (!list.length) { el.innerHTML = ""; return; }
   const x = nationalText(list[0]);
-  el.innerHTML = `<button type="button" class="tb-nat" style="--nat:${x.color}" title="${esc(x.head)}">● ${
-    esc(x.chip)}${list.length > 1 ? ` +${list.length - 1}` : ""} ⓘ</button>`;
+  el.innerHTML = `<button type="button" class="tb-nat" style="--nat:${x.color}" title="${esc(x.head)}">● ${esc(x.chip)}${list.length > 1 ? ` +${list.length - 1}` : ""} ⓘ</button>`;
   el.firstChild.onclick = () => openNationalInfo(list[0]);
 }
-const NEPTUN_LOCALITY_ANCHORS = [{ name:"Łuck", lat:50.7472, lon:25.3254 }];
+const NEPTUN_LOCALITY_ANCHORS = [{ name: "Łuck", lat: 50.7472, lon: 25.3254 }];
 function geoDistanceKm(lat1, lon1, lat2, lon2) {
   const rad = n => n * Math.PI / 180;
   const dLat = rad(lat2 - lat1), dLon = rad(lon2 - lon1);
@@ -431,11 +435,11 @@ function geoDistanceKm(lat1, lon1, lat2, lon2) {
 function positionInfo(t) {
   if (t?.straznik_position?.quality) return t.straznik_position;
   if (positionQuality(t) === "approx" || t?.areaOnly === true)
-    return { quality:"approx", reason:"source_approx" };
+    return { quality: "approx", reason: "source_approx" };
   if (t?.lat != null && t?.lon != null) for (const a of NEPTUN_LOCALITY_ANCHORS)
     if (geoDistanceKm(t.lat, t.lon, a.lat, a.lon) <= 0.25)
-      return { quality:"approx", reason:"locality_center", locality:a.name };
-  return { quality:"point", reason:"source_point" };
+      return { quality: "approx", reason: "locality_center", locality: a.name };
+  return { quality: "point", reason: "source_point" };
 }
 function isApproxPosition(t) { return positionInfo(t).quality === "approx"; }
 function approxPositionNote(t) {
@@ -570,8 +574,8 @@ function etaHtml(t) {
     const base = t.pl_assessment && t.pl_assessment.heading_known === false
       ? `<span style="color:#ffb020">${UI.t("kurs nieznany — czasu dolotu nie szacujemy", "unknown heading — arrival time is not estimated", "курс невідомий — часу підльоту не оцінюємо")}</span><br>`
       : isPresumedCourse(t) && t.pl_assessment?.toward_pl
-      ? `<span style="color:#ffb020">${UI.t("kurs domniemany (na cel), niepotwierdzony ruchem — czasu dolotu nie szacujemy", "presumed heading towards a target, not confirmed by movement — arrival time is not estimated", "курс припущений (на ціль), не підтверджений рухом — часу підльоту не оцінюємо")}</span><br>`
-      : "";
+        ? `<span style="color:#ffb020">${UI.t("kurs domniemany (na cel), niepotwierdzony ruchem — czasu dolotu nie szacujemy", "presumed heading towards a target, not confirmed by movement — arrival time is not estimated", "курс припущений (на ціль), не підтверджений рухом — часу підльоту не оцінюємо")}</span><br>`
+        : "";
     return base + localPlaceHtml(t);
   }
   const mine = (e.voiv != null && e.voivName)
@@ -593,9 +597,9 @@ const ktToKmh = (kt) => typeof kt === "number" ? Math.round(kt * 1.852) : null;
 const altText = (alt) => alt === "ground" ? (UI.t("na ziemi", "on the ground", "на землі"))
   : typeof alt === "number" ? `${alt} ft (${ftToM(alt)} m)` : (UI.t("wysokość b.d.", "altitude unavailable", "висота н/д"));
 const PRIORITY = ["lubelskie", "podkarpackie", "podlaskie", "warmińsko-mazurskie"];
-const ALL_VOIVS = ["dolnośląskie","kujawsko-pomorskie","lubelskie","lubuskie","łódzkie",
-  "małopolskie","mazowieckie","opolskie","podkarpackie","podlaskie","pomorskie","śląskie",
-  "świętokrzyskie","warmińsko-mazurskie","wielkopolskie","zachodniopomorskie"];
+const ALL_VOIVS = ["dolnośląskie", "kujawsko-pomorskie", "lubelskie", "lubuskie", "łódzkie",
+  "małopolskie", "mazowieckie", "opolskie", "podkarpackie", "podlaskie", "pomorskie", "śląskie",
+  "świętokrzyskie", "warmińsko-mazurskie", "wielkopolskie", "zachodniopomorskie"];
 
 /* Lokalne profile miejsc. Nazwy i GPS nie są używane w żądaniach API. */
 const Places = window.StraznikPlaces;
@@ -673,7 +677,7 @@ async function pobierzAux(wersja) {
     if (!d || typeof d !== "object" || !d.adsb) return;   // nie nadpisujemy dobrych danych śmieciem
     auxDane = d; auxWersja = wersja;
     if (ostatniaGlowna) applyState(zlozStan(ostatniaGlowna));
-  } catch {}
+  } catch { }
 }
 /* Krótkie zerwanie (przejazd tunelem, zmiana sieci) trwa sekundy i wracało samo,
    a komunikat zdążył mignąć i straszył. Pokazujemy go dopiero, gdy połączenia nie
@@ -801,7 +805,7 @@ async function probeBackend(base) {
       applyState(d);
       return true;
     }
-  } catch {}
+  } catch { }
   return false;
 }
 
@@ -960,13 +964,15 @@ function buildAlertContract() {
     if (b != null) etaBorderMin = etaBorderMin == null ? b : Math.min(etaBorderMin, b);
   }
   const prog = level === "high" ? (state?.fusion?.thresholds?.high ?? 4)
-             : level === "elevated" ? (state?.fusion?.thresholds?.elevated ?? 2) : 0;
-  return { level, voiv: mine, etaVoivMin, etaBorderMin,
-           // Czerwony ma od 23.09.2026 twardy klucz (Alert RCB „znajdź bezpieczne miejsce"
-           // albo obiekt ≤15 min od granicy), więc dla „high" pytamy wprost o niego.
-           hard: level === "high" ? !!st.red_key
-                                  : (level !== "none" && hardSum >= prog - 1e-9),
-           ts: state?.fusion?.ts || new Date().toISOString() };
+    : level === "elevated" ? (state?.fusion?.thresholds?.elevated ?? 2) : 0;
+  return {
+    level, voiv: mine, etaVoivMin, etaBorderMin,
+    // Czerwony ma od 23.09.2026 twardy klucz (Alert RCB „znajdź bezpieczne miejsce"
+    // albo obiekt ≤15 min od granicy), więc dla „high" pytamy wprost o niego.
+    hard: level === "high" ? !!st.red_key
+      : (level !== "none" && hardSum >= prog - 1e-9),
+    ts: state?.fusion?.ts || new Date().toISOString()
+  };
 }
 
 /* Publikujemy przy każdej zmianie stanu; zdarzenie leci tylko, gdy coś naprawdę
@@ -989,7 +995,7 @@ function grotaWylaczona() {
 function applySwitches(w) {
   if (!w || typeof w !== "object") return;
   const off = w.grota === false;
-  try { off ? localStorage.setItem("straznik_grota_off", "1") : localStorage.removeItem("straznik_grota_off"); } catch {}
+  try { off ? localStorage.setItem("straznik_grota_off", "1") : localStorage.removeItem("straznik_grota_off"); } catch { }
   document.documentElement.classList.toggle("grota-off", off);
   if (off && window.Grota?.widoczny) ukryjGrote();
 }
@@ -1014,11 +1020,15 @@ function applyState(s) {
 const FALLBACK_STYLE = {
   version: 8,
   glyphs: "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
-  sources: { carto: { type: "raster", tileSize: 256, attribution: "© CARTO © OpenStreetMap",
-    tiles: ["https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-            "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"] } },
+  sources: {
+    carto: {
+      type: "raster", tileSize: 256, attribution: "© CARTO © OpenStreetMap",
+      tiles: ["https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"]
+    }
+  },
   layers: [{ id: "bg", type: "background", paint: { "background-color": "#0b0f1a" } },
-           { id: "carto", type: "raster", source: "carto" }],
+  { id: "carto", type: "raster", source: "carto" }],
 };
 
 /* Obraz ma 64 px, a sylwetka tę samą skalę co dawniej w 48 px: zapas mieści
@@ -1038,40 +1048,40 @@ function makeThreatImage(type, color, headingUnknown = false) {
   };
   switch (type) {
     case "shahed":
-      path([[0,-28],[28,22],[5,12],[3,27],[-3,27],[-5,12],[-28,22]]);
-      x.beginPath(); x.moveTo(0,-26); x.lineTo(0,20); x.stroke();
+      path([[0, -28], [28, 22], [5, 12], [3, 27], [-3, 27], [-5, 12], [-28, 22]]);
+      x.beginPath(); x.moveTo(0, -26); x.lineTo(0, 20); x.stroke();
       break;
     case "fpv":
       x.lineWidth = 4; x.beginPath();
-      x.moveTo(-5,-4); x.lineTo(-20,-17); x.moveTo(5,-4); x.lineTo(20,-17);
-      x.moveTo(-5,4); x.lineTo(-20,17); x.moveTo(5,4); x.lineTo(20,17); x.stroke();
+      x.moveTo(-5, -4); x.lineTo(-20, -17); x.moveTo(5, -4); x.lineTo(20, -17);
+      x.moveTo(-5, 4); x.lineTo(-20, 17); x.moveTo(5, 4); x.lineTo(20, 17); x.stroke();
       x.lineWidth = 2;
-      for (const [cx, cy] of [[-23,-20],[23,-20],[-23,20],[23,20]]) {
+      for (const [cx, cy] of [[-23, -20], [23, -20], [-23, 20], [23, 20]]) {
         x.beginPath(); x.arc(cx, cy, 7, 0, Math.PI * 2); x.fill(); x.stroke();
       }
-      path([[-6,-8],[6,-8],[6,8],[-6,8]]);
+      path([[-6, -8], [6, -8], [6, 8], [-6, 8]]);
       break;
     case "recon":
-      path([[0,-28],[4,-7],[30,-1],[4,5],[3,22],[10,28],[0,25],[-10,28],[-3,22],[-4,5],[-30,-1],[-4,-7]]);
+      path([[0, -28], [4, -7], [30, -1], [4, 5], [3, 22], [10, 28], [0, 25], [-10, 28], [-3, 22], [-4, 5], [-30, -1], [-4, -7]]);
       break;
     case "missile": case "cruise":
-      path([[0,-29],[5,-20],[7,-4],[22,11],[7,7],[6,21],[15,28],[0,23],[-15,28],[-6,21],[-7,7],[-22,11],[-7,-4],[-5,-20]]);
+      path([[0, -29], [5, -20], [7, -4], [22, 11], [7, 7], [6, 21], [15, 28], [0, 23], [-15, 28], [-6, 21], [-7, 7], [-22, 11], [-7, -4], [-5, -20]]);
       break;
     case "ballistic":
-      path([[0,-29],[7,-18],[8,12],[18,21],[6,18],[0,28],[-6,18],[-18,21],[-8,12],[-7,-18]]);
+      path([[0, -29], [7, -18], [8, 12], [18, 21], [6, 18], [0, 28], [-6, 18], [-18, 21], [-8, 12], [-7, -18]]);
       x.fillStyle = "#ff8a20"; x.strokeStyle = "#fff";
-      path([[-5,24],[0,32],[5,24],[0,27]]);
+      path([[-5, 24], [0, 32], [5, 24], [0, 27]]);
       break;
     case "kab":
-      path([[0,-27],[7,-17],[8,11],[21,22],[7,18],[0,29],[-7,18],[-21,22],[-8,11],[-7,-17]]);
-      x.beginPath(); x.moveTo(0,-22); x.lineTo(0,23); x.stroke();
+      path([[0, -27], [7, -17], [8, 11], [21, 22], [7, 18], [0, 29], [-7, 18], [-21, 22], [-8, 11], [-7, -17]]);
+      x.beginPath(); x.moveTo(0, -22); x.lineTo(0, 23); x.stroke();
       break;
     case "mig31k":
-      path([[0,-30],[7,-8],[25,9],[7,5],[7,19],[16,27],[2,23],[0,30],[-2,23],[-16,27],[-7,19],[-7,5],[-25,9],[-7,-8]]);
-      x.beginPath(); x.moveTo(0,-27); x.lineTo(0,23); x.stroke();
+      path([[0, -30], [7, -8], [25, 9], [7, 5], [7, 19], [16, 27], [2, 23], [0, 30], [-2, 23], [-16, 27], [-7, 19], [-7, 5], [-25, 9], [-7, -8]]);
+      x.beginPath(); x.moveTo(0, -27); x.lineTo(0, 23); x.stroke();
       break;
     case "unknown":
-      path([[0,-27],[25,0],[0,27],[-25,0]]);
+      path([[0, -27], [25, 0], [0, 27], [-25, 0]]);
       x.fillStyle = "#fff"; x.font = "bold 30px system-ui"; x.textAlign = "center";
       x.textBaseline = "middle"; x.shadowBlur = 0; x.fillText("?", 0, 1);
       break;
@@ -1082,9 +1092,9 @@ function makeThreatImage(type, color, headingUnknown = false) {
       path(BPSP_BODY);
       if (headingUnknown) break;           // bez kursu: bez czerwonego dzioba i grotu
       x.shadowBlur = 0; x.fillStyle = BPSP_RED; x.strokeStyle = BPSP_RED; x.lineWidth = 1.5;
-      path([[0,-30],[4.5,-15],[-4.5,-15]]);
+      path([[0, -30], [4.5, -15], [-4.5, -15]]);
       x.strokeStyle = "rgba(0,0,0,.55)"; x.lineWidth = 1.2;
-      path([[0,-44],[8,-34],[0,-37],[-8,-34]]);
+      path([[0, -44], [8, -34], [0, -37], [-8, -34]]);
       break;
   }
   if (headingUnknown) {
@@ -1104,7 +1114,7 @@ function makeThreatImage(type, color, headingUnknown = false) {
    i nie dostają wersji „kurs nieznany”. */
 const NO_HEADING_TYPES = new Set(["fpv", "unknown"]);
 const BPSP_RED = "#ff3b4f";
-const BPSP_BODY = [[0,-30],[5,-8],[27,2],[27,7],[5,7],[4,20],[9,27],[0,23],[-9,27],[-4,20],[-5,7],[-27,7],[-27,2],[-5,-8]];
+const BPSP_BODY = [[0, -30], [5, -8], [27, 2], [27, 7], [5, 7], [4, 20], [9, 27], [0, 23], [-9, 27], [-4, 20], [-5, 7], [-27, 7], [-27, 2], [-5, -8]];
 /* Śmigłowiec: tarcza wirnika (okrąg), kabina, długa belka ogonowa ze śmigłem
    ogonowym. Dawny symbol — sam krzyżyk wirnika na kadłubie — po obróceniu
    zgodnie z kursem wyglądał jak skrzydła samolotu (H135M rumuńskiej MAI,
@@ -1127,7 +1137,7 @@ function makePlaneImage() {
   const c = document.createElement("canvas"); c.width = c.height = 44;
   const x = c.getContext("2d"); x.translate(22, 22);
   x.beginPath();               // sylwetka samolotu, dziób na północ
-  x.moveTo(0, -14); x.lineTo(2.6, -4); x.lineTo(14, 3); x.lineTo(14, 7) ; x.lineTo(2.6, 4);
+  x.moveTo(0, -14); x.lineTo(2.6, -4); x.lineTo(14, 3); x.lineTo(14, 7); x.lineTo(2.6, 4);
   x.lineTo(2, 11); x.lineTo(6, 14); x.lineTo(-6, 14); x.lineTo(-2, 11); x.lineTo(-2.6, 4);
   x.lineTo(-14, 7); x.lineTo(-14, 3); x.lineTo(-2.6, -4); x.closePath();
   x.fillStyle = "#39c5ec"; x.shadowColor = "#39c5ec"; x.shadowBlur = 8; x.fill();
@@ -1167,7 +1177,7 @@ function localiseMapLabels() {
     try {
       if (map.getLayoutProperty(lyr.id, "text-field") !== undefined)
         map.setLayoutProperty(lyr.id, "text-field", field);
-    } catch {}
+    } catch { }
   }
 }
 
@@ -1190,11 +1200,11 @@ function pokazBrakMapy(blad, niewczytana = false) {
   if (niewczytana) return pokazNiewczytanaMape(box, blad);
   const rada = ios
     ? (UI.t("Na iPhonie to zwykle <b>Tryb blokady</b> — wyłącza rysowanie map (WebGL) w Safari i w aplikacjach. ", "On iPhone this is usually <b>Lockdown Mode</b>, which switches off map drawing (WebGL) in Safari and in apps. "
-          + "Settings → Privacy &amp; Security → Lockdown Mode → Configure Web Browsing → exclude Strażnik "
-          + "(and straznik.eu in Safari). If Lockdown Mode is off, check Settings → Apps → Safari → Advanced → Feature Flags → WebGL.", "На iPhone це зазвичай <b>Режим блокування</b> — він вимикає малювання мап (WebGL) у Safari і в застосунках. ")
-          + "Ustawienia → Prywatność i ochrona → Tryb blokady → Konfiguruj przeglądanie → wyklucz Strażnika "
-          + "(a w Safari także straznik.eu). Jeśli Tryb blokady jest wyłączony, sprawdź Ustawienia → Aplikacje → Safari → "
-          + "Zaawansowane → Flagi funkcji → WebGL.")
+      + "Settings → Privacy &amp; Security → Lockdown Mode → Configure Web Browsing → exclude Strażnik "
+      + "(and straznik.eu in Safari). If Lockdown Mode is off, check Settings → Apps → Safari → Advanced → Feature Flags → WebGL.", "На iPhone це зазвичай <b>Режим блокування</b> — він вимикає малювання мап (WebGL) у Safari і в застосунках. ")
+      + "Ustawienia → Prywatność i ochrona → Tryb blokady → Konfiguruj przeglądanie → wyklucz Strażnika "
+      + "(a w Safari także straznik.eu). Jeśli Tryb blokady jest wyłączony, sprawdź Ustawienia → Aplikacje → Safari → "
+      + "Zaawansowane → Flagi funkcji → WebGL.")
     : (UI.t("Włącz przyspieszenie sprzętowe w ustawieniach przeglądarki, zaktualizuj ją albo spróbuj innej.", "Turn on hardware acceleration in the browser settings, update the browser, or try another one.", "Увімкніть апаратне прискорення в налаштуваннях браузера, оновіть його або спробуйте інший."));
   const d = document.createElement("div");
   d.id = "map-niedostepna";
@@ -1228,7 +1238,7 @@ async function initMap() {
   let style = FALLBACK_STYLE;
   for (const url of MAP_STYLES) {
     try { const r = await fetch(url, { method: "HEAD" }); if (r.ok) { style = url; break; } }
-    catch {}
+    catch { }
   }
 
   try {
@@ -1287,17 +1297,29 @@ async function initMap() {
     const countryOpacity = IS_APP
       ? ["interpolate", ["linear"], ["zoom"], 3, 0.46, 6, 0.52, 9, 0.55]
       : ["interpolate", ["linear"], ["zoom"], 3, 0.42, 6, 0.48, 9, 0.50];
-    map.addLayer({ id: "kraje-fill", type: "fill", source: "kraje",
-      paint: { "fill-color": ["match", ["get", "iso"],
+    map.addLayer({
+      id: "kraje-fill", type: "fill", source: "kraje",
+      paint: {
+        "fill-color": ["match", ["get", "iso"],
           ...Object.entries(COUNTRY_COLORS).flat(), "#333"],
-        "fill-opacity": countryOpacity } });
+        "fill-opacity": countryOpacity
+      }
+    });
     // Alarm powietrzny w kraju sąsiednim (na razie LT/LV/EE z mediów) — bez punktów.
-    map.addLayer({ id: "kraje-alert", type: "fill", source: "kraje",
-      paint: { "fill-color": "#ff4d5e",
-        "fill-opacity": ["case", ["boolean", ["feature-state", "alert"], false], 0.22, 0] } });
-    map.addLayer({ id: "kraje-alert-line", type: "line", source: "kraje",
-      paint: { "line-color": "#ff4d5e", "line-width": 1.2, "line-dasharray": [2, 2],
-        "line-opacity": ["case", ["boolean", ["feature-state", "alert"], false], 0.7, 0] } });
+    map.addLayer({
+      id: "kraje-alert", type: "fill", source: "kraje",
+      paint: {
+        "fill-color": "#ff4d5e",
+        "fill-opacity": ["case", ["boolean", ["feature-state", "alert"], false], 0.22, 0]
+      }
+    });
+    map.addLayer({
+      id: "kraje-alert-line", type: "line", source: "kraje",
+      paint: {
+        "line-color": "#ff4d5e", "line-width": 1.2, "line-dasharray": [2, 2],
+        "line-opacity": ["case", ["boolean", ["feature-state", "alert"], false], 0.7, 0]
+      }
+    });
     map.on("click", "kraje-alert", (e) => {
       const hit = map.queryRenderedFeatures(e.point,
         { layers: ["threats", "threats-glow", "adsb", "strefy-hit"].filter(l => map.getLayer(l)) });
@@ -1319,11 +1341,17 @@ async function initMap() {
        poszarpaną krawędź i mapa wyglądała jak podgląd debugowy. Zostaje cienki,
        spokojny kontur i delikatne wypełnienie; wyraźna poświata jest zarezerwowana
        dla WYBRANEGO województwa (warstwa „my-voiv"), gdzie realnie coś znaczy. */
-    map.addLayer({ id: "pl-fill", type: "fill", source: "pl",
-      paint: { "fill-color": "#2f5a99", "fill-opacity": 0.15 } });
-    map.addLayer({ id: "pl-line", type: "line", source: "pl",
-      paint: { "line-color": "#8fb4ee", "line-opacity": 0.85,
-        "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.9, 7, 1.6] } });
+    map.addLayer({
+      id: "pl-fill", type: "fill", source: "pl",
+      paint: { "fill-color": "#2f5a99", "fill-opacity": 0.15 }
+    });
+    map.addLayer({
+      id: "pl-line", type: "line", source: "pl",
+      paint: {
+        "line-color": "#8fb4ee", "line-opacity": 0.85,
+        "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.9, 7, 1.6]
+      }
+    });
 
     const gj = await (await fetch("assets/wojewodztwa.geojson?v=1.7.82")).json();
     voivGeo = gj;
@@ -1349,10 +1377,12 @@ async function initMap() {
       id: "voiv-line", type: "line", source: "voiv",
       // podziały WEWNĘTRZNE — cieńsze niż granica państwa (pl-line), żeby nie
       // konkurowały z nią wizualnie; ściana wschodnia nadal wyraźniejsza
-      paint: { "line-color": ["case",
+      paint: {
+        "line-color": ["case",
           ["in", ["get", "nazwa"], ["literal", PRIORITY]], "rgba(150,180,255,.55)",
           "rgba(125,150,205,.26)"],
-        "line-width": ["case", ["in", ["get", "nazwa"], ["literal", PRIORITY]], 1.3, 0.7] },
+        "line-width": ["case", ["in", ["get", "nazwa"], ["literal", PRIORITY]], 1.3, 0.7]
+      },
     });
 
     /* ── strefy PAŻP: WYŁĄCZNIE informacyjnie ────────────────────────────────
@@ -1364,11 +1394,15 @@ async function initMap() {
        dotyku idą OSOBNO, nad bryłami — inaczej strefy nie dałoby się ani
        zobaczyć, ani kliknąć. */
     map.addSource("strefy", { type: "geojson", data: emptyFC() });
-    map.addLayer({ id: "strefy-3d", type: "fill-extrusion", source: "strefy",
+    map.addLayer({
+      id: "strefy-3d", type: "fill-extrusion", source: "strefy",
       filter: ["!", ZONE_QUIET],
-      paint: { "fill-extrusion-color": ZONE_COLOR,
+      paint: {
+        "fill-extrusion-color": ZONE_COLOR,
         "fill-extrusion-base": ["get", "baseM"], "fill-extrusion-height": ["get", "topM"],
-        "fill-extrusion-opacity": 0.34 } });
+        "fill-extrusion-opacity": 0.34
+      }
+    });
 
     /* Obwody UA z alarmem powietrznym, który liczy się do punktów. Płaskie,
        bardzo przezroczyste wypełnienie w odcieniu różu i przerywany kontur —
@@ -1387,12 +1421,20 @@ async function initMap() {
       map.addSource("rejony", { type: "geojson", data: emptyFC(), promoteId: "k" });
       const lvl = ["coalesce", ["feature-state", "alert"], ""];
       const col = ["match", lvl, "red", "#ff4d5e", "#ffb020"];
-      map.addLayer({ id: "rejony-alert-fill", type: "fill", source: "rejony",
-        paint: { "fill-color": col,
-          "fill-opacity": ["match", lvl, "red", 0.2, "yellow", 0.16, 0] } });
-      map.addLayer({ id: "rejony-alert-line", type: "line", source: "rejony",
-        paint: { "line-color": col, "line-width": 0.8,
-          "line-opacity": ["match", lvl, "red", 0.45, "yellow", 0.4, 0] } });
+      map.addLayer({
+        id: "rejony-alert-fill", type: "fill", source: "rejony",
+        paint: {
+          "fill-color": col,
+          "fill-opacity": ["match", lvl, "red", 0.2, "yellow", 0.16, 0]
+        }
+      });
+      map.addLayer({
+        id: "rejony-alert-line", type: "line", source: "rejony",
+        paint: {
+          "line-color": col, "line-width": 0.8,
+          "line-opacity": ["match", lvl, "red", 0.45, "yellow", 0.4, 0]
+        }
+      });
       map.on("click", "rejony-alert-fill", (e) => {
         const hit = map.queryRenderedFeatures(e.point,
           { layers: ["threats", "threats-glow", "adsb", "obwody-fill"].filter(l => map.getLayer(l)) })
@@ -1408,12 +1450,20 @@ async function initMap() {
       map.addSource("obwody", { type: "geojson", data: emptyFC(), promoteId: "oblast" });
       const on = ["boolean", ["feature-state", "active"], false];
       const w = ["coalesce", ["feature-state", "w"], 0];
-      map.addLayer({ id: "obwody-fill", type: "fill", source: "obwody",
-        paint: { "fill-color": OBLAST_COLOR,
-          "fill-opacity": ["case", on, ["+", 0.04, ["*", 0.08, w]], 0] } });
-      map.addLayer({ id: "obwody-line", type: "line", source: "obwody",
-        paint: { "line-color": OBLAST_COLOR, "line-width": 1.4, "line-dasharray": [3, 2],
-          "line-opacity": ["case", on, ["+", 0.35, ["*", 0.4, w]], 0] } });
+      map.addLayer({
+        id: "obwody-fill", type: "fill", source: "obwody",
+        paint: {
+          "fill-color": OBLAST_COLOR,
+          "fill-opacity": ["case", on, ["+", 0.04, ["*", 0.08, w]], 0]
+        }
+      });
+      map.addLayer({
+        id: "obwody-line", type: "line", source: "obwody",
+        paint: {
+          "line-color": OBLAST_COLOR, "line-width": 1.4, "line-dasharray": [3, 2],
+          "line-opacity": ["case", on, ["+", 0.35, ["*", 0.4, w]], 0]
+        }
+      });
       map.on("click", "obwody-fill", (e) => {
         const hit = map.queryRenderedFeatures(e.point, { layers: ["threats", "threats-glow", "adsb"] });
         if (hit.length) return;
@@ -1423,111 +1473,169 @@ async function initMap() {
     } catch (err) { console.warn("obwody UA", err); }
 
     map.addSource("trails", { type: "geojson", data: emptyFC() });
-    map.addLayer({ id: "trails", type: "line", source: "trails",
-      paint: { "line-color": ["get", "color"], "line-width": 2.2, "line-opacity": 0.8,
-               "line-dasharray": [1.5, 1.2] } });
+    map.addLayer({
+      id: "trails", type: "line", source: "trails",
+      paint: {
+        "line-color": ["get", "color"], "line-width": 2.2, "line-opacity": 0.8,
+        "line-dasharray": [1.5, 1.2]
+      }
+    });
 
     // kierunek lotu (opcja w ustawieniach): linia i kropki co 5 min
     map.addSource("course", { type: "geojson", data: emptyFC() });
-    map.addLayer({ id: "course-line", type: "line", source: "course",
+    map.addLayer({
+      id: "course-line", type: "line", source: "course",
       filter: ["==", ["geometry-type"], "LineString"],
-      paint: { "line-color": ["get", "color"], "line-width": 1.5, "line-opacity": 0.8 } });
-    map.addLayer({ id: "course-ticks", type: "circle", source: "course",
+      paint: { "line-color": ["get", "color"], "line-width": 1.5, "line-opacity": 0.8 }
+    });
+    map.addLayer({
+      id: "course-ticks", type: "circle", source: "course",
       filter: ["==", ["geometry-type"], "Point"],
-      paint: { "circle-radius": 2.6, "circle-color": ["get", "color"],
-               "circle-stroke-color": "#0b0f18", "circle-stroke-width": 1 } });
+      paint: {
+        "circle-radius": 2.6, "circle-color": ["get", "color"],
+        "circle-stroke-color": "#0b0f18", "circle-stroke-width": 1
+      }
+    });
 
     map.addSource("uncertainty", { type: "geojson", data: emptyFC() });
-    map.addLayer({ id: "uncertainty", type: "fill", source: "uncertainty",
-      paint: { "fill-color": ["get", "color"], "fill-opacity": 0.10 } });
-    map.addLayer({ id: "uncertainty-line", type: "line", source: "uncertainty",
-      paint: { "line-color": ["get", "color"], "line-opacity": 0.35, "line-width": 1 } });
+    map.addLayer({
+      id: "uncertainty", type: "fill", source: "uncertainty",
+      paint: { "fill-color": ["get", "color"], "fill-opacity": 0.10 }
+    });
+    map.addLayer({
+      id: "uncertainty-line", type: "line", source: "uncertainty",
+      paint: { "line-color": ["get", "color"], "line-opacity": 0.35, "line-width": 1 }
+    });
 
     map.addSource("threats", { type: "geojson", data: emptyFC() });
     // poświata pod ikoną = większy, czytelny obszar kliknięcia
-    map.addLayer({ id: "threats-glow", type: "circle", source: "threats",
-      paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 10, 8, 18],
+    map.addLayer({
+      id: "threats-glow", type: "circle", source: "threats",
+      paint: {
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 10, 8, 18],
         "circle-color": ["get", "color"],
         // coalesce: migawka bez wieku dawała null → wyrażenie się wywracało,
         // a MapLibre rysowało domyślną pełną krycie (żółty krążek zamiast poświaty)
         "circle-opacity": ["case", ["==", ["get", "historicalOnly"], true], 0.07,
           ["interpolate", ["linear"], ["coalesce", ["get", "age_min"], 0], 10, 0.16, 60, 0.06]],
         "circle-stroke-color": ["get", "color"], "circle-stroke-opacity": 0.45,
-        "circle-stroke-width": 1 } });
+        "circle-stroke-width": 1
+      }
+    });
     /* Puls: tylko obiekty, które w tej chwili wnoszą punkty do któregoś
        województwa (counted_points > 0 w fuzji). Pozostałe drony stoją spokojnie,
        więc wyróżnione naprawdę się odróżniają. Animację prowadzi pulseLoop. */
-    map.addLayer({ id: "threats-pulse", type: "circle", source: "threats",
+    map.addLayer({
+      id: "threats-pulse", type: "circle", source: "threats",
       filter: ["==", ["get", "counted"], true],
-      paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 12, 8, 22],
+      paint: {
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 12, 8, 22],
         "circle-color": "rgba(0,0,0,0)", "circle-stroke-color": "#ff4d5e",
-        "circle-stroke-width": 2.5, "circle-stroke-opacity": 0 } });
+        "circle-stroke-width": 2.5, "circle-stroke-opacity": 0
+      }
+    });
     /* Zaznaczony obiekt: biały pierścień POD ikoną. Bez tego po dotknięciu
        kilku dronów obok siebie nie było wiadomo, którego dotyczy karta. */
-    map.addLayer({ id: "threats-sel", type: "circle", source: "threats",
+    map.addLayer({
+      id: "threats-sel", type: "circle", source: "threats",
       filter: ["==", ["get", "tid"], "__none__"],
-      paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 15, 8, 26],
+      paint: {
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 15, 8, 26],
         "circle-color": "rgba(0,0,0,0)",
         "circle-stroke-color": "#ffffff", "circle-stroke-width": 2.5,
-        "circle-stroke-opacity": 0.95 } });
-    map.addLayer({ id: "threats", type: "symbol", source: "threats",
-      layout: { "icon-image": ["case",
+        "circle-stroke-opacity": 0.95
+      }
+    });
+    map.addLayer({
+      id: "threats", type: "symbol", source: "threats",
+      layout: {
+        "icon-image": ["case",
           ["all", ["==", ["get", "hdg_unknown"], true],
-                 ["match", ["get", "type"], [...NO_HEADING_TYPES], false, true]],
+            ["match", ["get", "type"], [...NO_HEADING_TYPES], false, true]],
           ["concat", "dart-", ["get", "type"], "-unk"],
           ["concat", "dart-", ["get", "type"]]],
         // 64 px zamiast 48 — skala zmniejszona tak, żeby sylwetka miała dawny rozmiar
         "icon-size": ["interpolate", ["linear"], ["zoom"], 4, 0.375, 8, 0.64],
         "icon-rotate": ["case", ["==", ["get", "hdg_unknown"], true], 0, ["get", "heading"]],
         "icon-rotation-alignment": "map",
-        "icon-allow-overlap": true },
+        "icon-allow-overlap": true
+      },
       /* Wiek meldunku (17.09.2026): NEPTUN to zgłoszenia ludzi, nie radar — obiekt
          stoi w miejscu, dopóki ktoś go znowu nie zgłosi. Stary meldunek blednie,
          żeby nie wyglądał jak świeża, pewna pozycja. */
-      paint: { "icon-opacity": ["case", ["==", ["get", "historicalOnly"], true], 0.48,
-        ["interpolate", ["linear"], ["coalesce", ["get", "age_min"], 0], 10, 1, 60, 0.4]] },
+      paint: {
+        "icon-opacity": ["case", ["==", ["get", "historicalOnly"], true], 0.48,
+          ["interpolate", ["linear"], ["coalesce", ["get", "age_min"], 0], 10, 1, 60, 0.4]]
+      },
     });
     // podpis z wiekiem meldunku pod ikoną — dopiero gdy zrobił się stary
-    map.addLayer({ id: "threats-age", type: "symbol", source: "threats",
+    map.addLayer({
+      id: "threats-age", type: "symbol", source: "threats",
       filter: [">=", ["coalesce", ["get", "age_min"], 0], 5],
-      layout: { "text-field": ["get", "age_label"], "text-size": 10,
+      layout: {
+        "text-field": ["get", "age_label"], "text-size": 10,
         "text-offset": [0, 1.35], "text-anchor": "top", "text-optional": true,
-        "text-font": ["Noto Sans Regular"] },
-      paint: { "text-color": "#95a1b7", "text-halo-color": "#0b0f1a", "text-halo-width": 1.1,
-        "text-opacity": ["interpolate", ["linear"], ["zoom"], 4, 0, 5, 1] } });
+        "text-font": ["Noto Sans Regular"]
+      },
+      paint: {
+        "text-color": "#95a1b7", "text-halo-color": "#0b0f1a", "text-halo-width": 1.1,
+        "text-opacity": ["interpolate", ["linear"], ["zoom"], 4, 0, 5, 1]
+      }
+    });
 
     // ślad śledzonej maszyny — pod ikonami samolotów, żeby ich nie zasłaniał
     map.addSource("adsb-trail", { type: "geojson", data: emptyFC() });
     map.addSource("adsb-course", { type: "geojson", data: emptyFC() });
-    map.addLayer({ id: "adsb-course-line", type: "line", source: "adsb-course",
+    map.addLayer({
+      id: "adsb-course-line", type: "line", source: "adsb-course",
       filter: ["==", ["geometry-type"], "LineString"],
-      paint: { "line-color": "#39c5ec", "line-width": 1.3, "line-opacity": 0.75 } });
-    map.addLayer({ id: "adsb-course-ticks", type: "circle", source: "adsb-course",
+      paint: { "line-color": "#39c5ec", "line-width": 1.3, "line-opacity": 0.75 }
+    });
+    map.addLayer({
+      id: "adsb-course-ticks", type: "circle", source: "adsb-course",
       filter: ["==", ["geometry-type"], "Point"],
-      paint: { "circle-radius": 2.3, "circle-color": "#39c5ec",
-               "circle-stroke-color": "#0b0f18", "circle-stroke-width": 1 } });
-    map.addLayer({ id: "adsb-trail", type: "line", source: "adsb-trail",
-      paint: { "line-color": "#39c5ec", "line-width": 2, "line-opacity": 0.7,
-        "line-dasharray": [2, 1.5] } });
+      paint: {
+        "circle-radius": 2.3, "circle-color": "#39c5ec",
+        "circle-stroke-color": "#0b0f18", "circle-stroke-width": 1
+      }
+    });
+    map.addLayer({
+      id: "adsb-trail", type: "line", source: "adsb-trail",
+      paint: {
+        "line-color": "#39c5ec", "line-width": 2, "line-opacity": 0.7,
+        "line-dasharray": [2, 1.5]
+      }
+    });
 
     map.addSource("adsb", { type: "geojson", data: emptyFC() });
     // obce (RU/BY) maszyny — czerwona poświata pod ikoną, żeby rzucały się w oczy
-    map.addLayer({ id: "adsb-foreign", type: "circle", source: "adsb",
+    map.addLayer({
+      id: "adsb-foreign", type: "circle", source: "adsb",
       filter: ["==", ["get", "foreign"], true],
-      paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 10, 8, 20],
+      paint: {
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 10, 8, 20],
         "circle-color": "#ff4d5e", "circle-opacity": ["case", ["==", ["get", "historicalOnly"], true], 0.08, 0.18],
-        "circle-stroke-color": "#ff4d5e", "circle-stroke-width": 1.6, "circle-stroke-opacity": 0.85 } });
-    map.addLayer({ id: "adsb-sel", type: "circle", source: "adsb",
+        "circle-stroke-color": "#ff4d5e", "circle-stroke-width": 1.6, "circle-stroke-opacity": 0.85
+      }
+    });
+    map.addLayer({
+      id: "adsb-sel", type: "circle", source: "adsb",
       filter: ["==", ["get", "hex"], "__none__"],
-      paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 13, 8, 22],
+      paint: {
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 13, 8, 22],
         "circle-color": "rgba(0,0,0,0)",
         "circle-stroke-color": "#ffffff", "circle-stroke-width": 2.5,
-        "circle-stroke-opacity": 0.95 } });
-    map.addLayer({ id: "adsb", type: "symbol", source: "adsb",
-      layout: { "icon-image": ["case", ["==", ["get", "heli"], true], "heli", "plane"],
+        "circle-stroke-opacity": 0.95
+      }
+    });
+    map.addLayer({
+      id: "adsb", type: "symbol", source: "adsb",
+      layout: {
+        "icon-image": ["case", ["==", ["get", "heli"], true], "heli", "plane"],
         "icon-size": 0.62,
         "icon-rotate": ["get", "track"], "icon-rotation-alignment": "map",
-        "icon-allow-overlap": true },
+        "icon-allow-overlap": true
+      },
       paint: { "icon-opacity": ["case", ["==", ["get", "historicalOnly"], true], 0.5, 1] },
     });
 
@@ -1552,17 +1660,25 @@ async function initMap() {
        bez zalewania mapy; świeże aktywacje maja bryłę 3D warstwę wyżej.
        UWAGA: line-dasharray NIE przyjmuje wyrażeń sterowanych danymi (MapLibre
        rzuca błędem i cała warstwa nie powstaje) — różnicujemy samą grubością. */
-    map.addLayer({ id: "strefy-tlo", type: "fill", source: "strefy",
+    map.addLayer({
+      id: "strefy-tlo", type: "fill", source: "strefy",
       filter: ZONE_QUIET,
-      paint: { "fill-color": "#b39ddb", "fill-opacity": 0.07 } });
-    map.addLayer({ id: "strefy-line", type: "line", source: "strefy",
-      paint: { "line-color": ZONE_COLOR,
+      paint: { "fill-color": "#b39ddb", "fill-opacity": 0.07 }
+    });
+    map.addLayer({
+      id: "strefy-line", type: "line", source: "strefy",
+      paint: {
+        "line-color": ZONE_COLOR,
         "line-opacity": ["case", ZONE_QUIET, 0.7, 0.95],
-        "line-width": ["case", ZONE_QUIET, 1.2, 1.9] } });
+        "line-width": ["case", ZONE_QUIET, 1.2, 1.9]
+      }
+    });
     /* Przezroczysta warstwa dotyku: bryła strefy bywa schowana w bryle
        województwa, a w sam kontur (1,5 px) nikt palcem nie trafi. */
-    map.addLayer({ id: "strefy-hit", type: "fill", source: "strefy",
-      paint: { "fill-color": "#000000", "fill-opacity": 0.001 } });
+    map.addLayer({
+      id: "strefy-hit", type: "fill", source: "strefy",
+      paint: { "fill-color": "#000000", "fill-opacity": 0.001 }
+    });
     /* Strefy nakładają się na siebie, a mała strefa leży często w całości
        wewnątrz dużej (np. nad Warszawą w EPTS550). Pierwsza trafiona była
        zwykle ta duża, więc małej nie dało się otworzyć (zgłoszone 13.09.2026).
@@ -1583,14 +1699,22 @@ async function initMap() {
     // obrys mojego województwa
     /* Delikatna poświata TYLKO pod wybranym województwem — jedyne miejsce, gdzie
        glow niesie informację („to jest Twój region"), więc nie zaśmieca reszty. */
-    map.addLayer({ id: "my-voiv-glow", type: "line", source: "voiv",
+    map.addLayer({
+      id: "my-voiv-glow", type: "line", source: "voiv",
       filter: ["==", ["get", "nazwa"], myVoiv() || "—"],
-      paint: { "line-color": "#7fb0ff", "line-opacity": 0.22, "line-width": 6,
-               "line-blur": 3 } });
-    map.addLayer({ id: "my-voiv", type: "line", source: "voiv",
+      paint: {
+        "line-color": "#7fb0ff", "line-opacity": 0.22, "line-width": 6,
+        "line-blur": 3
+      }
+    });
+    map.addLayer({
+      id: "my-voiv", type: "line", source: "voiv",
       filter: ["==", ["get", "nazwa"], myVoiv() || "—"],
-      paint: { "line-color": "#8ec0ff", "line-width": 2, "line-opacity": 0.9,
-        "line-blur": 0.4 } });
+      paint: {
+        "line-color": "#8ec0ff", "line-width": 2, "line-opacity": 0.9,
+        "line-blur": 0.4
+      }
+    });
 
     mapReady = true;
     // komunikat „mapa się nie wczytała” mógł wyskoczyć, gdy start trwał dłużej (np. aplikacja w tle)
@@ -1621,7 +1745,7 @@ const emptyFC = () => ({ type: "FeatureCollection", features: [] });
    całą mapę i wyglądały jak alarm w każdym województwie. Dlatego tło dostaje
    sam kontur, a bryłę tylko to, co realnie właśnie włączono. */
 const ZONE_QUIET = ["any", ["==", ["get", "standing"], true],
-                           ["==", ["get", "atBoot"], true]];
+  ["==", ["get", "atBoot"], true]];
 const ZONE_COLOR = ["case", ZONE_QUIET, "#b39ddb", "#ffb020"];
 const ZONE_TTL_MS = 4 * 60 * 1000;
 let zonesData = null, zonesAt = 0, zonesPending = false;
@@ -1697,7 +1821,7 @@ function syncZonesButton() {
   const on = zonesOn();
   b.setAttribute("aria-pressed", on ? "true" : "false");
   const t = on ? (UI.t("Ukryj strefy PAŻP", "Hide PAŻP zones", "Сховати зони PAŻP"))
-               : (UI.t("Pokaż strefy PAŻP", "Show PAŻP zones", "Показати зони PAŻP"));
+    : (UI.t("Pokaż strefy PAŻP", "Show PAŻP zones", "Показати зони PAŻP"));
   b.title = t; b.setAttribute("aria-label", t);
   const label = b.querySelector("span");
   if (label) label.textContent = UI.t("strefy", "zones", "зони");
@@ -1705,35 +1829,35 @@ function syncZonesButton() {
 
 /* ── karta strefy: po ludzku, bez żargonu lotniczego ─────────────────────── */
 const ZONE_KIND = {
-  D:     ["strefa niebezpieczna (D)", "danger area (D)", "небезпечна зона (D)"],
-  R:     ["strefa ograniczona (R)", "restricted area (R)", "зона обмежень (R)"],
-  P:     ["strefa zakazana (P)", "prohibited area (P)", "заборонена зона (P)"],
-  NPZ:   ["strefa zakazu lotów (NPZ)", "no-flight zone (NPZ)", "зона заборони польотів (NPZ)"],
+  D: ["strefa niebezpieczna (D)", "danger area (D)", "небезпечна зона (D)"],
+  R: ["strefa ograniczona (R)", "restricted area (R)", "зона обмежень (R)"],
+  P: ["strefa zakazana (P)", "prohibited area (P)", "заборонена зона (P)"],
+  NPZ: ["strefa zakazu lotów (NPZ)", "no-flight zone (NPZ)", "зона заборони польотів (NPZ)"],
   ADHOC: ["strefa doraźna (ADHOC)", "ad-hoc zone (ADHOC)", "тимчасова зона (ADHOC)"],
-  TSA:   ["strefa czasowo wydzielona (TSA)", "temporary segregated area (TSA)", "тимчасово виділена зона (TSA)"],
-  TRA:   ["strefa czasowo rezerwowana (TRA)", "temporary reserved area (TRA)", "тимчасово зарезервована зона (TRA)"],
-  MRT:   ["trasa lotów wojskowych (MRT)", "military training route (MRT)", "маршрут військових польотів (MRT)"],
+  TSA: ["strefa czasowo wydzielona (TSA)", "temporary segregated area (TSA)", "тимчасово виділена зона (TSA)"],
+  TRA: ["strefa czasowo rezerwowana (TRA)", "temporary reserved area (TRA)", "тимчасово зарезервована зона (TRA)"],
+  MRT: ["trasa lotów wojskowych (MRT)", "military training route (MRT)", "маршрут військових польотів (MRT)"],
 };
 const ZONE_MEANING = {
   D: ["Nad tym obszarem odbywa się działalność niebezpieczna dla lotnictwa — najczęściej strzelania albo ćwiczenia wojskowe.",
-      "Activity hazardous to aircraft takes place here — usually live firing or military exercises.",
-      "Над цією територією відбувається небезпечна для авіації діяльність — найчастіше стрільби або військові навчання."],
+    "Activity hazardous to aircraft takes place here — usually live firing or military exercises.",
+    "Над цією територією відбувається небезпечна для авіації діяльність — найчастіше стрільби або військові навчання."],
   R: ["Loty w tym obszarze są ograniczone: wejść może tylko ten, kto ma zgodę.",
-      "Flights here are restricted: only aircraft with clearance may enter.",
-      "Польоти тут обмежені: увійти може лише той, хто має дозвіл."],
+    "Flights here are restricted: only aircraft with clearance may enter.",
+    "Польоти тут обмежені: увійти може лише той, хто має дозвіл."],
   P: ["Loty w tym obszarze są zakazane.", "Flights here are prohibited.", "Польоти в цій зоні заборонені."],
   NPZ: ["Zakaz lotów — obszar zamknięty dla ruchu lotniczego.",
-        "No-flight zone — the area is closed to air traffic.",
-        "Заборона польотів — простір закритий для авіаційного руху."],
+    "No-flight zone — the area is closed to air traffic.",
+    "Заборона польотів — простір закритий для авіаційного руху."],
   ADHOC: ["Strefa powołana doraźnie, zwykle na kilka–kilkanaście godzin, decyzją podjętą tego samego dnia.",
-          "A zone raised at short notice, usually for a few hours, on a same-day decision.",
-          "Зона, створена нашвидкуруч, зазвичай на кілька годин, рішенням того самого дня."],
+    "A zone raised at short notice, usually for a few hours, on a same-day decision.",
+    "Зона, створена нашвидкуруч, зазвичай на кілька годин, рішенням того самого дня."],
   TSA: ["Kawałek nieba wydzielony na czas ćwiczeń lub lotów wojskowych — na ten czas zwykły ruch go omija.",
-        "A block of airspace segregated for military training or operations — ordinary traffic routes around it.",
-        "Ділянка неба, виділена на час навчань або військових польотів — звичайний рух її тоді обходить."],
+    "A block of airspace segregated for military training or operations — ordinary traffic routes around it.",
+    "Ділянка неба, виділена на час навчань або військових польотів — звичайний рух її тоді обходить."],
   TRA: ["Kawałek nieba zarezerwowany czasowo, najczęściej na loty wojskowe.",
-        "A block of airspace reserved temporarily, most often for military flights.",
-        "Ділянка неба, зарезервована тимчасово, найчастіше для військових польотів."],
+    "A block of airspace reserved temporarily, most often for military flights.",
+    "Ділянка неба, зарезервована тимчасово, найчастіше для військових польотів."],
 };
 
 function zoneClock(iso) {
@@ -1834,7 +1958,7 @@ document.addEventListener("click", (e) => {
 
 document.getElementById("btn-zones")?.addEventListener("click", () => {
   const next = !zonesOn();
-  try { localStorage.setItem("straznik_zones", next ? "1" : "0"); } catch {}
+  try { localStorage.setItem("straznik_zones", next ? "1" : "0"); } catch { }
   syncZonesButton();
   if (next) refreshZones(true); else applyZones();
 });
@@ -1871,20 +1995,23 @@ function hexCountry(hex) {
   for (const [a, b, name, flag] of ICAO_RANGES) if (n >= a && n <= b) return { name, flag };
   return null;
 }
-const COUNTRY_EN = { "Polska":"Poland", "Rosja":"Russia", "Białoruś":"Belarus", "Niemcy":"Germany",
-  "Francja":"France", "Wielka Brytania":"United Kingdom", "Włochy":"Italy", "Hiszpania":"Spain",
-  "Czechy":"Czechia", "Słowacja":"Slovakia", "Węgry":"Hungary", "Rumunia":"Romania",
-  "Litwa":"Lithuania", "Łotwa":"Latvia", "Estonia":"Estonia", "Ukraina":"Ukraine",
-  "Holandia":"Netherlands", "Belgia":"Belgium", "Dania":"Denmark", "Norwegia":"Norway",
-  "Szwecja":"Sweden", "Finlandia":"Finland", "Austria":"Austria", "Grecja":"Greece",
-  "Portugalia":"Portugal", "Szwajcaria":"Switzerland", "Turcja":"Türkiye",
-  "USA":"United States", "Kanada":"Canada", "Australia":"Australia" };
-const COUNTRY_UK = { "Polska":"Польща", "Rosja":"Росія", "Białoruś":"Білорусь", "Niemcy":"Німеччина",
-  "Francja":"Франція", "Wielka Brytania":"Велика Британія", "Włochy":"Італія", "Hiszpania":"Іспанія",
-  "Czechy":"Чехія", "Słowacja":"Словаччина", "Węgry":"Угорщина", "Rumunia":"Румунія",
-  "Litwa":"Литва", "Łotwa":"Латвія", "Estonia":"Естонія", "Ukraina":"Україна",
-  "Holandia":"Нідерланди", "Belgia":"Бельгія", "Dania":"Данія", "Norwegia":"Норвегія",
-  "Szwecja":"Швеція", "Finlandia":"Фінляндія", "Austria":"Австрія", "Grecja":"Греція",
+const COUNTRY_EN = {
+  "Polska": "Poland", "Rosja": "Russia", "Białoruś": "Belarus", "Niemcy": "Germany",
+  "Francja": "France", "Wielka Brytania": "United Kingdom", "Włochy": "Italy", "Hiszpania": "Spain",
+  "Czechy": "Czechia", "Słowacja": "Slovakia", "Węgry": "Hungary", "Rumunia": "Romania",
+  "Litwa": "Lithuania", "Łotwa": "Latvia", "Estonia": "Estonia", "Ukraina": "Ukraine",
+  "Holandia": "Netherlands", "Belgia": "Belgium", "Dania": "Denmark", "Norwegia": "Norway",
+  "Szwecja": "Sweden", "Finlandia": "Finland", "Austria": "Austria", "Grecja": "Greece",
+  "Portugalia": "Portugal", "Szwajcaria": "Switzerland", "Turcja": "Türkiye",
+  "USA": "United States", "Kanada": "Canada", "Australia": "Australia"
+};
+const COUNTRY_UK = {
+  "Polska": "Польща", "Rosja": "Росія", "Białoruś": "Білорусь", "Niemcy": "Німеччина",
+  "Francja": "Франція", "Wielka Brytania": "Велика Британія", "Włochy": "Італія", "Hiszpania": "Іспанія",
+  "Czechy": "Чехія", "Słowacja": "Словаччина", "Węgry": "Угорщина", "Rumunia": "Румунія",
+  "Litwa": "Литва", "Łotwa": "Латвія", "Estonia": "Естонія", "Ukraina": "Україна",
+  "Holandia": "Нідерланди", "Belgia": "Бельгія", "Dania": "Данія", "Norwegia": "Норвегія",
+  "Szwecja": "Швеція", "Finlandia": "Фінляндія", "Austria": "Австрія", "Grecja": "Греція",
 };
 const countryText = name => UI.t(name, COUNTRY_EN[name] || name, COUNTRY_UK[name] || COUNTRY_EN[name] || name);
 
@@ -1929,17 +2056,19 @@ function isForeign(p) {
   return !!(c && (c.name === "Rosja" || c.name === "Białoruś"));
 }
 let watchEvents = [];
-try { watchEvents = JSON.parse(localStorage.getItem("straznik_watch_events") || "[]"); } catch {}
+try { watchEvents = JSON.parse(localStorage.getItem("straznik_watch_events") || "[]"); } catch { }
 let watchPrev = new Set();      // hex obcych maszyn z poprzedniego obiegu
 const watchLast = new Map();    // hex → {label, flag, area} — do zdarzeń wyjścia
 function logWatchEvent(kind, info) {
-  watchEvents.unshift({ t: Date.now(), kind, hex: info.hex,
+  watchEvents.unshift({
+    t: Date.now(), kind, hex: info.hex,
     label: info.label || info.hex, flag: info.flag || "", area: info.area || "",
     callsign: info.callsign, type: info.type, lat: info.lat, lon: info.lon,
     alt: info.alt, gs: info.gs, track: info.track, desc: info.desc, reg: info.reg,
-    cat: info.cat, foreign: true });
+    cat: info.cat, foreign: true
+  });
   if (watchEvents.length > 60) watchEvents.length = 60;
-  try { localStorage.setItem("straznik_watch_events", JSON.stringify(watchEvents)); } catch {}
+  try { localStorage.setItem("straznik_watch_events", JSON.stringify(watchEvents)); } catch { }
 }
 function updateWatchBadge(n) {
   const b = document.getElementById("watch-badge");
@@ -1960,7 +2089,7 @@ function markSelected(kind, id) {
   try {
     map.setFilter("threats-sel", ["==", ["get", "tid"], kind === "threat" ? String(id ?? none) : none]);
     map.setFilter("adsb-sel", ["==", ["get", "hex"], kind === "plane" ? String(id ?? none) : none]);
-  } catch {}
+  } catch { }
 }
 
 function showCard(html, opts) {
@@ -1993,7 +2122,7 @@ function applyCardSize(force) {
   card.classList.toggle("big", big);
   if (btn) {
     const t = big ? (UI.t("Zwiń kartę", "Collapse card", "Згорнути картку"))
-                  : (UI.t("Rozwiń kartę", "Expand card", "Розгорнути картку"));
+      : (UI.t("Rozwiń kartę", "Expand card", "Розгорнути картку"));
     btn.title = t; btn.setAttribute("aria-label", t);
   }
 }
@@ -2025,7 +2154,7 @@ function openThreatPopup(lngLat, p) {
       ${p.heading != null && !p.hdg_unknown ? `${p.heading_measured ? UI.t("kurs z ruchu", "heading from movement", "курс із руху") : UI.t("kurs", "heading", "курс")}: ${Math.round(p.heading)}° (${compass(p.heading)})${p.heading_measured && p.heading_source != null && Math.abs(((p.heading - p.heading_source) % 360 + 540) % 360 - 180) > 45 ? ` <span style="color:#95a1b7">(${UI.t("NEPTUN podaje", "NEPTUN reports", "NEPTUN повідомляє")} ${Math.round(p.heading_source)}°)</span>` : ""} · ` : ""}
       ${UI.t("odległość od granicy PL", "distance from the Polish border", "відстань від кордону Польщі")}: <b>${p.distance_text ?? ((p.dist_km ?? "?") + " km")}</b><br>
       ${UI.t("ostatni meldunek", "last report", "останнє повідомлення")}: <b>${ageAgoText(p.age_min)}</b>${Number(p.age_min) >= 15
-        ? ` <span style="color:#95a1b7">${UI.t("— obiekt mógł się od tego czasu przemieścić", "— the object may have moved on since", " — відтоді об'єкт міг переміститися")}</span>` : ""}<br>
+      ? ` <span style="color:#95a1b7">${UI.t("— obiekt mógł się od tego czasu przemieścić", "— the object may have moved on since", " — відтоді об'єкт міг переміститися")}</span>` : ""}<br>
       ${courseVerdictHTML(p)}
       ${p.eta || ""}
       <span style="color:#68758c">${UI.t("Dane: NEPTUN — agregator OSINT, nie radar wojskowy", "Data: NEPTUN — OSINT aggregator, not military radar", "Дані: NEPTUN — агрегатор OSINT, а не військовий радар")}</span>`);
@@ -2039,8 +2168,7 @@ function courseVerdictHTML(p) {
   const known = !(p.heading_known === false || p.heading_known === "false");
   const off = p.course_off == null || p.course_off === "" ? null : Math.round(Number(p.course_off));
   if (toward) {
-    return `<span style="color:#c0392b"><b>${UI.t("kurs na Polskę", "heading towards Poland", "курс на Польщу")}</b>${
-      off != null ? ` (${off}° ${UI.t("od kierunku na granicę", "off the direction to the border", "від напрямку на кордон")})` : ""}</span><br>`;
+    return `<span style="color:#c0392b"><b>${UI.t("kurs na Polskę", "heading towards Poland", "курс на Польщу")}</b>${off != null ? ` (${off}° ${UI.t("od kierunku na granicę", "off the direction to the border", "від напрямку на кордон")})` : ""}</span><br>`;
   }
   const why = !known
     ? (UI.t("kurs nieznany", "heading unknown", "курс невідомий"))
@@ -2145,8 +2273,10 @@ function drawFollowTrail() {
   const features = [];
   for (const h of hexes) {
     const arr = adsbTrails.get(h);
-    if (arr && arr.length >= 2) features.push({ type: "Feature", properties: {},
-      geometry: { type: "LineString", coordinates: arr.map(q => [q.lon, q.lat]) } });
+    if (arr && arr.length >= 2) features.push({
+      type: "Feature", properties: {},
+      geometry: { type: "LineString", coordinates: arr.map(q => [q.lon, q.lat]) }
+    });
   }
   src.setData({ type: "FeatureCollection", features });
   // kierunek: kurs i prędkość z transpondera są zmierzone, więc linia na 15 min
@@ -2181,11 +2311,15 @@ function courseFeatures(lat, lon, bearing, kmh, minutes, color) {
   for (let m = 5; m <= minutes; m += 5) {
     const pt = movePoint(lat, lon, bearing, kmh * m / 60);
     coords.push(pt);
-    ticks.push({ type: "Feature", properties: { color, min: m },
-      geometry: { type: "Point", coordinates: pt } });
+    ticks.push({
+      type: "Feature", properties: { color, min: m },
+      geometry: { type: "Point", coordinates: pt }
+    });
   }
-  return [{ type: "Feature", properties: { color },
-    geometry: { type: "LineString", coordinates: coords } }, ...ticks];
+  return [{
+    type: "Feature", properties: { color },
+    geometry: { type: "LineString", coordinates: coords }
+  }, ...ticks];
 }
 /* Kurs NEPTUN tylko ZMIERZONY z ruchu: serwer (heading_estimated) albo własny ślad
    z przesunięciem ≥ 2 km. „Kursem na X” różnił się od faktycznego ruchu o medianę
@@ -2253,8 +2387,10 @@ function oblastsFrom(sigs) {
     e.w = Math.max(e.w, Math.min(1, s.points * weight));
     const since = s.details.episode || s.ts;
     if (!e.since || since < e.since) e.since = since;
-    e.per.push({ voiv: s.voivodeship, points: s.points * weight, counted: s.counted_points,
-                 km: s.details.distance_km, half: weight < 1 });
+    e.per.push({
+      voiv: s.voivodeship, points: s.points * weight, counted: s.counted_points,
+      km: s.details.distance_km, half: weight < 1
+    });
     m.set(k, e);
   }
   return m;
@@ -2314,15 +2450,19 @@ async function wczytajGeoUA(ktore) {
 }
 let raionAlertInfo = new Map();    // klucz rejonu → wpis alarmu NEPTUN-a
 let countryAlerts = new Map();     // ISO3 kraju z trwającym alarmem -> opis do karty
-const UA_LATIN = { а:"a",б:"b",в:"v",г:"h",ґ:"g",д:"d",е:"e",є:"ie",ж:"zh",з:"z",и:"y",і:"i",ї:"i",й:"i",
-  к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"kh",ц:"ts",ч:"ch",ш:"sh",
-  щ:"shch",ь:"",ю:"iu",я:"ia" };
-const UA_LATIN_INITIAL = { є:"ye", ї:"yi", й:"y", ю:"yu", я:"ya" };
+const UA_LATIN = {
+  а: "a", б: "b", в: "v", г: "h", ґ: "g", д: "d", е: "e", є: "ie", ж: "zh", з: "z", и: "y", і: "i", ї: "i", й: "i",
+  к: "k", л: "l", м: "m", н: "n", о: "o", п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f", х: "kh", ц: "ts", ч: "ch", ш: "sh",
+  щ: "shch", ь: "", ю: "iu", я: "ia"
+};
+const UA_LATIN_INITIAL = { є: "ye", ї: "yi", й: "y", ю: "yu", я: "ya" };
 // Rejony przemianowane w 2024 r. (NEPTUN ma nowe nazwy, granice z 2022 — stare) i
 // odmienna pisownia w źródle granic.
-const RAION_ALIAS = { zviahelskyi:"novohradvolynskyi", volodymyrskyi:"volodymyrvolynskyi",
-  sheptytskyi:"chervonohradskyi", berestynskyi:"krasnohradskyi", samarivskyi:"novomoskovskyi",
-  kerchenskyi:"kerchynskyi" };
+const RAION_ALIAS = {
+  zviahelskyi: "novohradvolynskyi", volodymyrskyi: "volodymyrvolynskyi",
+  sheptytskyi: "chervonohradskyi", berestynskyi: "krasnohradskyi", samarivskyi: "novomoskovskyi",
+  kerchenskyi: "kerchynskyi"
+};
 /* Ukraińska nazwa rejonu → klucz jak w rejony-ua-v1.geojson (transliteracja urzędowa). */
 function raionKey(name) {
   const words = String(name || "").toLowerCase().replace(/[’ʼ'`]/g, "")
@@ -2338,8 +2478,10 @@ function paintRaionAlerts(areas) {
   if ((areas || []).length) wczytajGeoUA("rejony");
   const next = new Map();
   const rank = { red: 2, yellow: 1 };
-  const put = (k, a) => { const prev = next.get(k);
-    if (!prev || (rank[a.l] || 0) > (rank[prev.l] || 0)) next.set(k, a); };
+  const put = (k, a) => {
+    const prev = next.get(k);
+    if (!prev || (rank[a.l] || 0) > (rank[prev.l] || 0)) next.set(k, a);
+  };
   for (const a of areas || []) {
     if (a.w === "oblast") {
       for (const k of raionsByOblast[oblastShort(a.n)] || raionsByOblast[oblastShort(a.o)] || []) put(k, a);
@@ -2355,8 +2497,10 @@ function paintRaionAlerts(areas) {
     }
   }
   for (const k of new Set([...raionAlertInfo.keys(), ...next.keys()]))
-    map.setFeatureState({ source: "rejony", id: k }, { alert: next.get(k)?.l === "red" ? "red"
-      : next.has(k) ? "yellow" : "" });
+    map.setFeatureState({ source: "rejony", id: k }, {
+      alert: next.get(k)?.l === "red" ? "red"
+        : next.has(k) ? "yellow" : ""
+    });
   raionAlertInfo = next;
 }
 function openRaionAlert(a) {
@@ -2466,7 +2610,7 @@ function circleCoords(lat, lon, km) {
   for (let i = 0; i <= 48; i++) {
     const a = (i / 48) * 2 * Math.PI;
     out.push([lon + (km / (111.32 * Math.cos(lat * Math.PI / 180))) * Math.sin(a),
-              lat + (km / 110.57) * Math.cos(a)]);
+    lat + (km / 110.57) * Math.cos(a)]);
   }
   return [out];
 }
@@ -2554,8 +2698,10 @@ function cleanTrail(t) {
 /* Prędkość liczona z ostatniego realnego odcinka śladu — pole `velocity`
    w danych Neptuna praktycznie nie występuje (sprawdzone na żywym API),
    więc bez tego dead-reckoning nigdy by nie ruszył znacznika. */
-const TYPE_SPEED_KMH = { uav: 180, shahed: 180, fpv: 100, missile: 800, cruise: 800,
-  ballistic: 3000, kab: 900, mig31k: 900 };
+const TYPE_SPEED_KMH = {
+  uav: 180, shahed: 180, fpv: 100, missile: 800, cruise: 800,
+  ballistic: 3000, kab: 900, mig31k: 900
+};
 function measuredTrackSpeed(t) {
   if (isApproxPosition(t)) return null;
   if (Number.isFinite(+t.velocity?.speedKmh) && +t.velocity.speedKmh > 0) return +t.velocity.speedKmh;
@@ -2601,18 +2747,65 @@ function ageLabel(min) {
   return m ? `${h} ${jg} ${m} ${jm}` : `${h} ${jg}`;
 }
 
+/* NEPTUN widzi obiekty tylko nad Ukrainą: gdy obiekt zniknie przy granicy, nie
+   wiadomo, czy ją przekroczył, czy spadł. Pozycja w Polsce byłaby więc zawsze
+   zgadywana — ekstrapolacja nie może jej wytworzyć. */
+const PREDICT_NEAR_BORDER_KM = 30, PREDICT_NEAR_BORDER_S = 90;
+function inPolandRing(lat, lon, ring) {
+  let inside = false;
+  for (let i = 0, n = ring.length; i < n; i++) {
+    const [y1, x1] = ring[i], [y2, x2] = ring[(i + 1) % n];
+    if ((y1 > lat) !== (y2 > lat) && lon < x1 + (lat - y1) * (x2 - x1) / (y2 - y1)) inside = !inside;
+  }
+  return inside;
+}
+function inPoland(lat, lon) {
+  return typeof PL_OUTLINE !== "undefined" && PL_OUTLINE.rings.some(r => inPolandRing(lat, lon, r));
+}
+function kmToPolandApprox(lat, lon) {
+  let best = Infinity;
+  for (const ring of PL_OUTLINE?.rings || [])
+    for (const [plat, plon] of ring) best = Math.min(best, kmBetween({ lat, lon }, { lat: plat, lon: plon }));
+  return best;
+}
+
 function predict(t, nowMs) {
   let lat = t.lat, lon = t.lon;
   if (isApproxPosition(t)) return { lat, lon };
+  const startedInPL = inPoland(lat, lon);
   const hdg = t.velocity?.bearingDeg ?? measuredHeading(t);
   const speed = t.velocity?.speedKmh ?? measuredTrackSpeed(t);
   if (speed && hdg != null) {
     const base = Date.parse(t.confirmedAt || t.updatedAt || "") || threatsReceivedAt;
     const dts = Math.max(0, (nowMs - base) / 1000);
-    if (dts > PREDICT_MAX_S) return { lat, lon };
-    const d = Math.min(speed * dts / 3600, PREDICT_MAX_KM);
-    lat += (d / 110.57) * Math.cos(hdg * Math.PI / 180);
-    lon += (d / (111.32 * Math.cos(lat * Math.PI / 180))) * Math.sin(hdg * Math.PI / 180);
+    // blisko granicy krótszy horyzont: zniknięcie z danych to tu często zestrzelenie
+    const nearBorder = !startedInPL && kmToPolandApprox(lat, lon) < PREDICT_NEAR_BORDER_KM;
+    const maxS = nearBorder ? PREDICT_NEAR_BORDER_S : PREDICT_MAX_S;
+    const stale = dts > maxS;
+    // po upływie limitu obiekt zostaje tam, dokąd doleciał — bez cofania do meldunku
+    let d = Math.min(speed * Math.min(dts, maxS) / 3600, PREDICT_MAX_KM);
+    const at = km => ({
+      lat: lat + (km / 110.57) * Math.cos(hdg * Math.PI / 180),
+      lon: lon + (km / (111.32 * Math.cos(lat * Math.PI / 180))) * Math.sin(hdg * Math.PI / 180)
+    });
+    let heldAtBorder = false;
+    // nigdy nie „wprowadzaj” obiektu do Polski samą ekstrapolacją: bisekcją
+    // szukamy ostatniego punktu trasy przed granicą i tam go zatrzymujemy
+    const end = at(d);
+    if (!startedInPL && d > 0 && inPoland(end.lat, end.lon)) {
+      let lo = 0, hi = d;
+      for (let i = 0; i < 20; i++) {
+        const mid = (lo + hi) / 2, q = at(mid);
+        if (inPoland(q.lat, q.lon)) hi = mid; else lo = mid;
+      }
+      d = Math.max(0, lo - 0.2);   // 200 m zapasu przed linią granicy
+      heldAtBorder = true;
+    }
+    const q = at(d);
+    const out = { lat: q.lat, lon: q.lon };
+    if (stale) out.stale = true;
+    if (heldAtBorder) out.heldAtBorder = true;
+    return out;
   }
   return { lat, lon };
 }
@@ -2667,9 +2860,11 @@ function glidePosition(t, target, now) {
     const fresh = now - g.seen < 5000;
     const jump = kmBetween({ lat: g.shownLat, lon: g.shownLon }, target);
     const glide = fresh && jump <= GLIDE_MAX_KM;
-    Object.assign(g, { lat: t.lat, lon: t.lon, start: glide ? now : 0,
+    Object.assign(g, {
+      lat: t.lat, lon: t.lon, start: glide ? now : 0,
       dLat: glide ? g.shownLat - target.lat : 0,
-      dLon: glide ? g.shownLon - target.lon : 0 });
+      dLon: glide ? g.shownLon - target.lon : 0
+    });
   }
   g.seen = now;
   const k = g.start ? Math.min(1, (now - g.start) / GLIDE_MS) : 1;
@@ -2700,8 +2895,10 @@ function animate(ts) {
     const mh = measuredHeading(t);
     const shownHdg = mh ?? t.heading;
     const ageMin = threatAgeMin(t, now);
-    pts.push({ type: "Feature", geometry: { type: "Point", coordinates: [p.lon, p.lat] },
-      properties: { tid: String(t.id ?? ""),
+    pts.push({
+      type: "Feature", geometry: { type: "Point", coordinates: [p.lon, p.lat] },
+      properties: {
+        tid: String(t.id ?? ""),
         type: TYPE_META[t.type] ? t.type : "unknown", heading: shownHdg ?? 0,
         hdg_unknown: mh == null && (t.heading == null || t.pl_assessment?.heading_known === false),
         heading_measured: mh != null,
@@ -2717,11 +2914,15 @@ function animate(ts) {
         counted: countedTracks.has(String(t.id ?? "")),
         age_min: ageMin, age_label: ageLabel(ageMin),
         course_off: courseOffsetDeg(t),
-        eta: etaHtml(t) } });
+        eta: etaHtml(t)
+      }
+    });
     const uncKm = shownUncertaintyKm(t);
     if (uncKm)
-      unc.push({ type: "Feature", properties: { color: meta.color },
-        geometry: { type: "Polygon", coordinates: circleCoords(p.lat, p.lon, uncKm) } });
+      unc.push({
+        type: "Feature", properties: { color: meta.color },
+        geometry: { type: "Polygon", coordinates: circleCoords(p.lat, p.lon, uncKm) }
+      });
     // ślad = to, co dało API + to, co sami zaobserwowaliśmy + pozycja bieżąca.
     // Dla przybliżonego rejonu nie łączymy kolejnych raportów w pozorną trasę.
     if (isApproxPosition(t) || nMode === "off") continue;
@@ -2733,13 +2934,15 @@ function animate(ts) {
     const coords = trackPoints(t).map(q => [q.lon, q.lat]);
     // w trakcie przejścia linia kończy się na ikonie, a nie na nowym meldunku przed nią
     if (p.gliding && coords.length
-        && kmBetween({ lat: coords[coords.length - 1][1], lon: coords[coords.length - 1][0] },
-                     { lat: t.lat, lon: t.lon }) < 0.3) coords.pop();
+      && kmBetween({ lat: coords[coords.length - 1][1], lon: coords[coords.length - 1][0] },
+        { lat: t.lat, lon: t.lon }) < 0.3) coords.pop();
     const lastC = coords[coords.length - 1];
     if (!lastC || kmBetween({ lat: lastC[1], lon: lastC[0] }, p) >= 0.3) coords.push([p.lon, p.lat]);
     if (coords.length >= 2)
-      trails.push({ type: "Feature", properties: { color: meta.color },
-        geometry: { type: "LineString", coordinates: coords } });
+      trails.push({
+        type: "Feature", properties: { color: meta.color },
+        geometry: { type: "LineString", coordinates: coords }
+      });
   }
   for (const id of glides.keys()) if (!present.has(id)) glides.delete(id);
   map.getSource("threats")?.setData({ type: "FeatureCollection", features: pts });
@@ -2764,9 +2967,11 @@ function updateAdsb() {
     if (p.foreign) {
       nowForeign.add(p.hex);
       const c = hexCountry(p.hex);
-      watchLast.set(p.hex, { ...p,
+      watchLast.set(p.hex, {
+        ...p,
         label: (p.callsign || p.hex) + (p.desc ? " · " + p.desc : ""),
-        flag: c ? c.flag : "", area: p.area || "" });
+        flag: c ? c.flag : "", area: p.area || ""
+      });
     }
     // własny zapis trasy (jak dla obiektów NEPTUN): dopisujemy realne przesunięcia;
     // po otwarciu aplikacji zaczynamy od krótkiej historii z serwera
@@ -2776,7 +2981,7 @@ function updateAdsb() {
       arr = srv.map(q => ({ lat: q.lat, lon: q.lon, t: (q.t || 0) * 1000 }));
     const last = arr[arr.length - 1];
     if (!last || Math.hypot((p.lat - last.lat) * 110.57,
-        (p.lon - last.lon) * 111.32 * Math.cos(p.lat * Math.PI / 180)) > 0.5) {
+      (p.lon - last.lon) * 111.32 * Math.cos(p.lat * Math.PI / 180)) > 0.5) {
       arr.push({ lat: p.lat, lon: p.lon, t: now });
       if (arr.length > 80) arr.shift();
       adsbTrails.set(p.hex, arr);
@@ -2794,10 +2999,14 @@ function updateAdsb() {
   updateWatchBadge(nowForeign.size);
   if (document.getElementById("watch")?.open) { fillWatch(); refreshWatchEvents(); }
   // warstwa GL trzyma tylko to, co potrzebne do rysowania — resztę czyta dymek z lookupu
-  map.getSource("adsb")?.setData({ type: "FeatureCollection",
-    features: planes.filter(p => p.lat != null).map(p => ({ type: "Feature",
+  map.getSource("adsb")?.setData({
+    type: "FeatureCollection",
+    features: planes.filter(p => p.lat != null).map(p => ({
+      type: "Feature",
       geometry: { type: "Point", coordinates: [p.lon, p.lat] },
-      properties: { track: p.track ?? 0, hex: p.hex, heli: p.heli, foreign: !!p.foreign } })) });
+      properties: { track: p.track ?? 0, hex: p.hex, heli: p.heli, foreign: !!p.foreign }
+    }))
+  });
   drawFollowTrail();
   if (followHex && adsbByHex.has(followHex)) {
     const p = adsbByHex.get(followHex);
@@ -2846,7 +3055,7 @@ function fillWatch() {
     }));
 }
 function watchClock(t) {
-  return new Date(t).toLocaleTimeString(UI.t("pl-PL", "en-GB", "uk-UA"), {hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  return new Date(t).toLocaleTimeString(UI.t("pl-PL", "en-GB", "uk-UA"), { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 }
 let watchSyncState = "loading", watchFetchAt = 0, watchFetchPending = false;
 async function refreshWatchEvents() {
@@ -2854,13 +3063,13 @@ async function refreshWatchEvents() {
   const base = apiBase(); if (!base) return;
   watchFetchAt = Date.now(); watchFetchPending = true; watchSyncState = "loading";
   try {
-    const r = await fetch(base + "/api/adsb/watch?hours=12", {signal: timeoutSignal(12000), cache: "no-store"});
+    const r = await fetch(base + "/api/adsb/watch?hours=12", { signal: timeoutSignal(12000), cache: "no-store" });
     if (!r.ok) throw new Error("watch journal unavailable");
     const j = await r.json();
     if (!Array.isArray(j.events)) throw new Error("invalid journal");
     // Ignore responses from a backend that was replaced while the request ran.
     if (base !== apiBase() || standalone) return;
-    srvAdsbEvents = j.events.map(e => ({...e, t: Date.parse(e.ts)}));
+    srvAdsbEvents = j.events.map(e => ({ ...e, t: Date.parse(e.ts) }));
     watchSyncState = "ok";
     // The journal may arrive after the snapshot. Refresh the same selection,
     // never a remembered slider index and never a view that has returned live.
@@ -2930,25 +3139,24 @@ function renderPanel() {
   const panelEl = document.getElementById("panel");
   const keepScroll = panelEl?.scrollTop || 0;
   document.getElementById("voiv-cards").innerHTML = show.map(([name, st]) => `
-    <div class="voiv-card level-${spillRaised(st) ? "spill" : st.level}${name === mine ? " is-mine" : ""}${
-      openVoivs.has(name) ? " open" : ""}" data-voiv="${esc(name)}">
+    <div class="voiv-card level-${spillRaised(st) ? "spill" : st.level}${name === mine ? " is-mine" : ""}${openVoivs.has(name) ? " open" : ""}" data-voiv="${esc(name)}">
       <button type="button" class="voiv-head" aria-expanded="${openVoivs.has(name)}">
         <span class="voiv-name">${esc(UI.voiv(name))}</span>
         <span class="voiv-score">${st.score.toFixed(1)} ${UI.t("pkt", "pts", "бал.")}</span>
       </button>
       <div class="voiv-level">${spillRaised(st) ? SPILL_LABEL
-        : st.level === "none" && st.score > 0
+      : st.level === "none" && st.score > 0
         ? (UI.t("poniżej progu", "below threshold", "нижче порога")) : LEVEL_LABEL[st.level]}
         <span class="muted">· ${UI.t("progi", "thresholds", "пороги")}: ≥${f.thresholds.elevated} ${UI.t("uwaga", "attention", "увага")}, ≥${f.thresholds.high} ${UI.t("priorytet", "priority", "пріоритет")}</span></div>
       ${scoreBreakdown(st)}
       ${zonesRowHTML(name)}
       <div class="voiv-breakdown">${st.signals.length
-        ? sigList(st.signals)
-        : `<div class="fineprint">${UI.t("brak sygnałów w oknie", "no signals in the window", "у вікні немає сигналів")}</div>`}
+      ? sigList(st.signals)
+      : `<div class="fineprint">${UI.t("brak sygnałów w oknie", "no signals in the window", "у вікні немає сигналів")}</div>`}
         ${camIndex?.has(name)
-          ? `<button class="chip btn-cams" data-voiv="${esc(name)}">📷 ${UI.t("Kamery w regionie", "Cameras in the region", "Камери в регіоні")}
+      ? `<button class="chip btn-cams" data-voiv="${esc(name)}">📷 ${UI.t("Kamery w regionie", "Cameras in the region", "Камери в регіоні")}
                (${camData[name].filter(c => c.outdoor !== false).length})</button>`
-          : ""}</div>
+      : ""}</div>
     </div>`).join("");
   /* Klik dalej łapiemy na całej karcie — dotykowo tak jest wygodniej i tak było
      dotąd. Nagłówek jest przyciskiem tylko po to, żeby dało się tu dojść
@@ -2974,10 +3182,9 @@ function renderPanel() {
     banner.className = "level-" + (spillRaised(st) ? "spill" : st.level);
     // „brak sygnałów 1.9 pkt" przeczyło samo sobie (zgłoszone 13.09.2026) — przy
     // punktach poniżej progu baner mówi to samo co karta województwa
-    banner.innerHTML = `<b>${esc(UI.voiv(mine))}</b> — <span class="lvl">${
-      spillRaised(st) ? SPILL_LABEL
-      : st.level === "none" && st.score > 0 ? (UI.t("poniżej progu", "below threshold", "нижче порога"))
-      : LEVEL_LABEL[st.level]}</span>
+    banner.innerHTML = `<b>${esc(UI.voiv(mine))}</b> — <span class="lvl">${spillRaised(st) ? SPILL_LABEL
+        : st.level === "none" && st.score > 0 ? (UI.t("poniżej progu", "below threshold", "нижче порога"))
+          : LEVEL_LABEL[st.level]}</span>
       <span class="muted">${st.score.toFixed(1)} ${UI.t("pkt", "pts", "бал.")}</span>${bezPotwierdzenia(st)}`;
     banner.onclick = () => { setPanel(true); openCard(mine); };
   } else {
@@ -3014,7 +3221,7 @@ function courseOffsetDeg(t) {
 function unscoredHTML(viewState) {
   const rows = (viewState?.neptun?.threats || [])
     .filter(t => t.pl_assessment && t.pl_assessment.dist_km <= NEAR_LIST_KM
-                 && t.pl_assessment.toward_pl === false)
+      && t.pl_assessment.toward_pl === false)
     .sort((a, b) => a.pl_assessment.dist_km - b.pl_assessment.dist_km);
   if (!rows.length) return "";
   const head = `<div class="unscored-head">${UI.t(`Na mapie, ale bez punktów (${rows.length})`, `On the map, but scoring 0 pts (${rows.length})`, `На мапі, але без балів (${rows.length})`)}</div>`;
@@ -3032,8 +3239,7 @@ function unscoredHTML(viewState) {
       <b style="color:${m.color}">${esc(UI.type(t.type, m.label))}</b>
       — ${threatDistanceText(t, a.dist_km)} ${UI.t("od granicy", "from the border", "від кордону")}
       <span class="zero">0 ${UI.t("pkt", "pts", "бал.")}</span>
-      <div class="meta">${esc(why)} · ${UI.t("wiarygodność", "confidence", "достовірність")}: ${
-        esc(UI.confidence(t.confidenceLevel, CONF_PL[t.confidenceLevel] || t.confidenceLevel))
+      <div class="meta">${esc(why)} · ${UI.t("wiarygodność", "confidence", "достовірність")}: ${esc(UI.confidence(t.confidenceLevel, CONF_PL[t.confidenceLevel] || t.confidenceLevel))
       } · ${relTime(t.updatedAt)}</div>
     </div>`;
   }).join("");
@@ -3049,15 +3255,15 @@ function renderObservationLists(viewState) {
     return `<div class="threat-row clickable" data-lat="${t.lat}" data-lon="${t.lon}"
       data-kind="threat" data-id="${esc(t.id)}">
       <b style="color:${m.color}">${esc(UI.type(t.type, m.label))}</b>
-      — ${threatDistanceText(t, a.dist_km)} ${UI.t("od granicy", "from the border", "від кордону")} (${esc(UI.voiv(a.border_voiv))})${
-        a.heading_known === false
-          ? ` · <b style='color:#ffb020'>${UI.t("kurs nieznany", "unknown heading", "курс невідомий")}</b>`
-          : (a.toward_pl ? ` · <b style='color:#ff4d5e'>${UI.t("kurs na PL", "heading towards Poland", "курс на Польщу")}</b>` : "")}
-      ${(() => { const e = etaInfo(t);
+      — ${threatDistanceText(t, a.dist_km)} ${UI.t("od granicy", "from the border", "від кордону")} (${esc(UI.voiv(a.border_voiv))})${a.heading_known === false
+        ? ` · <b style='color:#ffb020'>${UI.t("kurs nieznany", "unknown heading", "курс невідомий")}</b>`
+        : (a.toward_pl ? ` · <b style='color:#ff4d5e'>${UI.t("kurs na PL", "heading towards Poland", "курс на Польщу")}</b>` : "")}
+      ${(() => {
+        const e = etaInfo(t);
         return e && e.border != null
-          ? `<div class="meta eta-row">⏱ ${UI.t("do granicy", "to border", "до кордону")} <b>${etaRangeTxt(e.borderLo, e.border)}</b>${
-              e.voiv != null ? ` · ${UI.t("do woj.", "to", "до воєв.")} ${esc(UI.voiv(e.voivName))} <b>${etaRangeTxt(e.voivLo, e.voiv)}</b>` : ""}</div>`
-          : ""; })()}
+          ? `<div class="meta eta-row">⏱ ${UI.t("do granicy", "to border", "до кордону")} <b>${etaRangeTxt(e.borderLo, e.border)}</b>${e.voiv != null ? ` · ${UI.t("do woj.", "to", "до воєв.")} ${esc(UI.voiv(e.voivName))} <b>${etaRangeTxt(e.voivLo, e.voiv)}</b>` : ""}</div>`
+          : "";
+      })()}
       ${localPlaceHtml(t)}
       ${isApproxPosition(t) ? `<div class="meta">${approxPositionNote(t)}</div>` : ""}
       <div class="meta">${UI.t("wiarygodność", "confidence", "достовірність")}: ${esc(UI.confidence(t.confidenceLevel, CONF_PL[t.confidenceLevel] || t.confidenceLevel))}
@@ -3117,25 +3323,33 @@ function sigList(arr, limit) {
 }
 
 /* Etykiety źródeł po polsku — „PANSA"/„NEIGHBOURS" nic nie mówiły użytkownikowi. */
-const SRC_LABEL = { neptun: "NEPTUN", media: "MEDIA", rcb: "RCB", adsb: "ADS-B",
+const SRC_LABEL = {
+  neptun: "NEPTUN", media: "MEDIA", rcb: "RCB", adsb: "ADS-B",
   pansa: "PAŻP",
   // w angielskim interfejsie polskie „SĄSIEDZTWO" zostawało nieprzetłumaczone
   neighbours: UI.t("SĄSIEDZI", "NEIGHBOUR ZONES", "СУСІДИ"),
   spillover: UI.t("SĄSIEDZTWO", "NEIGHBOURS", "СУСІДСТВО"),
   // osobna klasa od 1.7.22: oficjalny alarm powietrzny w przygranicznym obwodzie UA
-  ua_alert: "ALARM UA", test: "TEST" };
-const SRC_ICON = { neptun: "🎯", media: "📰", rcb: "🚨", adsb: "✈", pansa: "🛑",
-  neighbours: "🌍", spillover: "↔", ua_alert: "📢", test: "🧪" };
+  ua_alert: "ALARM UA", test: "TEST"
+};
+const SRC_ICON = {
+  neptun: "🎯", media: "📰", rcb: "🚨", adsb: "✈", pansa: "🛑",
+  neighbours: "🌍", spillover: "↔", ua_alert: "📢", test: "🧪"
+};
 /* Nazwy obwodów UA do tytułu sygnału — po polsku i po angielsku, żeby interfejs
    nie pokazywał cyrylicy ani polskiego tekstu w wersji angielskiej. */
-const UA_OBLAST_PL_UI = { "Волинська": "wołyńskim", "Львівська": "lwowskim",
+const UA_OBLAST_PL_UI = {
+  "Волинська": "wołyńskim", "Львівська": "lwowskim",
   "Закарпатська": "zakarpackim", "Рівненська": "rówieńskim", "Житомирська": "żytomierskim",
   "Тернопільська": "tarnopolskim", "Івано-Франківська": "iwanofrankowskim",
-  "Хмельницька": "chmielnickim", "Чернівецька": "czerniowieckim", "Вінницька": "winnickim" };
-const UA_OBLAST_EN = { "Волинська": "Volyn", "Львівська": "Lviv",
+  "Хмельницька": "chmielnickim", "Чернівецька": "czerniowieckim", "Вінницька": "winnickim"
+};
+const UA_OBLAST_EN = {
+  "Волинська": "Volyn", "Львівська": "Lviv",
   "Закарпатська": "Zakarpattia", "Рівненська": "Rivne", "Житомирська": "Zhytomyr",
   "Тернопільська": "Ternopil", "Івано-Франківська": "Ivano-Frankivsk",
-  "Хмельницька": "Khmelnytskyi", "Чернівецька": "Chernivtsi", "Вінницька": "Vinnytsia" };
+  "Хмельницька": "Khmelnytskyi", "Чернівецька": "Chernivtsi", "Вінницька": "Vinnytsia"
+};
 
 function sigHTML(s) {
   // adres u redakcji znaleziony przez czytnik artykułów ma pierwszeństwo przed
@@ -3164,9 +3378,11 @@ function sigHTML(s) {
   const share = Math.max(0, Math.min(100, (cp / 2) * 100));
   const faded = w != null && w < 0.99;
   const d = s.details || {};
-  const signalPosition = { lat:d.lat, lon:d.lon, positionQuality:d.position_quality,
-    areaOnly:d.area_only, straznik_position:d.position_approximate
-      ? { quality:"approx", reason:d.position_reason, locality:d.position_locality } : null };
+  const signalPosition = {
+    lat: d.lat, lon: d.lon, positionQuality: d.position_quality,
+    areaOnly: d.area_only, straznik_position: d.position_approximate
+      ? { quality: "approx", reason: d.position_reason, locality: d.position_locality } : null
+  };
   const signalApprox = src === "neptun" && isApproxPosition(signalPosition);
   // NEPTUN: odległość i pewność kursu wprost w wierszu — bez tego nie było
   // widać, że obiekt bez kursu w ogóle jest brany pod uwagę
@@ -3185,14 +3401,16 @@ function sigHTML(s) {
   const nowKm = liveNow?.pl_assessment?.dist_km;
   if (nowKm != null && d.dist_km != null && Math.abs(nowKm - d.dist_km) >= 5) {
     const closer = nowKm < d.dist_km;
-    extra.push({ html: `<b style="color:${closer ? "#ff9f43" : "var(--muted)"}">${
-      UI.t("teraz", "now", "зараз")} ${esc(threatDistanceText(liveNow, nowKm))}</b>` });
+    extra.push({
+      html: `<b style="color:${closer ? "#ff9f43" : "var(--muted)"}">${UI.t("teraz", "now", "зараз")} ${esc(threatDistanceText(liveNow, nowKm))}</b>`
+    });
   } else if (tracksNow && !liveNow) {
     /* Obiekt zniknął z bieżącej migawki NEPTUN-a, a sygnał żyje jeszcze w oknie
        60 min. Bez tej adnotacji panel pokazywał odległość obiektu, którego nie ma
        już na mapie — „śledzenie i sygnały muszą być spójne" (zgłoszone 12.09.2026). */
-    extra.push({ html: `<b style="color:var(--muted)">${
-      UI.t("nieśledzony na mapie", "no longer tracked", "не відстежується на мапі")}</b>` });
+    extra.push({
+      html: `<b style="color:var(--muted)">${UI.t("nieśledzony na mapie", "no longer tracked", "не відстежується на мапі")}</b>`
+    });
   }
   if (src === "neptun") {
     if (d.course === "unknown") extra.push(UI.t("kurs nieznany", "unknown heading", "курс невідомий"));
@@ -3229,7 +3447,7 @@ function sigHTML(s) {
   }
   if (s.event_type === "ua_alert_border" && d.oblast) {
     const ob = UI.t(UA_OBLAST_PL_UI[d.oblast] || d.oblast, UA_OBLAST_EN[d.oblast] || d.oblast,
-                    `${d.oblast} область`);
+      `${d.oblast} область`);
     // Odległość obwodu od województwa mówi, dlaczego ten alarm waży tyle, ile waży.
     // Wcześniej każdy obwód — także oddalony o 200 km — ogłaszał się jako graniczący.
     const km = d.distance_km;
@@ -3246,14 +3464,13 @@ function sigHTML(s) {
       shownTitle += UI.t(` — trwa od ${clock(d.episode)}, połowa wagi`, ` — in progress since ${clock(d.episode)}, half weight`, ` — триває від ${clock(d.episode)}, половина ваги`);
   } else if (s.event_type === "ua_alert_end" && d.oblast) {
     const ob = UI.t(UA_OBLAST_PL_UI[d.oblast] || d.oblast, UA_OBLAST_EN[d.oblast] || d.oblast,
-                    `${d.oblast} область`);
+      `${d.oblast} область`);
     shownTitle = UI.t(`Koniec alarmu powietrznego w obwodzie ${ob} (woj. ${UI.voiv(s.voivodeship)})`, `Air-raid alert in ${ob} oblast has ended (${UI.voiv(s.voivodeship)})`, `Відбій повітряної тривоги: ${ob} (воєв. ${UI.voiv(s.voivodeship)})`);
   } else if (s.event_type === "baltic_alert" && d.country) {
     // Alarm ogłoszony na Litwie, Łotwie albo w Estonii: prefiks piszemy sami,
     // cytat tytułu zostaje w oryginale.
     const quote = String(shownTitle || "").replace(/^[^„]*/, "");
-    shownTitle = `${UI.t("Alarm powietrzny", "Air-raid alert", "Повітряна тривога")} — ${
-      balticName(d.country)}: ${quote}`;
+    shownTitle = `${UI.t("Alarm powietrzny", "Air-raid alert", "Повітряна тривога")} — ${balticName(d.country)}: ${quote}`;
   } else if (s.event_type === "neighbour_spillover" && d.from) {
     const factor = `${d.from_score} × 0.4^${d.depth}`;
     shownTitle = UI.t(`Przeniesienie z woj. ${UI.voiv(d.from)} (${factor})`, `Carried over from ${UI.voiv(d.from)} (${factor})`, `Перенесення з воєв. ${UI.voiv(d.from)} (${factor})`);
@@ -3273,38 +3490,33 @@ function sigHTML(s) {
       shownTitle = count + threatLabelPL(d.type)
         + (d.dist_km != null
           ? UI.t("", ` heading towards the Polish border, ${threatDistanceText(signalPosition, d.dist_km)}`,
-                 ` курсом на кордон Польщі, ${threatDistanceText(signalPosition, d.dist_km)}`)
+            ` курсом на кордон Польщі, ${threatDistanceText(signalPosition, d.dist_km)}`)
           : "");
     }
   }
   return `<div class="sig src-${esc(src)}">
     <div class="sig-head">
-      <span class="src">${SRC_ICON[src] || "•"} ${esc(SRC_LABEL[src] || src.toUpperCase())}${
-        src === "media" && d.country ? " " + esc(d.country) : ""}</span>
+      <span class="src">${SRC_ICON[src] || "•"} ${esc(SRC_LABEL[src] || src.toUpperCase())}${src === "media" && d.country ? " " + esc(d.country) : ""}</span>
       <span class="pts${capped ? " capped" : ""}"
         ${capped ? `title="${repeatedOfficial
-          ? (UI.t("powtarza oficjalny alert — widoczne, bez dodatkowych punktów", "repeats an official alert — visible, with no extra points", "повторює офіційну тривогу — видно, без додаткових балів"))
-          : retrospective
-            ? (UI.t("materiał historyczny lub następstwa — widoczne, bez punktów zagrożenia", "historical report or aftermath — visible, with no threat points", "історичний матеріал або наслідки — видно, без балів загрози"))
-          : officialClear
-            ? (UI.t("RCB odwołało ten alert — widoczne, bez punktów zagrożenia", "RCB cancelled this alert — visible, with no threat points", "RCB скасувало цю тривогу — видно, без балів загрози"))
+      ? (UI.t("powtarza oficjalny alert — widoczne, bez dodatkowych punktów", "repeats an official alert — visible, with no extra points", "повторює офіційну тривогу — видно, без додаткових балів"))
+      : retrospective
+        ? (UI.t("materiał historyczny lub następstwa — widoczne, bez punktów zagrożenia", "historical report or aftermath — visible, with no threat points", "історичний матеріал або наслідки — видно, без балів загрози"))
+        : officialClear
+          ? (UI.t("RCB odwołało ten alert — widoczne, bez punktów zagrożenia", "RCB cancelled this alert — visible, with no threat points", "RCB скасувало цю тривогу — видно, без балів загрози"))
           : articleStatus
             ? (UI.t("sprawdzono cały artykuł — bez punktów", "article checked in full — no points", "перевірено всю статтю — без балів"))
-          : (UI.t("ponad limit tej klasy źródła — nadwyżka nie liczy się do sumy", "above this source-class cap — excess points are not counted", "понад ліміт цього класу джерела — надлишок не рахується до суми"))}"` : ""}>
+            : (UI.t("ponad limit tej klasy źródła — nadwyżka nie liczy się do sumy", "above this source-class cap — excess points are not counted", "понад ліміт цього класу джерела — надлишок не рахується до суми"))}"` : ""}>
         +${cp}${capped ? ` <s>${s.points}</s>` : ""}</span>
     </div>
     ${isFreshSignal(s) ? `<div class="sig-fresh">${UI.t("NOWY", "NEW", "НОВЕ")}</div>` : ""}
-    <div class="sig-title">${repeatedOfficial ? `<b>${UI.t("Powtórzenie oficjalnego alertu:", "Repeated official alert:", "Повторення офіційної тривоги:")}</b> ` : ""}${retrospective ? `<b>${UI.t("Materiał historyczny / następstwa:", "Historical report / aftermath:", "Історичний матеріал / наслідки:")}</b> ` : ""}${
-      officialClear === "alert" ? `<b>${UI.t("Odwołany przez RCB:", "Cancelled by RCB:", "Скасовано RCB:")}</b> `
-      : officialClear ? `<b>${UI.t("Po odwołaniu alertu RCB:", "After RCB cancellation:", "Після скасування тривоги RCB:")}</b> ` : ""}${
-      articleStatus === "past" ? `<b>${UI.t("Relacja z wcześniejszego zdarzenia:", "Report on an earlier event:", "Репортаж про попередню подію:")}</b> `
+    <div class="sig-title">${repeatedOfficial ? `<b>${UI.t("Powtórzenie oficjalnego alertu:", "Repeated official alert:", "Повторення офіційної тривоги:")}</b> ` : ""}${retrospective ? `<b>${UI.t("Materiał historyczny / następstwa:", "Historical report / aftermath:", "Історичний матеріал / наслідки:")}</b> ` : ""}${officialClear === "alert" ? `<b>${UI.t("Odwołany przez RCB:", "Cancelled by RCB:", "Скасовано RCB:")}</b> `
+      : officialClear ? `<b>${UI.t("Po odwołaniu alertu RCB:", "After RCB cancellation:", "Після скасування тривоги RCB:")}</b> ` : ""}${articleStatus === "past" ? `<b>${UI.t("Relacja z wcześniejszego zdarzenia:", "Report on an earlier event:", "Репортаж про попередню подію:")}</b> `
       : articleStatus === "unreadable" ? `<b>${UI.t("Nie udało się przeczytać artykułu — bez punktów:", "Article could not be read — no points:", "Не вдалося прочитати статтю — без балів:")}</b> ` : ""}${link
-      ? `<a href="${esc(link)}" target="_blank" rel="noopener">${esc(shownTitle)}</a>`
-      : esc(shownTitle)}</div>
+        ? `<a href="${esc(link)}" target="_blank" rel="noopener">${esc(shownTitle)}</a>`
+        : esc(shownTitle)}</div>
     <div class="sig-bar"><i style="width:${share.toFixed(0)}%"></i></div>
-    <div class="ts">${relTime(s.ts)} · ${UI.t("woj.", "province", "воєв.")} ${esc(UI.voiv(s.voivodeship))}${
-      extra.length ? " · " + extra.map(x => typeof x === "object" ? x.html : esc(x)).join(" · ") : ""}${
-      faded ? ` · <span title="${UI.t("sygnał starzeje się w oknie 60 min i traci wagę", "the signal ages within the 60-minute window and loses weight", "сигнал старіє у вікні 60 хв і втрачає вагу")}">${UI.t("waga", "weight", "вага")} ${Math.round(w * 100)}%</span>` : ""}</div>
+    <div class="ts">${relTime(s.ts)} · ${UI.t("woj.", "province", "воєв.")} ${esc(UI.voiv(s.voivodeship))}${extra.length ? " · " + extra.map(x => typeof x === "object" ? x.html : esc(x)).join(" · ") : ""}${faded ? ` · <span title="${UI.t("sygnał starzeje się w oknie 60 min i traci wagę", "the signal ages within the 60-minute window and loses weight", "сигнал старіє у вікні 60 хв і втрачає вагу")}">${UI.t("waga", "weight", "вага")} ${Math.round(w * 100)}%</span>` : ""}</div>
   </div>`;
 }
 
@@ -3326,12 +3538,11 @@ function scoreBreakdown(st) {
   if (!parts.length) return "";
   const zeroNote = zeros
     ? ` · ${zeros} ${zeros === 1
-        ? UI.t("sygnał bez wkładu", "signal adds nothing", "сигнал без внеску")
-        : UI.t("sygnałów bez wkładu", "signals add nothing", "сигналів без внеску")}`
-      + ` (${UI.t("wygaszone albo ponad limit klasy", "faded or over the source-class cap", "згашене або понад ліміт класу")})`
+      ? UI.t("sygnał bez wkładu", "signal adds nothing", "сигнал без внеску")
+      : UI.t("sygnałów bez wkładu", "signals add nothing", "сигналів без внеску")}`
+    + ` (${UI.t("wygaszone albo ponad limit klasy", "faded or over the source-class cap", "згашене або понад ліміт класу")})`
     : "";
-  return `<div class="voiv-sum">${UI.t("składa się z", "adds up to", "складається з")}: ${
-    parts.join(" + ")}${zeroNote}</div>`;
+  return `<div class="voiv-sum">${UI.t("składa się z", "adds up to", "складається з")}: ${parts.join(" + ")}${zeroNote}</div>`;
 }
 
 /* Strefy nad danym województwem — druga droga do karty strefy, niezależna od
@@ -3509,8 +3720,10 @@ const SOURCE_INFO = {
    zdrowia), więc nazwę do wyświetlenia trzymamy osobno. */
 const SRC_TITLE_EN = { "Alarmy UA": "UA alerts", "RCB": "RCB/RSO" };
 const SRC_TITLE_PL = { "RCB": "RCB/RSO" };
-const SRC_TITLE_UK = { "Alarmy UA": "Тривоги UA", "RCB": "RCB/RSO", "Bałtyk": "Балтика",
-  "Sąsiedzi": "Сусіди", "Media": "ЗМІ" };
+const SRC_TITLE_UK = {
+  "Alarmy UA": "Тривоги UA", "RCB": "RCB/RSO", "Bałtyk": "Балтика",
+  "Sąsiedzi": "Сусіди", "Media": "ЗМІ"
+};
 const srcTitle = (name) => UI.t(SRC_TITLE_PL[name], SRC_TITLE_EN[name], SRC_TITLE_UK[name]) || name;
 
 function ledItems() {
@@ -3557,15 +3770,13 @@ function balticRows() {
     const zb = state?.health?.neighbour_zones;
     const zNew = (zb?.recent_new || []).filter(z => z.country === c);
     const zonesTxt = zb && zb.by_country?.[c] != null
-      ? `<br>${UI.t("Czasowe strefy przestrzeni", "Temporary airspace zones", "Тимчасові зони простору")}: ${zb.by_country[c]}${
-          c === "LV" ? (UI.t(" (rutynowe strefy dronowe, bez punktów)", " (routine drone zones, not scored)", " (рутинні дронові зони, без балів)")) : ""}${
-          zNew.length ? ` · ${UI.t("nowe", "new", "нові")}: ${zNew.slice(0, 3).map(z =>
-            `${esc(z.ident)} ${esc(z.kind)} ${agoSec(z.seen)}`).join(", ")}` : ""}`
+      ? `<br>${UI.t("Czasowe strefy przestrzeni", "Temporary airspace zones", "Тимчасові зони простору")}: ${zb.by_country[c]}${c === "LV" ? (UI.t(" (rutynowe strefy dronowe, bez punktów)", " (routine drone zones, not scored)", " (рутинні дронові зони, без балів)")) : ""}${zNew.length ? ` · ${UI.t("nowe", "new", "нові")}: ${zNew.slice(0, 3).map(z =>
+        `${esc(z.ident)} ${esc(z.kind)} ${agoSec(z.seen)}`).join(", ")}` : ""}`
       : "";
     const la = x.last_alert;
     const alertTxt = la
       ? `<br>${UI.t("Ostatni alarm", "Last alert", "Остання тривога")} ${agoSec(la.at)}: „${esc(la.title)}”${la.cleared
-          ? ` — <b>${UI.t("odwołany", "cancelled", "скасовано")}</b> ${agoSec(la.cleared_at)}` : ""}`
+        ? ` — <b>${UI.t("odwołany", "cancelled", "скасовано")}</b> ${agoSec(la.cleared_at)}` : ""}`
       : `<br>${UI.t("Brak alarmu od uruchomienia serwera.", "No alert since the server started.", "Тривог не було від запуску сервера.")}`;
     return `<div class="src-row ${ok ? "ok" : "err"}">
       <div class="src-head"><i></i><b>${esc(name)}</b>
@@ -3592,7 +3803,7 @@ function fillSources() {
     return `<div class="src-row ${ok ? "ok" : "err"}">
       <div class="src-head"><i></i><b>${esc(srcTitle(name))}</b>
         <span class="src-state">${ok ? (UI.t("działa", "working", "працює"))
-          : (UI.t("nie odpowiada", "not responding", "не відповідає"))}${extra ? " · " + esc(extra) : ""}</span></div>
+        : (UI.t("nie odpowiada", "not responding", "не відповідає"))}${extra ? " · " + esc(extra) : ""}</span></div>
       <p class="src-what">${what}</p>
       ${ok ? "" : `<p class="src-why">${UI.t("Dlaczego czerwona", "Why it is red", "Чому червона")}: ${why}</p>`}
     </div>`;
@@ -3601,10 +3812,10 @@ function fillSources() {
   document.getElementById("src-list").innerHTML = rows + balticRows();
   document.getElementById("src-note").innerHTML = anyErr
     ? (UI.t("Czerwona dioda nie oznacza awarii aplikacji — pozostałe źródła liczą się ", "A red indicator does not mean the app has failed — the remaining sources "
-        + "keep counting, and the fusion needs several of them to agree anyway. If "
-        + "every indicator is red, check your internet connection.", "Червона діода не означає збою застосунку — решта джерел рахується ")
-        + "dalej, a fuzja i tak wymaga zgodności kilku z nich. Jeśli czerwone są "
-        + "wszystkie, sprawdź połączenie z internetem.")
+      + "keep counting, and the fusion needs several of them to agree anyway. If "
+      + "every indicator is red, check your internet connection.", "Червона діода не означає збою застосунку — решта джерел рахується ")
+      + "dalej, a fuzja i tak wymaga zgodności kilku z nich. Jeśli czerwone są "
+      + "wszystkie, sprawdź połączenie z internetem.")
     : (UI.t("Wszystkie źródła odpowiadają.", "Every source is responding.", "Усі джерела відповідають."));
 }
 
@@ -3644,7 +3855,7 @@ document.getElementById("ac-card-zoom")?.addEventListener("click", () => {
   const card = document.getElementById("ac-card");
   const big = card?.dataset.forceBig === "1" || cardBig();
   if (card) card.dataset.forceBig = "";
-  try { localStorage.setItem("straznik_card_big", big ? "0" : "1"); } catch {}
+  try { localStorage.setItem("straznik_card_big", big ? "0" : "1"); } catch { }
   applyCardSize();
   document.getElementById("ac-card-body").scrollTop = 0;
 });
@@ -3764,7 +3975,7 @@ function alarmFokus() {
 }
 function alarmFokusPowrot() {
   if (fokusPrzedAlarmem && document.contains(fokusPrzedAlarmem)) {
-    try { fokusPrzedAlarmem.focus(); } catch {}
+    try { fokusPrzedAlarmem.focus(); } catch { }
   }
   fokusPrzedAlarmem = null;
 }
@@ -3789,7 +4000,7 @@ function showAlarm(voiv, st) {
   document.getElementById("alarm-signals").innerHTML =
     sigList(st.signals, 5)
     || (st.reasonsText ? st.reasonsText.split("\n").filter(Boolean).slice(0, 5)
-          .map(r => `<div>${esc(r)}</div>`).join("") : "");
+      .map(r => `<div>${esc(r)}</div>`).join("") : "");
   const near = document.getElementById("alarm-nearest");
   if (near) { const html = nearestThreatLine(voiv); near.innerHTML = html; near.hidden = !html; }
   const todo = document.getElementById("alarm-todo");
@@ -3863,7 +4074,7 @@ function chimeLevel() {
   try {
     const v = localStorage.getItem("straznik_zolty_poziom");
     if (v && Object.prototype.hasOwnProperty.call(CHIME_LEVELS, v)) return v;
-  } catch {}
+  } catch { }
   return "normal";
 }
 function attentionChime() {
@@ -3888,7 +4099,7 @@ function attentionChime() {
       o.start(s); o.stop(s + DUR); o2.start(s); o2.stop(s + DUR);
     });
     if (navigator.vibrate) navigator.vibrate([220, 120, 220]);
-  } catch {}
+  } catch { }
 }
 
 /* czerwony poziom — CIĄGŁA syrena alarmu powietrznego (modulacja 380↔860 Hz).
@@ -3919,7 +4130,7 @@ function scheduleSirenSweeps(o, fromTime, cycles) {
    Dźwięku samego powiadomienia push to nie zmienia — na to trzeba Critical Alerts. */
 function sesjaAudioAlarmu(wlacz) {
   if (!IS_IOS) return;
-  try { BG()?.dzwiekAlarmu?.({ wlacz }); } catch {}
+  try { BG()?.dzwiekAlarmu?.({ wlacz }); } catch { }
 }
 
 /* NIE DA SIĘ sprawdzić z góry, czy część natywna ma `dzwiekAlarmu`, a więc nie
@@ -3992,13 +4203,13 @@ function airRaidSiren(continuous = true) {
       setTimeout(() => { sirenNodes = null; sesjaAudioAlarmu(false); }, total * 1000 + 200);
       if (navigator.vibrate) navigator.vibrate([700, 300, 700]);
     }
-  } catch {}
+  } catch { }
 }
 
 function stopSiren() {
   if (sirenTimer) { clearInterval(sirenTimer); sirenTimer = null; }
   if (vibrateTimer) { clearInterval(vibrateTimer); vibrateTimer = null; }
-  if (navigator.vibrate) { try { navigator.vibrate(0); } catch {} }
+  if (navigator.vibrate) { try { navigator.vibrate(0); } catch { } }
   if (sirenNodes) {
     const { o, g, c } = sirenNodes;
     try {
@@ -4006,7 +4217,7 @@ function stopSiren() {
       g.gain.setValueAtTime(Math.max(g.gain.value, 0.0001), c.currentTime);
       g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.35);
       o.stop(c.currentTime + 0.4);
-    } catch {}
+    } catch { }
     sirenNodes = null;
   }
   // POZA warunkiem: na iPhonie `sirenNodes` nigdy nie powstaje (syrenę gra część
@@ -4014,7 +4225,7 @@ function stopSiren() {
   sesjaAudioAlarmu(false);
 }
 // przeglądarki blokują dźwięk do pierwszej interakcji — odblokuj przy kliknięciu
-window.addEventListener("pointerdown", () => { try { ctx(); } catch {} }, { once: true });
+window.addEventListener("pointerdown", () => { try { ctx(); } catch { } }, { once: true });
 
 /* ── web push ────────────────────────────────────────────────────────────── */
 /* ── komunikaty (toast) ──────────────────────────────────────────────────── */
@@ -4055,7 +4266,7 @@ async function refreshBell() {
   const on = notifWanted() && perm === "granted";
   btn.classList.toggle("active", on);
   btn.title = on ? "Powiadomienia włączone — kliknij, aby wyciszyć"
-                 : "Powiadomienia wyciszone — kliknij, aby włączyć";
+    : "Powiadomienia wyciszone — kliknij, aby włączyć";
   return { perm, on };
 }
 
@@ -4065,20 +4276,20 @@ async function toggleBell() {
     localStorage.setItem(NOTIF_KEY, "0");
     await refreshBell();
     toast("🔕 <b>Powiadomienia wyciszone.</b><br>Alarmy dalej widać w aplikacji "
-        + "(kolory, syrena), ale nie dostaniesz powiadomień systemowych.");
+      + "(kolory, syrena), ale nie dostaniesz powiadomień systemowych.");
     return;
   }
   localStorage.setItem(NOTIF_KEY, "1");
   if (perm === "granted") {
     await refreshBell();
     toast("🔔 <b>Powiadomienia włączone.</b><br>Dostaniesz je przy poziomie żółtym "
-        + "i czerwonym dla swojego regionu.");
+      + "i czerwonym dla swojego regionu.");
     return;
   }
   if (perm === "denied") {
     toast("⚠️ System blokuje powiadomienia dla Strażnika.<br>"
-        + (IS_IOS ? "Włącz je w Ustawieniach iPhone'a (⚙ → Ustawienia powiadomień)."
-                  : "Włącz je w ustawieniach Androida (⚙ → Ustawienia powiadomień)."), 6000);
+      + (IS_IOS ? "Włącz je w Ustawieniach iPhone'a (⚙ → Ustawienia powiadomień)."
+        : "Włącz je w ustawieniach Androida (⚙ → Ustawienia powiadomień)."), 6000);
     await refreshBell();
     return;
   }
@@ -4087,7 +4298,7 @@ async function toggleBell() {
   try {
     if (LN) await LN.requestPermissions();
     else if ("Notification" in window) await Notification.requestPermission();
-  } catch {}
+  } catch { }
   const after = await refreshBell();
   toast(after.on
     ? "🔔 <b>Powiadomienia włączone.</b><br>Dostaniesz je przy poziomie żółtym i czerwonym."
@@ -4122,9 +4333,11 @@ async function enablePush() {
     applicationServerKey: Uint8Array.from(atob(publicKey.replace(/-/g, "+").replace(/_/g, "/")
       .padEnd(publicKey.length + (4 - publicKey.length % 4) % 4, "=")), c => c.charCodeAt(0)),
   });
-  const saved = await fetch(base + "/api/push/subscribe", { method: "POST",
+  const saved = await fetch(base + "/api/push/subscribe", {
+    method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...sub.toJSON(), voivodeships }) });
+    body: JSON.stringify({ ...sub.toJSON(), voivodeships })
+  });
   if (!saved.ok) throw new Error("Nie udało się zapisać subskrypcji Web Push");
   document.getElementById("btn-push").classList.add("active");
   const names = voivodeships.map(v => UI.voiv(v)).join(", ");
@@ -4150,29 +4363,29 @@ function browserNotifPath(jezyk = UI.lang, allow = false) {
   const [path, block, permit] = isUk
     ? samsung ? [`Samsung Internet: ☰ → Налаштування → Сайти й завантаження → Сповіщення → ${site}`, "вимкнути", "увімкнути"]
       : android && firefox ? [`Firefox на Android: ⋮ → Налаштування → Дозволи сайтів → Сповіщення → ${site}`, "Заблоковано", "Дозволено"]
-      : android ? [`Chrome на Android: ⋮ → Налаштування → Налаштування сайтів → Сповіщення → ${site}`, "Блокувати", "Дозволити"]
-      : ios ? ["iPhone: Налаштування → Сповіщення → Strażnik (сайт, доданий на екран «Початок») → «Дозволити сповіщення»", "вимкнути", "увімкнути"]
-      : firefox ? ["Firefox: замочок біля адреси → З\u2019єднання захищене → Докладніше → Дозволи → Показ сповіщень", "Блокувати", "Дозволити"]
-      : safari ? [`Safari на Mac: Safari → Налаштування → Веб-сайти → Сповіщення → ${site}`, "Відхиляти", "Дозволяти"]
-      : edge ? ["Edge: замочок біля адреси → Дозволи для цього сайту → Сповіщення", "Блокувати", "Дозволити"]
-      : ["Chrome: іконка налаштувань сайту біля адреси → Налаштування сайту → Сповіщення", "Блокувати", "Дозволити"]
+        : android ? [`Chrome на Android: ⋮ → Налаштування → Налаштування сайтів → Сповіщення → ${site}`, "Блокувати", "Дозволити"]
+          : ios ? ["iPhone: Налаштування → Сповіщення → Strażnik (сайт, доданий на екран «Початок») → «Дозволити сповіщення»", "вимкнути", "увімкнути"]
+            : firefox ? ["Firefox: замочок біля адреси → З\u2019єднання захищене → Докладніше → Дозволи → Показ сповіщень", "Блокувати", "Дозволити"]
+              : safari ? [`Safari на Mac: Safari → Налаштування → Веб-сайти → Сповіщення → ${site}`, "Відхиляти", "Дозволяти"]
+                : edge ? ["Edge: замочок біля адреси → Дозволи для цього сайту → Сповіщення", "Блокувати", "Дозволити"]
+                  : ["Chrome: іконка налаштувань сайту біля адреси → Налаштування сайту → Сповіщення", "Блокувати", "Дозволити"]
     : isEn
-    ? samsung ? [`Samsung Internet: ☰ → Settings → Sites and downloads → Notifications → ${site}`, "off", "on"]
-      : android && firefox ? [`Firefox on Android: ⋮ → Settings → Site permissions → Notifications → ${site}`, "Blocked", "Allowed"]
-      : android ? [`Chrome on Android: ⋮ → Settings → Site settings → Notifications → ${site}`, "Block", "Allow"]
-      : ios ? ["iPhone: Settings → Notifications → Strażnik (the site added to the Home Screen) → Allow Notifications", "off", "on"]
-      : firefox ? ["Firefox: the padlock next to the address → Connection secure → More information → Permissions → Send notifications", "Block", "Allow"]
-      : safari ? [`Safari on Mac: Safari → Settings → Websites → Notifications → ${site}`, "Deny", "Allow"]
-      : edge ? ["Edge: the padlock next to the address → Permissions for this site → Notifications", "Block", "Allow"]
-      : ["Chrome: the site settings icon next to the address → Site settings → Notifications", "Block", "Allow"]
-    : samsung ? [`Samsung Internet: ☰ → Ustawienia → Witryny i pobieranie → Powiadomienia → ${site}`, "wyłącz", "włącz"]
-      : android && firefox ? [`Firefox na Androidzie: ⋮ → Ustawienia → Uprawnienia witryn → Powiadomienia → ${site}`, "Zablokowane", "Dozwolone"]
-      : android ? [`Chrome na Androidzie: ⋮ → Ustawienia → Ustawienia witryn → Powiadomienia → ${site}`, "Blokuj", "Zezwalaj"]
-      : ios ? ["iPhone: Ustawienia → Powiadomienia → Strażnik (strona dodana do ekranu początkowego) → „Zezwalaj na powiadomienia”", "wyłącz", "włącz"]
-      : firefox ? ["Firefox: kłódka obok adresu → Połączenie zabezpieczone → Więcej informacji → Uprawnienia → Wyświetlanie powiadomień", "Blokuj", "Zezwalaj"]
-      : safari ? [`Safari na Macu: Safari → Ustawienia → Witryny → Powiadomienia → ${site}`, "Odmawiaj", "Zezwalaj"]
-      : edge ? ["Edge: kłódka obok adresu → Uprawnienia dla tej witryny → Powiadomienia", "Blokuj", "Zezwalaj"]
-      : ["Chrome: ikona ustawień witryny obok adresu → Ustawienia witryny → Powiadomienia", "Blokuj", "Zezwalaj"];
+      ? samsung ? [`Samsung Internet: ☰ → Settings → Sites and downloads → Notifications → ${site}`, "off", "on"]
+        : android && firefox ? [`Firefox on Android: ⋮ → Settings → Site permissions → Notifications → ${site}`, "Blocked", "Allowed"]
+          : android ? [`Chrome on Android: ⋮ → Settings → Site settings → Notifications → ${site}`, "Block", "Allow"]
+            : ios ? ["iPhone: Settings → Notifications → Strażnik (the site added to the Home Screen) → Allow Notifications", "off", "on"]
+              : firefox ? ["Firefox: the padlock next to the address → Connection secure → More information → Permissions → Send notifications", "Block", "Allow"]
+                : safari ? [`Safari on Mac: Safari → Settings → Websites → Notifications → ${site}`, "Deny", "Allow"]
+                  : edge ? ["Edge: the padlock next to the address → Permissions for this site → Notifications", "Block", "Allow"]
+                    : ["Chrome: the site settings icon next to the address → Site settings → Notifications", "Block", "Allow"]
+      : samsung ? [`Samsung Internet: ☰ → Ustawienia → Witryny i pobieranie → Powiadomienia → ${site}`, "wyłącz", "włącz"]
+        : android && firefox ? [`Firefox na Androidzie: ⋮ → Ustawienia → Uprawnienia witryn → Powiadomienia → ${site}`, "Zablokowane", "Dozwolone"]
+          : android ? [`Chrome na Androidzie: ⋮ → Ustawienia → Ustawienia witryn → Powiadomienia → ${site}`, "Blokuj", "Zezwalaj"]
+            : ios ? ["iPhone: Ustawienia → Powiadomienia → Strażnik (strona dodana do ekranu początkowego) → „Zezwalaj na powiadomienia”", "wyłącz", "włącz"]
+              : firefox ? ["Firefox: kłódka obok adresu → Połączenie zabezpieczone → Więcej informacji → Uprawnienia → Wyświetlanie powiadomień", "Blokuj", "Zezwalaj"]
+                : safari ? [`Safari na Macu: Safari → Ustawienia → Witryny → Powiadomienia → ${site}`, "Odmawiaj", "Zezwalaj"]
+                  : edge ? ["Edge: kłódka obok adresu → Uprawnienia dla tej witryny → Powiadomienia", "Blokuj", "Zezwalaj"]
+                    : ["Chrome: ikona ustawień witryny obok adresu → Ustawienia witryny → Powiadomienia", "Blokuj", "Zezwalaj"];
   // Ścieżka uniwersalna (podpowiedź użytkownika z 13.09.2026): w każdej przeglądarce
   // da się wyszukać „ustawienia witryn" w jej ustawieniach, nawet gdy nie rozpoznamy nazwy.
   const any = T(`W każdej przeglądarce: otwórz jej Ustawienia, w polu wyszukiwania wpisz „ustawienia witryn” (albo samo „witryn”) → Uprawnienia → odnajdź ${site} → Powiadomienia → ${allow ? "Zezwalaj" : "Blokuj"}.`, `In any browser: open its Settings, type “site settings” (or “site”) in the search field → Permissions → find ${site} → Notifications → ${allow ? "Allow" : "Block"}.`, `У будь-якому браузері: відкрийте його Налаштування, у полі пошуку введіть «налаштування сайтів» (або просто «сайт») → Дозволи → знайдіть ${site} → Сповіщення → ${allow ? "Дозволити" : "Блокувати"}.`);
@@ -4207,7 +4420,7 @@ async function refreshWebPushStatus(jezyk = UI.lang) {
       + browserNotifPath(jezyk, true);
   } else {
     let sub = null;
-    try { sub = Notification.permission === "granted" ? await browserPushSubscription() : null; } catch {}
+    try { sub = Notification.permission === "granted" ? await browserPushSubscription() : null; } catch { }
     const regions = (Places?.observedVoivodeships(savedPlaces) || []).map(v => UI.voiv(v)).join(", ");
     if (sub) {
       off.hidden = false;
@@ -4225,30 +4438,32 @@ async function refreshWebPushStatus(jezyk = UI.lang) {
 async function disableBrowserPush() {
   const base = apiBase();
   let sub = null;
-  try { sub = await browserPushSubscription(); } catch {}
+  try { sub = await browserPushSubscription(); } catch { }
   if (sub) {
     // najpierw serwer, żeby nie wysyłał już na ten adres; potem sama przeglądarka
     if (base) {
       try {
-        await fetch(base + "/api/push/unsubscribe", { method: "POST",
+        await fetch(base + "/api/push/unsubscribe", {
+          method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ endpoint: sub.endpoint }) });
-      } catch {}
+          body: JSON.stringify({ endpoint: sub.endpoint })
+        });
+      } catch { }
     }
-    try { await sub.unsubscribe(); } catch {}
+    try { await sub.unsubscribe(); } catch { }
   }
   localStorage.setItem(NOTIF_KEY, "0");
   document.getElementById("btn-push").classList.remove("active");
   await refreshWebPushStatus();
   toast((UI.t("🔕 <b>Powiadomienia w tej przeglądarce wyłączone.</b><br>Strażnik nie wyśle już tu push.<br>", "🔕 <b>Notifications turned off in this browser.</b><br>Strażnik will not send push here any more.<br>"
-      + "To also remove the browser permission: ", "🔕 <b>Сповіщення в цьому браузері вимкнено.</b><br>Strażnik більше не надішле сюди push.<br>")
-      + "Aby usunąć też samo pozwolenie przeglądarki: ") + esc(browserNotifPath())
+    + "To also remove the browser permission: ", "🔕 <b>Сповіщення в цьому браузері вимкнено.</b><br>Strażnik більше не надішле сюди push.<br>")
+    + "Aby usunąć też samo pozwolenie przeglądarki: ") + esc(browserNotifPath())
     + `<br><span class="muted">${UI.t("Dotknij, aby zamknąć", "Tap to close", "Торкніться, щоб закрити")}</span>`, 20000);
 }
 
 async function syncBrowserPushRegion() {
   if (standalone || !("serviceWorker" in navigator) || !("PushManager" in window)
-      || !("Notification" in window) || Notification.permission !== "granted") return;
+    || !("Notification" in window) || Notification.permission !== "granted") return;
   const base = apiBase();
   if (!base) return;
   const reg = await navigator.serviceWorker.ready;
@@ -4256,15 +4471,19 @@ async function syncBrowserPushRegion() {
   if (!sub) return;
   const voivodeships = Places?.observedVoivodeships(savedPlaces) || [];
   if (!voivodeships.length) {
-    await fetch(base + "/api/push/unsubscribe", { method: "POST",
+    await fetch(base + "/api/push/unsubscribe", {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ endpoint: sub.endpoint }) });
+      body: JSON.stringify({ endpoint: sub.endpoint })
+    });
     document.getElementById("btn-push").classList.remove("active");
     return;
   }
-  const saved = await fetch(base + "/api/push/subscribe", { method: "POST",
+  const saved = await fetch(base + "/api/push/subscribe", {
+    method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...sub.toJSON(), voivodeships }) });
+    body: JSON.stringify({ ...sub.toJSON(), voivodeships })
+  });
   if (saved.ok) document.getElementById("btn-push").classList.add("active");
 }
 
@@ -4297,7 +4516,7 @@ function voivAt(lon, lat) {
       ? [f.geometry.coordinates] : f.geometry.coordinates;
     for (const poly of polys) {
       if (ringContains(poly[0], lon, lat) &&
-          !poly.slice(1).some(hole => ringContains(hole, lon, lat)))
+        !poly.slice(1).some(hole => ringContains(hole, lon, lat)))
         return f.properties.nazwa;
     }
   }
@@ -4325,21 +4544,27 @@ function goHome(instant) {
   const f = featureFor(name);
   if (!f) return fitAll(instant);
   const [[minX, minY], [maxX, maxY]] = bboxOf(f);
-  map.easeTo({ center: [(minX + maxX) / 2, (minY + maxY) / 2], zoom: VOIV_ZOOM,
-    pitch: is3d ? 50 : 0, bearing: is3d ? -8 : 0, duration: instant ? 0 : 900 });
+  map.easeTo({
+    center: [(minX + maxX) / 2, (minY + maxY) / 2], zoom: VOIV_ZOOM,
+    pitch: is3d ? 50 : 0, bearing: is3d ? -8 : 0, duration: instant ? 0 : 900
+  });
 }
 function fitAll(instant) {
   if (!map) return;
-  map.fitBounds(FIT_BOUNDS, { padding: FIT_PAD, pitch: is3d ? 45 : 0,
-    bearing: is3d ? -8 : 0, duration: instant ? 0 : 900 });
+  map.fitBounds(FIT_BOUNDS, {
+    padding: FIT_PAD, pitch: is3d ? 45 : 0,
+    bearing: is3d ? -8 : 0, duration: instant ? 0 : 900
+  });
 }
 
 /* ── przelot mapy do obiektu wybranego z listy ───────────────────────────── */
 function focusOnMap(d) {
   const lat = parseFloat(d.lat), lon = parseFloat(d.lon);
   if (!mapReady || !isFinite(lat) || !isFinite(lon)) return;
-  map.flyTo({ center: [lon, lat], zoom: Math.max(map.getZoom(), 7.6),
-    speed: 1.2, essential: true });
+  map.flyTo({
+    center: [lon, lat], zoom: Math.max(map.getZoom(), 7.6),
+    speed: 1.2, essential: true
+  });
   // Panel ZOSTAJE otwarty — samoczynne chowanie się po dotknięciu pozycji było
   // mylące (wyglądało jak „panel sam się zwija po kilku sekundach") i zabierało
   // kontekst listy. Zamykamy tylko przyciskiem ✕ lub ☰.
@@ -4449,9 +4674,11 @@ function srvMergeSignals(list) {
     const k = _sigKey(s);
     if (have.has(k)) continue;
     have.add(k);
-    srvSigs.push({ t: s.t ?? Date.parse(s.ts), ts: s.ts, source: s.source,
+    srvSigs.push({
+      t: s.t ?? Date.parse(s.ts), ts: s.ts, source: s.source,
       event_type: s.event_type, voivodeship: s.voivodeship, points: s.points,
-      title: s.title, details: s.details, url: s.url });
+      title: s.title, details: s.details, url: s.url
+    });
   }
   const cut = Date.now() - HIST_MS;
   srvSigs = srvSigs.filter(s => s.t >= cut);
@@ -4473,11 +4700,14 @@ function srvRecord(s) {
     region: t.region, locality: t.locality, sourceCount: t.sourceCount,
     destination: t.destination, positionQuality: positionQuality(t),
     areaOnly: t.areaOnly, straznik_position: positionInfo(t),
-    straznik_national: t.straznik_national, pl_assessment: t.pl_assessment }));
-  const aircraft = (s?.adsb?.aircraft || []).map(a => ({ hex: a.hex, callsign: a.callsign,
+    straznik_national: t.straznik_national, pl_assessment: t.pl_assessment
+  }));
+  const aircraft = (s?.adsb?.aircraft || []).map(a => ({
+    hex: a.hex, callsign: a.callsign,
     type: a.type, lat: +(+a.lat).toFixed(3), lon: +(+a.lon).toFixed(3), alt: a.alt, gs: a.gs,
     track: a.track, voivodeship: a.voivodeship, desc: a.desc, cat: a.cat,
-    reg: a.reg, op: a.op, vr: a.vr, year: a.year }));
+    reg: a.reg, op: a.op, vr: a.vr, year: a.year
+  }));
   srvSnaps.push({ ts: new Date(now).toISOString(), t: now, threats, aircraft });
   const cut = now - HIST_MS;
   srvSnaps = srvSnaps.filter(sn => sn.t >= cut);
@@ -4503,7 +4733,7 @@ async function seedBundle() {
     srvSnaps.sort((a, b) => a.t - b.t);
     srvSeeded = true;
     _srvHole = false;
-  } catch {}
+  } catch { }
 }
 function needSeed() {
   if (!srvSeeded || _srvHole) return true;
@@ -4523,7 +4753,7 @@ function historicalAdsbGhosts(events, planes, whenMs) {
     const et = e.t ?? Date.parse(e.ts);
     const age = whenMs - et;
     if (!e.hex || e.lat == null || e.lon == null || !Number.isFinite(age) || age < 0 || age > 150000
-        || planeHexes.has(e.hex)) continue;
+      || planeHexes.has(e.hex)) continue;
     const prev = nearest.get(e.hex);
     if (!prev || Math.abs(et - whenMs) < Math.abs((prev.t ?? Date.parse(prev.ts)) - whenMs))
       nearest.set(e.hex, e);
@@ -4532,7 +4762,7 @@ function historicalAdsbGhosts(events, planes, whenMs) {
 }
 
 function mergedWatchEvents(server, local, at) {
-  const valid = list => (list || []).map(e => ({...e, t: e.t ?? Date.parse(e.ts)}))
+  const valid = list => (list || []).map(e => ({ ...e, t: e.t ?? Date.parse(e.ts) }))
     .filter(e => e.hex && Number.isFinite(e.t) && e.t <= at && e.t >= at - 12 * 3600000);
   const result = valid(server);
   for (const e of valid(local)) {
@@ -4540,7 +4770,7 @@ function mergedWatchEvents(server, local, at) {
     if (!result.some(s => s.hex === e.hex && s.kind === e.kind && Math.abs(s.t - e.t) <= 60000)) result.push(e);
   }
   const keys = new Set();
-  return result.sort((a,b) => b.t-a.t).filter(e => {
+  return result.sort((a, b) => b.t - a.t).filter(e => {
     const key = `${e.hex}|${e.kind}|${e.t}`;
     if (keys.has(key)) return false;
     keys.add(key); return true;
@@ -4557,7 +4787,7 @@ function paintTimeline(points) {
   if (!points?.length) { slider.style.removeProperty("--tl"); return; }
   const color = (p) => p.level === "high" ? "#ff4d5e"
     : p.level === "elevated" ? "#ffb020"
-    : p.score > 0 ? "#4a5c86" : "#2a3550";
+      : p.score > 0 ? "#4a5c86" : "#2a3550";
   const n = points.length;
   const stops = points.map((p, i) => {
     const a = (i / n * 100).toFixed(2), b = ((i + 1) / n * 100).toFixed(2);
@@ -4650,8 +4880,10 @@ function showHistoryAt(idx) {
   historyAdsbByHex.clear();
   for (let i = 0; i < planes.length; i++) {
     const p = planes[i];
-    planes[i] = {...p, foreign:isForeign(p), heli:isHeli(p.cat,p.type,p.desc),
-      area:watchArea(p.lat,p.lon), observedAt:p.observedAt ?? historyAdsbTime};
+    planes[i] = {
+      ...p, foreign: isForeign(p), heli: isHeli(p.cat, p.type, p.desc),
+      area: watchArea(p.lat, p.lon), observedAt: p.observedAt ?? historyAdsbTime
+    };
     if (p.hex) historyAdsbByHex.set(p.hex, planes[i]);
   }
   hideCard();
@@ -4665,21 +4897,23 @@ function showHistoryAt(idx) {
   for (const s of sigs) {
     const d = s.details || {}, id = d.track_id;
     if (s.source !== "neptun" || !id || snapTrackIds.has(id)
-        || d.lat == null || d.lon == null) continue;
+      || d.lat == null || d.lon == null) continue;
     const prev = ghostByTrack.get(id);
     if (!prev || Date.parse(s.ts) > Date.parse(prev.ts)) ghostByTrack.set(id, s);
   }
   const historyThreats = threats.concat([...ghostByTrack.values()].map(s => {
     const d = s.details || {};
-    return { id: d.track_id, type: d.type || "unknown", lat: d.lat, lon: d.lon,
+    return {
+      id: d.track_id, type: d.type || "unknown", lat: d.lat, lon: d.lon,
       age_min: Math.max(0, Math.round((when.getTime() - Date.parse(s.ts)) / 60000)),
       heading: d.heading, confidenceLevel: d.confidence,
       uncertaintyKm: d.uncertainty_km, sourceCount: d.source_count,
       region: d.region, positionQuality: d.position_quality
         ?? d.source_metadata?.source_fields?.positionQuality, historicalOnly: true,
       areaOnly: d.area_only, straznik_position: d.position_approximate
-        ? { quality:"approx", reason:d.position_reason, locality:d.position_locality } : null,
-      pl_assessment: { dist_km: d.dist_km } };
+        ? { quality: "approx", reason: d.position_reason, locality: d.position_locality } : null,
+      pl_assessment: { dist_km: d.dist_km }
+    };
   }));
   // punktacja z tamtej chwili — używa jej i mapa, i panel. Bierzemy gotowy wynik
   // z limitem klasy źródła (h.scores z backendu/silnika); fallback sumuje
@@ -4708,8 +4942,8 @@ function showHistoryAt(idx) {
   document.getElementById("tb-info").innerHTML =
     (tp && tp.score > 0
       ? `<b style="color:${tp.level === "high" ? "var(--red)"
-          : tp.level === "elevated" ? "var(--amber)" : "var(--muted)"}">`
-        + `${tp.score} ${UI.t("pkt", "pts", "бал.")}${tp.voiv ? ` · ${UI.t("woj.", "province", "воєв.")} ` + esc(UI.voiv(tp.voiv)) : ""}</b> · `
+        : tp.level === "elevated" ? "var(--amber)" : "var(--muted)"}">`
+      + `${tp.score} ${UI.t("pkt", "pts", "бал.")}${tp.voiv ? ` · ${UI.t("woj.", "province", "воєв.")} ` + esc(UI.voiv(tp.voiv)) : ""}</b> · `
       : "")
     + `${threats.length} ${UI.t("obiektów", "objects", "об'єктів")} · ${planes.filter(p => !p.historicalOnly).length} ${UI.t("maszyn w migawce", "aircraft in snapshot", "машин у знімку")}`
     + (planes.some(p => p.historicalOnly) ? ` + ${planes.filter(p => p.historicalOnly).length} ${UI.t("ostatnich obserwacji", "last observations", "останніх спостережень")}` : "") + " · "
@@ -4719,14 +4953,17 @@ function showHistoryAt(idx) {
   document.getElementById("tb-sigs")?.addEventListener("click", () => setPanel(true));
 
   if (mapReady) {   // dane lokalne (bufor w RAM) → mapę odświeżamy też podczas
-                    // przewijania; scrubTo dławi do jednej klatki (rAF), więc płynnie
+    // przewijania; scrubTo dławi do jednej klatki (rAF), więc płynnie
     // Never leave a live followed-aircraft track over historical positions.
     map.getSource("adsb-trail")?.setData(emptyFC());
     // migawka nie zawiera śladów — rysujemy pozycje historyczne bez animacji
-    map.getSource("threats")?.setData({ type: "FeatureCollection",
-      features: historyThreats.filter(t => t.lat != null).map(t => ({ type: "Feature",
+    map.getSource("threats")?.setData({
+      type: "FeatureCollection",
+      features: historyThreats.filter(t => t.lat != null).map(t => ({
+        type: "Feature",
         geometry: { type: "Point", coordinates: [t.lon, t.lat] },
-        properties: { tid: String(t.id ?? ""),
+        properties: {
+          tid: String(t.id ?? ""),
           type: TYPE_META[t.type] ? t.type : "unknown", heading: t.heading ?? 0,
           hdg_unknown: t.heading == null || t.pl_assessment?.heading_known === false,
           color: (TYPE_META[t.type] || {}).color || "#8a93a6",
@@ -4742,18 +4979,27 @@ function showHistoryAt(idx) {
           toward_pl: t.pl_assessment?.toward_pl === true,
           heading_known: t.pl_assessment?.heading_known !== false,
           course_off: courseOffsetDeg(t),
-          eta: etaHtml(t) } })) });
+          eta: etaHtml(t)
+        }
+      }))
+    });
     map.getSource("trails")?.setData(emptyFC());
     map.getSource("course")?.setData(emptyFC());
     map.getSource("adsb-course")?.setData(emptyFC());
     map.getSource("uncertainty")?.setData(emptyFC());
-    map.getSource("adsb")?.setData({ type: "FeatureCollection",
-      features: planes.map(p => ({ type: "Feature",
+    map.getSource("adsb")?.setData({
+      type: "FeatureCollection",
+      features: planes.map(p => ({
+        type: "Feature",
         geometry: { type: "Point", coordinates: [p.lon, p.lat] },
-        properties: { track: p.track ?? 0, callsign: p.callsign, hex: p.hex,
+        properties: {
+          track: p.track ?? 0, callsign: p.callsign, hex: p.hex,
           actype: p.type, desc: p.desc, alt: p.alt, gs: p.gs, reg: p.reg,
           heli: isHeli(p.cat, p.type, p.desc), foreign: !!p.foreign,
-          historicalOnly: !!p.historicalOnly } })) });
+          historicalOnly: !!p.historicalOnly
+        }
+      }))
+    });
     // kolorowanie województw wg sygnałów z tamtego momentu
     for (const v of ALL_VOIVS) {
       const sc = perVoiv[v] || 0;
@@ -4763,7 +5009,7 @@ function showHistoryAt(idx) {
   }
 
   renderHistoryPanel(sigs, perVoiv, when, ageMin, poziomHist);
-  renderObservationLists({neptun:{threats}, adsb:{aircraft:planes}});
+  renderObservationLists({ neptun: { threats }, adsb: { aircraft: planes } });
 }
 
 /* Panel w trybie historii: karty województw i lista sygnałów z WYBRANEGO
@@ -4775,7 +5021,7 @@ function histAgo(ageMin) {
   return h ? `−${h} h${m ? ` ${m} min` : ""}` : `−${ageMin} min`;
 }
 function renderHistoryPanel(sigs, perVoiv, when, ageMin,
-                            poziom = (v, sc) => sc >= 4 ? "high" : sc >= 2 ? "elevated" : "none") {
+  poziom = (v, sc) => sc >= 4 ? "high" : sc >= 2 ? "elevated" : "none") {
   const banner = `<div class="hist-banner">${UI.t("PODGLĄD HISTORII", "HISTORY VIEW", "ПЕРЕГЛЯД ІСТОРІЇ")} —
     ${when.toLocaleTimeString(UI.t("pl-PL", "en-GB", "uk-UA"), { hour: "2-digit", minute: "2-digit" })}
     ${ageMin > 1 ? `(${histAgo(ageMin)})` : (UI.t("(teraz)", "(now)", "(зараз)"))}
@@ -4834,24 +5080,30 @@ document.getElementById("tb-slider").addEventListener("input", (e) => { stopHist
    ale po przerwie w działaniu aplikacji między nimi jest dziura. Skok do alarmu
    = początek najbliższego okresu z poziomem podwyższonym albo wysokim. */
 const TB_LABELS = {
-  pl: { start: ["−12 h", "Początek historii (12 godzin wstecz)"],
-        "prev-alarm": ["alarm", "Poprzedni alarm"], back10: ["−10", "10 minut wstecz"],
-        back1: ["−1", "1 minuta wstecz (przytrzymaj, aby przewijać)"],
-        play: ["", "Odtwarzaj / pauza"], fwd1: ["+1", "1 minuta do przodu (przytrzymaj, aby przewijać)"],
-        fwd10: ["+10", "10 minut do przodu"], "next-alarm": ["alarm", "Następny alarm"],
-        end: ["koniec", "Najnowsza migawka"], group: "Sterowanie historią", speed: "Prędkość odtwarzania" },
-  uk: { start: ["−12 год", "Початок історії (12 годин тому)"],
-        "prev-alarm": ["тривога", "Попередня тривога"], back10: ["−10", "10 хвилин назад"],
-        back1: ["−1", "1 хвилина назад (утримуйте, щоб прокручувати)"],
-        play: ["", "Відтворення / пауза"], fwd1: ["+1", "1 хвилина вперед (утримуйте, щоб прокручувати)"],
-        fwd10: ["+10", "10 хвилин вперед"], "next-alarm": ["тривога", "Наступна тривога"],
-        end: ["кінець", "Найновіший знімок"], group: "Керування історією", speed: "Швидкість відтворення" },
-  en: { start: ["−12 h", "Start of history (12 hours back)"],
-        "prev-alarm": ["alert", "Previous alert"], back10: ["−10", "10 minutes back"],
-        back1: ["−1", "1 minute back (hold to keep scrolling)"],
-        play: ["", "Play / pause"], fwd1: ["+1", "1 minute forward (hold to keep scrolling)"],
-        fwd10: ["+10", "10 minutes forward"], "next-alarm": ["alert", "Next alert"],
-        end: ["end", "Latest snapshot"], group: "History controls", speed: "Playback speed" },
+  pl: {
+    start: ["−12 h", "Początek historii (12 godzin wstecz)"],
+    "prev-alarm": ["alarm", "Poprzedni alarm"], back10: ["−10", "10 minut wstecz"],
+    back1: ["−1", "1 minuta wstecz (przytrzymaj, aby przewijać)"],
+    play: ["", "Odtwarzaj / pauza"], fwd1: ["+1", "1 minuta do przodu (przytrzymaj, aby przewijać)"],
+    fwd10: ["+10", "10 minut do przodu"], "next-alarm": ["alarm", "Następny alarm"],
+    end: ["koniec", "Najnowsza migawka"], group: "Sterowanie historią", speed: "Prędkość odtwarzania"
+  },
+  uk: {
+    start: ["−12 год", "Початок історії (12 годин тому)"],
+    "prev-alarm": ["тривога", "Попередня тривога"], back10: ["−10", "10 хвилин назад"],
+    back1: ["−1", "1 хвилина назад (утримуйте, щоб прокручувати)"],
+    play: ["", "Відтворення / пауза"], fwd1: ["+1", "1 хвилина вперед (утримуйте, щоб прокручувати)"],
+    fwd10: ["+10", "10 хвилин вперед"], "next-alarm": ["тривога", "Наступна тривога"],
+    end: ["кінець", "Найновіший знімок"], group: "Керування історією", speed: "Швидкість відтворення"
+  },
+  en: {
+    start: ["−12 h", "Start of history (12 hours back)"],
+    "prev-alarm": ["alert", "Previous alert"], back10: ["−10", "10 minutes back"],
+    back1: ["−1", "1 minute back (hold to keep scrolling)"],
+    play: ["", "Play / pause"], fwd1: ["+1", "1 minute forward (hold to keep scrolling)"],
+    fwd10: ["+10", "10 minutes forward"], "next-alarm": ["alert", "Next alert"],
+    end: ["end", "Latest snapshot"], group: "History controls", speed: "Playback speed"
+  },
 };
 function labelTbControls() {
   const L = TB_LABELS[UI.t("pl", "en", "uk")];
@@ -4922,9 +5174,9 @@ function tbAction(act) {
   stopHistPlay();
   const target = act === "start" ? 0
     : act === "end" ? histTimes.length - 1
-    : act === "back1" ? histStepIdx(idx, -1) : act === "fwd1" ? histStepIdx(idx, 1)
-    : act === "back10" ? histStepIdx(idx, -10) : act === "fwd10" ? histStepIdx(idx, 10)
-    : act === "prev-alarm" ? prevAlarmIdx(idx) : act === "next-alarm" ? nextAlarmIdx(idx) : -1;
+      : act === "back1" ? histStepIdx(idx, -1) : act === "fwd1" ? histStepIdx(idx, 1)
+        : act === "back10" ? histStepIdx(idx, -10) : act === "fwd10" ? histStepIdx(idx, 10)
+          : act === "prev-alarm" ? prevAlarmIdx(idx) : act === "next-alarm" ? nextAlarmIdx(idx) : -1;
   if (target >= 0) histGo(target);
 }
 /* Przytrzymanie ±1 i ±10 przewija dalej. Pierwszy krok od razu na pointerdown,
@@ -4969,18 +5221,18 @@ const dlg = document.getElementById("settings");
 const ALERTS_OFF_KEY = "straznik_alerts_off", BGWARN_HIDDEN_KEY = "straznik_bgwarn_hidden";
 function alertsOff() { try { return localStorage.getItem(ALERTS_OFF_KEY) === "1"; } catch { return false; } }
 function syncObservedRegions() {
-  const regions=alertsOff()?[]:(Places?.observedVoivodeships(savedPlaces)||[]);
-  if(!IS_APP) syncBrowserPushRegion().catch(()=>{});
-  const plugin=BG();
+  const regions = alertsOff() ? [] : (Places?.observedVoivodeships(savedPlaces) || []);
+  if (!IS_APP) syncBrowserPushRegion().catch(() => { });
+  const plugin = BG();
   // alertsOff trafia też do usługi FCM (odrzuca alarmy, zanim wypisanie dotrze do Firebase)
-  if(plugin?.setObservedVoivodeships) return plugin.setObservedVoivodeships({voivodeships:regions, alertsOff:alertsOff()});
-  return plugin?.setHomeVoivodeship?.({voivodeship:myVoiv()||""});
+  if (plugin?.setObservedVoivodeships) return plugin.setObservedVoivodeships({ voivodeships: regions, alertsOff: alertsOff() });
+  return plugin?.setHomeVoivodeship?.({ voivodeship: myVoiv() || "" });
 }
 function renderPlacesSummary() {
-  const el=document.getElementById("places-summary"); if(!el)return;
-  if(!savedPlaces.length){el.textContent=UI.t("Nie zapisano jeszcze żadnego miejsca.", "No saved places yet.", "Ще не збережено жодного місця.");return;}
-  const watched=Places.observedVoivodeships(savedPlaces).map(v=>UI.voiv(v));
-  el.textContent=(UI.t(`${savedPlaces.length}/8 miejsc. Obserwowane województwa: `, `${savedPlaces.length}/8 places. Watched provinces: `, `${savedPlaces.length}/8 місць. Відстежувані воєводства: `))+(watched.join(", ")||(UI.t("brak", "none", "немає")));
+  const el = document.getElementById("places-summary"); if (!el) return;
+  if (!savedPlaces.length) { el.textContent = UI.t("Nie zapisano jeszcze żadnego miejsca.", "No saved places yet.", "Ще не збережено жодного місця."); return; }
+  const watched = Places.observedVoivodeships(savedPlaces).map(v => UI.voiv(v));
+  el.textContent = (UI.t(`${savedPlaces.length}/8 miejsc. Obserwowane województwa: `, `${savedPlaces.length}/8 places. Watched provinces: `, `${savedPlaces.length}/8 місць. Відстежувані воєводства: `)) + (watched.join(", ") || (UI.t("brak", "none", "немає")));
 }
 function openSettings() {
   UI.previewSettings?.(UI.lang || "pl");
@@ -5040,49 +5292,49 @@ document.getElementById("set-save").onclick = (event) => {
 };
 
 /* ── Moje miejsca: zapis lokalny, bez geokodowania i ruchu w tle ── */
-const placesDlg=document.getElementById("places-dialog");
-let placeDraft=null, placeSnapshot="";
-const placeEl=id=>document.getElementById(id);
-const placeText=(pl,en,uk)=>UI.t(pl,en,uk);
-function draftFromForm(){return Places.clean({id:placeEl("place-id").value,name:placeEl("place-name").value,precision:placeEl("place-precision").value,region:placeEl("place-region").value,gps:placeDraft?.gps||null,alerts:placeEl("place-alerts").checked});}
-function placeDirty(){return placeSnapshot&&JSON.stringify(draftFromForm())!==placeSnapshot;}
-function fillPlace(place){
-  placeDraft=Places.clean(place); placeSnapshot=JSON.stringify(placeDraft);
-  placeEl("place-id").value=placeDraft.id; placeEl("place-name").value=placeDraft.name; placeEl("place-precision").value=placeDraft.precision; placeEl("place-region").value=placeDraft.region; placeEl("place-alerts").checked=placeDraft.alerts; placeEl("place-feedback").textContent="";
-  placeEl("place-delete").hidden=!savedPlaces.some(p=>p.id===placeDraft.id);
+const placesDlg = document.getElementById("places-dialog");
+let placeDraft = null, placeSnapshot = "";
+const placeEl = id => document.getElementById(id);
+const placeText = (pl, en, uk) => UI.t(pl, en, uk);
+function draftFromForm() { return Places.clean({ id: placeEl("place-id").value, name: placeEl("place-name").value, precision: placeEl("place-precision").value, region: placeEl("place-region").value, gps: placeDraft?.gps || null, alerts: placeEl("place-alerts").checked }); }
+function placeDirty() { return placeSnapshot && JSON.stringify(draftFromForm()) !== placeSnapshot; }
+function fillPlace(place) {
+  placeDraft = Places.clean(place); placeSnapshot = JSON.stringify(placeDraft);
+  placeEl("place-id").value = placeDraft.id; placeEl("place-name").value = placeDraft.name; placeEl("place-precision").value = placeDraft.precision; placeEl("place-region").value = placeDraft.region; placeEl("place-alerts").checked = placeDraft.alerts; placeEl("place-feedback").textContent = "";
+  placeEl("place-delete").hidden = !savedPlaces.some(p => p.id === placeDraft.id);
   renderPlacePrecision(); renderPlaceTabs();
 }
-function renderPlaceTabs(){
-  placeEl("places-tabs").innerHTML=savedPlaces.map(p=>`<button type="button" class="chip${p.id===placeDraft?.id?' active':''}" data-id="${esc(p.id)}">${esc(p.name)}</button>`).join("");
-  placeEl("places-tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{if(placeDirty()&&!confirm(placeText("Odrzucić niezapisane zmiany?","Discard unsaved changes?","Скасувати незбережені зміни?")))return;fillPlace(savedPlaces.find(p=>p.id===b.dataset.id));});
+function renderPlaceTabs() {
+  placeEl("places-tabs").innerHTML = savedPlaces.map(p => `<button type="button" class="chip${p.id === placeDraft?.id ? ' active' : ''}" data-id="${esc(p.id)}">${esc(p.name)}</button>`).join("");
+  placeEl("places-tabs").querySelectorAll("button").forEach(b => b.onclick = () => { if (placeDirty() && !confirm(placeText("Odrzucić niezapisane zmiany?", "Discard unsaved changes?", "Скасувати незбережені зміни?"))) return; fillPlace(savedPlaces.find(p => p.id === b.dataset.id)); });
 }
-function renderPlacePrecision(){
-  const precision=placeEl("place-precision").value;
-  placeEl("place-gps-row").hidden=precision!=='gps';
-  const gps=placeDraft?.gps; placeEl("place-gps-status").textContent=gps?`${placeText("Zapisano jednorazowo","Saved once","Збережено одноразово")}: ${gps.lat.toFixed(5)}, ${gps.lon.toFixed(5)} · ±${Math.round(gps.accuracy)} m · ${new Date(gps.capturedAt).toLocaleString(UI.t("pl-PL", "en-GB", "uk-UA"))}`:placeText("Lokalizacja jest wyłączona.","Location is off.","Місцеперебування вимкнено."); placeEl("place-gps-remove").hidden=!gps;
+function renderPlacePrecision() {
+  const precision = placeEl("place-precision").value;
+  placeEl("place-gps-row").hidden = precision !== 'gps';
+  const gps = placeDraft?.gps; placeEl("place-gps-status").textContent = gps ? `${placeText("Zapisano jednorazowo", "Saved once", "Збережено одноразово")}: ${gps.lat.toFixed(5)}, ${gps.lon.toFixed(5)} · ±${Math.round(gps.accuracy)} m · ${new Date(gps.capturedAt).toLocaleString(UI.t("pl-PL", "en-GB", "uk-UA"))}` : placeText("Lokalizacja jest wyłączona.", "Location is off.", "Місцеперебування вимкнено."); placeEl("place-gps-remove").hidden = !gps;
 }
-function openPlaces(){
-  savedPlaces=Places.migrate(localStorage); placeEl("place-region").innerHTML=ALL_VOIVS.map(v=>`<option value="${esc(v)}">${esc(UI.voiv(v))}</option>`).join("");
-  fillPlace(savedPlaces[0]||{id:crypto.randomUUID?.()||String(Date.now()),name:"",precision:"region",region:myVoiv()||"lubelskie",alerts:true}); placesDlg.showModal();
+function openPlaces() {
+  savedPlaces = Places.migrate(localStorage); placeEl("place-region").innerHTML = ALL_VOIVS.map(v => `<option value="${esc(v)}">${esc(UI.voiv(v))}</option>`).join("");
+  fillPlace(savedPlaces[0] || { id: crypto.randomUUID?.() || String(Date.now()), name: "", precision: "region", region: myVoiv() || "lubelskie", alerts: true }); placesDlg.showModal();
 }
-placeEl("btn-places").onclick=()=>{dlg.close();openPlaces();};
+placeEl("btn-places").onclick = () => { dlg.close(); openPlaces(); };
 /* „Moje miejsca" otwierają się Z Ustawień, więc po zamknięciu wracamy dokładnie tam,
    skąd użytkownik przyszedł — inaczej ląduje na mapie i musi klikać ⚙ od nowa. */
-function backToPlacesTab(){
+function backToPlacesTab() {
   openSettings();
   document.querySelector('#settings .set-tab[data-pane="miejsca"]')?.click();
 }
-placeEl("places-close").onclick=()=>{if(!placeDirty()||confirm(placeText("Odrzucić niezapisane zmiany?","Discard unsaved changes?","Скасувати незбережені зміни?"))){placesDlg.close();backToPlacesTab();}};
-placeEl("place-add").onclick=()=>{if(savedPlaces.length>=8)return alert(placeText("Możesz zapisać maksymalnie 8 miejsc.","You can save up to 8 places.","Можна зберегти щонайбільше 8 місць."));if(placeDirty()&&!confirm(placeText("Odrzucić niezapisane zmiany?","Discard unsaved changes?","Скасувати незбережені зміни?")))return;fillPlace({id:crypto.randomUUID?.()||String(Date.now()),name:"",precision:"region",region:myVoiv()||"lubelskie",alerts:false});};
-placeEl("place-precision").onchange=()=>{placeDraft={...placeDraft,precision:placeEl("place-precision").value,gps:placeEl("place-precision").value==='gps'?placeDraft?.gps:null};renderPlacePrecision();};
-placeEl("place-gps").onclick=()=>{
-  if(!navigator.geolocation)return alert(placeText("Brak dostępu do lokalizacji w tym środowisku.","Location is unavailable in this environment.","Доступу до місцеперебування в цьому середовищі немає."));
-  placeEl("place-gps-status").textContent=placeText("Oczekiwanie na zgodę i jednorazowy odczyt…","Waiting for permission and a one-time reading…","Очікую на дозвіл і одноразове зчитування…");
-  navigator.geolocation.getCurrentPosition(pos=>{const region=voivAt(pos.coords.longitude,pos.coords.latitude);if(!region)return alert(placeText("Pozycja jest poza granicami Polski.","The position is outside Poland.","Позиція поза межами Польщі."));placeDraft={...placeDraft,region,gps:{lat:pos.coords.latitude,lon:pos.coords.longitude,accuracy:pos.coords.accuracy,capturedAt:new Date().toISOString()}};placeEl("place-region").value=region;renderPlacePrecision();},err=>{placeEl("place-gps-status").textContent=placeText("Nie udało się pobrać pozycji: ","Could not read the position: ","Не вдалося зчитати позицію: ")+err.message;},{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+placeEl("places-close").onclick = () => { if (!placeDirty() || confirm(placeText("Odrzucić niezapisane zmiany?", "Discard unsaved changes?", "Скасувати незбережені зміни?"))) { placesDlg.close(); backToPlacesTab(); } };
+placeEl("place-add").onclick = () => { if (savedPlaces.length >= 8) return alert(placeText("Możesz zapisać maksymalnie 8 miejsc.", "You can save up to 8 places.", "Можна зберегти щонайбільше 8 місць.")); if (placeDirty() && !confirm(placeText("Odrzucić niezapisane zmiany?", "Discard unsaved changes?", "Скасувати незбережені зміни?"))) return; fillPlace({ id: crypto.randomUUID?.() || String(Date.now()), name: "", precision: "region", region: myVoiv() || "lubelskie", alerts: false }); };
+placeEl("place-precision").onchange = () => { placeDraft = { ...placeDraft, precision: placeEl("place-precision").value, gps: placeEl("place-precision").value === 'gps' ? placeDraft?.gps : null }; renderPlacePrecision(); };
+placeEl("place-gps").onclick = () => {
+  if (!navigator.geolocation) return alert(placeText("Brak dostępu do lokalizacji w tym środowisku.", "Location is unavailable in this environment.", "Доступу до місцеперебування в цьому середовищі немає."));
+  placeEl("place-gps-status").textContent = placeText("Oczekiwanie na zgodę i jednorazowy odczyt…", "Waiting for permission and a one-time reading…", "Очікую на дозвіл і одноразове зчитування…");
+  navigator.geolocation.getCurrentPosition(pos => { const region = voivAt(pos.coords.longitude, pos.coords.latitude); if (!region) return alert(placeText("Pozycja jest poza granicami Polski.", "The position is outside Poland.", "Позиція поза межами Польщі.")); placeDraft = { ...placeDraft, region, gps: { lat: pos.coords.latitude, lon: pos.coords.longitude, accuracy: pos.coords.accuracy, capturedAt: new Date().toISOString() } }; placeEl("place-region").value = region; renderPlacePrecision(); }, err => { placeEl("place-gps-status").textContent = placeText("Nie udało się pobrać pozycji: ", "Could not read the position: ", "Не вдалося зчитати позицію: ") + err.message; }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
 };
-placeEl("place-gps-remove").onclick=()=>{placeDraft={...placeDraft,gps:null};renderPlacePrecision();};
-placeEl("place-cancel").onclick=()=>{const saved=savedPlaces.find(p=>p.id===placeDraft?.id);if(saved)fillPlace(saved);else placesDlg.close();};
-placeEl("place-delete").onclick=()=>{const found=savedPlaces.some(p=>p.id===placeDraft?.id);if(!found)return placesDlg.close();if(!confirm(placeText("Usunąć to miejsce z urządzenia?","Delete this place from the device?")))return;savedPlaces=Places.save(localStorage,savedPlaces.filter(p=>p.id!==placeDraft.id));syncObservedRegions();if(savedPlaces.length)fillPlace(savedPlaces[0]);else placesDlg.close();renderPlacesSummary();};
+placeEl("place-gps-remove").onclick = () => { placeDraft = { ...placeDraft, gps: null }; renderPlacePrecision(); };
+placeEl("place-cancel").onclick = () => { const saved = savedPlaces.find(p => p.id === placeDraft?.id); if (saved) fillPlace(saved); else placesDlg.close(); };
+placeEl("place-delete").onclick = () => { const found = savedPlaces.some(p => p.id === placeDraft?.id); if (!found) return placesDlg.close(); if (!confirm(placeText("Usunąć to miejsce z urządzenia?", "Delete this place from the device?"))) return; savedPlaces = Places.save(localStorage, savedPlaces.filter(p => p.id !== placeDraft.id)); syncObservedRegions(); if (savedPlaces.length) fillPlace(savedPlaces[0]); else placesDlg.close(); renderPlacesSummary(); };
 /* Kliknięcie „Zapisz na urządzeniu" przy pustej nazwie wyglądało jak martwy przycisk:
    komunikat trafiał do #place-feedback pod przewiniętą treścią, więc nikt go nie widział.
    Teraz przewijamy go na ekran i ustawiamy kursor w brakującym polu. */
@@ -5090,10 +5342,10 @@ function placeFail(msg, fieldId) {
   const fb = placeEl("place-feedback");
   fb.textContent = msg;
   const field = document.getElementById(fieldId);
-  try { (field || fb).scrollIntoView({ block: "center", behavior: "smooth" }); } catch {}
+  try { (field || fb).scrollIntoView({ block: "center", behavior: "smooth" }); } catch { }
   try { field?.focus({ preventScroll: true }); } catch { field?.focus(); }
 }
-placeEl("places-form").onsubmit=event=>{event.preventDefault();const clean=draftFromForm();if(!clean.name||!clean.region||(clean.precision==='gps'&&!clean.gps)){placeFail(placeText("Uzupełnij nazwę i wybraną lokalizację.","Enter a name and the selected location."),!clean.name?"place-name":(!clean.region?"place-region":"place-gps"));return;}const idx=savedPlaces.findIndex(p=>p.id===clean.id);if(idx<0&&savedPlaces.length>=8){placeFail(placeText("Masz już 8 miejsc — usuń jedno, żeby dodać nowe.","You already have 8 places — delete one to add another."),"place-add");return;}savedPlaces=Places.save(localStorage,idx<0?[...savedPlaces,clean]:savedPlaces.map(p=>p.id===clean.id?clean:p));syncObservedRegions();fillPlace(clean);placeEl("place-feedback").textContent=placeText("Zapisano tylko na tym urządzeniu.","Saved on this device only.");renderPlacesSummary();/* Zapis kończy pracę w tym oknie — zostawianie go otwartego wyglądało, jakby nic się nie stało. Potwierdzenie idzie toastem nad mapą. */placesDlg.close();toast(placeText("Zapisano tylko na tym urządzeniu.","Saved on this device only."));backToPlacesTab();if(mapReady){for(const id of ["my-voiv","my-voiv-glow"])if(map.getLayer(id))map.setFilter(id,["==",["get","nazwa"],myVoiv()||"—"]);}};
+placeEl("places-form").onsubmit = event => { event.preventDefault(); const clean = draftFromForm(); if (!clean.name || !clean.region || (clean.precision === 'gps' && !clean.gps)) { placeFail(placeText("Uzupełnij nazwę i wybraną lokalizację.", "Enter a name and the selected location."), !clean.name ? "place-name" : (!clean.region ? "place-region" : "place-gps")); return; } const idx = savedPlaces.findIndex(p => p.id === clean.id); if (idx < 0 && savedPlaces.length >= 8) { placeFail(placeText("Masz już 8 miejsc — usuń jedno, żeby dodać nowe.", "You already have 8 places — delete one to add another."), "place-add"); return; } savedPlaces = Places.save(localStorage, idx < 0 ? [...savedPlaces, clean] : savedPlaces.map(p => p.id === clean.id ? clean : p)); syncObservedRegions(); fillPlace(clean); placeEl("place-feedback").textContent = placeText("Zapisano tylko na tym urządzeniu.", "Saved on this device only."); renderPlacesSummary();/* Zapis kończy pracę w tym oknie — zostawianie go otwartego wyglądało, jakby nic się nie stało. Potwierdzenie idzie toastem nad mapą. */placesDlg.close(); toast(placeText("Zapisano tylko na tym urządzeniu.", "Saved on this device only.")); backToPlacesTab(); if (mapReady) { for (const id of ["my-voiv", "my-voiv-glow"]) if (map.getLayer(id)) map.setFilter(id, ["==", ["get", "nazwa"], myVoiv() || "—"]); } };
 
 /* ── widoczny stan nasłuchu w tle ────────────────────────────────────────── */
 /* Nasłuch jest domyślnie wyłączony, a bez niego alarmy docierają wyłącznie przy
@@ -5115,7 +5367,7 @@ async function refreshBgWarning() {
      zaproponował nasłuchu) ani gdy użytkownik jest właśnie w ustawieniach —
      wtedy sam nad tym panuje, a usługa może być w trakcie startu. */
   if (!localStorage.getItem("straznik_bg_offered")
-      || document.querySelector("dialog[open]")) return;
+    || document.querySelector("dialog[open]")) return;
   try {
     const s = await plugin.status();
     // Alarmy dostarcza push (FCM). Ostrzegamy tylko o rzeczach, które go blokują:
@@ -5132,13 +5384,13 @@ async function refreshBgWarning() {
     }
     if (!msg) { bgWarnStrikes = 0; el.classList.add("hidden"); return; }
     const kind = fix === "fullscreen" ? "fullscreen" : "notifications";
-    try { if (localStorage.getItem(BGWARN_HIDDEN_KEY) === kind) { el.classList.add("hidden"); return; } } catch {}
+    try { if (localStorage.getItem(BGWARN_HIDDEN_KEY) === kind) { el.classList.add("hidden"); return; } } catch { }
     // problem musi utrzymać się przez dwa sprawdzenia z rzędu — mniej fałszywych alarmów
     if (++bgWarnStrikes < 2) { setTimeout(refreshBgWarning, 5000); return; }
     el.innerHTML = `<span>⚠ ${esc(msg)}</span><button class="chip">${UI.t("Napraw", "Fix", "Виправити")}</button>`
       + `<button class="chip bgw-x" aria-label="${UI.t("Zamknij", "Close", "Закрити")}" title="${UI.t("Zamknij", "Close", "Закрити")}">✕</button>`;
     el.querySelector(".bgw-x").onclick = () => {
-      try { localStorage.setItem(BGWARN_HIDDEN_KEY, kind); } catch {}
+      try { localStorage.setItem(BGWARN_HIDDEN_KEY, kind); } catch { }
       el.classList.add("hidden");
       toast(UI.t("Ostrzeżenie ukryte. Alarmy wyłączysz albo przywrócisz w ⚙ → Alarmy.", "Warning hidden. You can turn alerts off or back on in ⚙ → Alerts.", "Попередження приховано. Тривоги вимкнете або повернете в ⚙ → Тривоги."), 6000);
     };
@@ -5278,7 +5530,7 @@ function showUpdateBanner(rel, local) {
       btn.textContent = UI.t("Pobieram…", "Downloading…", "Завантажую…");
       // aplikacja sprawdza sumę SHA-256 z wydania, pakiet i certyfikat podpisu (audyt 16.09.2026)
       progress.textContent = UI.t("Sprawdzam sumę kontrolną SHA-256 i podpis…", "Checking the SHA-256 checksum and signature…", "Перевіряю контрольну суму SHA-256 і підпис…");
-      await plugin.installUpdate({url: rel.url, sha256: rel.sha256});
+      await plugin.installUpdate({ url: rel.url, sha256: rel.sha256 });
       progress.textContent = UI.t("Potwierdź instalację w oknie Androida.", "Confirm the install in the Android dialog.", "Підтвердіть установлення у вікні Android.");
       btn.textContent = UI.t("Instalator otwarty", "Installer opened", "Інсталятор відкрито");
     } catch (error) {
@@ -5297,13 +5549,13 @@ function showUpdateBanner(rel, local) {
   const stoi = window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator.standalone;
   const android = /Android/i.test(navigator.userAgent || "");
   if (!stoi || !android) return;
-  try { if (localStorage.getItem("straznik_skrot_ukryty") === "1") return; } catch {}
+  try { if (localStorage.getItem("straznik_skrot_ukryty") === "1") return; } catch { }
   const pasek = document.getElementById("skrot-www");
   if (!pasek) return;
   pasek.hidden = false;
   document.getElementById("skrot-www-x")?.addEventListener("click", () => {
     pasek.hidden = true;
-    try { localStorage.setItem("straznik_skrot_ukryty", "1"); } catch {}
+    try { localStorage.setItem("straznik_skrot_ukryty", "1"); } catch { }
   });
 })();
 
@@ -5380,10 +5632,10 @@ async function refreshBgStatus(previewLang = UI.lang) {
     const subLine = noRegion && !subscribed.length
       ? (T("Nie wybrano jeszcze województwa do alarmów — dodaj miejsce z włączonym „Obserwuj alerty” w zakładce Moje miejsca.", "No province is selected for alerts yet — add a place with “Watch alerts” on in the My places tab.", "Ще не вибрано воєводства для тривог — додайте місце з увімкненим «Стежити за тривогами» у вкладці Мої місця."))
       : s.topicsUnsubscribing
-      ? (T("⏳ Wypisywanie telefonu z województw…", "⏳ Unsubscribing this phone from provinces…", "⏳ Відписування телефону від воєводств…"))
-      : subscribed.length
-      ? (T(`Zapisany do alarmów dla: ${subscribed.map(v => esc(UI.voiv(v))).join(", ")} (potwierdzone przez Firebase).`, `Subscribed to alerts for: ${subscribed.map(v => esc(UI.voiv(v))).join(", ")} (confirmed by Firebase).`, `Записано на тривоги для: ${subscribed.map(v => esc(UI.voiv(v))).join(", ")} (підтверджено Firebase).`))
-      : (T("Telefon nie jest zapisany do żadnego województwa (potwierdzone przez Firebase).", "This phone is not subscribed to any province (confirmed by Firebase).", "Телефон не записаний на жодне воєводство (підтверджено Firebase)."));
+        ? (T("⏳ Wypisywanie telefonu z województw…", "⏳ Unsubscribing this phone from provinces…", "⏳ Відписування телефону від воєводств…"))
+        : subscribed.length
+          ? (T(`Zapisany do alarmów dla: ${subscribed.map(v => esc(UI.voiv(v))).join(", ")} (potwierdzone przez Firebase).`, `Subscribed to alerts for: ${subscribed.map(v => esc(UI.voiv(v))).join(", ")} (confirmed by Firebase).`, `Записано на тривоги для: ${subscribed.map(v => esc(UI.voiv(v))).join(", ")} (підтверджено Firebase).`))
+          : (T("Telefon nie jest zapisany do żadnego województwa (potwierdzone przez Firebase).", "This phone is not subscribed to any province (confirmed by Firebase).", "Телефон не записаний на жодне воєводство (підтверджено Firebase)."));
     if (alertsOff()) warn.splice(0, warn.length, T("🔕 Alarmy są wyłączone na tym telefonie — powiadomienia o alarmach nie przyjdą, nawet gdyby serwer je wysłał. Włącz suwak niżej, żeby je przywrócić.", "🔕 Alerts are turned off on this phone — no alert notifications will arrive, even if the server sends one. Turn the switch below back on to restore them.", "🔕 Тривоги вимкнено на цьому телефоні — сповіщення про тривоги не прийдуть, навіть якби сервер їх надіслав. Увімкніть перемикач нижче, щоб їх повернути."));
     if (info) info.innerHTML = (warn.join("<br>")
       || (noRegion && !subscribed.length ? (T("Powiadomienia są dozwolone.", "Notifications are allowed.", "Сповіщення дозволені.")) : "")
@@ -5402,7 +5654,7 @@ async function ensureAlarmPermissions() {
   const plugin = BG(); if (!plugin) return false;
   if (window.Capacitor?.Plugins?.LocalNotifications)
     await window.Capacitor.Plugins.LocalNotifications.requestPermissions();
-  try { await syncObservedRegions(); } catch {}
+  try { await syncObservedRegions(); } catch { }
   return true;
 }
 
@@ -5440,7 +5692,7 @@ async function maybeCheckFullScreenAfterUpdate() {
   if (seen === s.appVersion || !localStorage.getItem("straznik_bg_offered")) return;
   if (document.querySelector("dialog[open]")) return;   // spróbujemy przy następnym sprawdzeniu
   localStorage.setItem(FS_CHECK_KEY, s.appVersion);
-  try { localStorage.removeItem(BGWARN_HIDDEN_KEY); } catch {}
+  try { localStorage.removeItem(BGWARN_HIDDEN_KEY); } catch { }
   document.getElementById("fs-check")?.showModal();
 }
 document.getElementById("fs-check-open")?.addEventListener("click", async () => {
@@ -5504,9 +5756,9 @@ async function refreshNativeSound() {
     // Prawdę o ustawieniu trzyma strona natywna (powiadomienia z serwera składa
     // Alarms.java). localStorage to tylko kopia dla otwartej aplikacji i trybu
     // wbudowanego — przy starcie wyrównujemy ją do natywnej.
-    if (s.yellowLevel) { try { localStorage.setItem("straznik_zolty_poziom", s.yellowLevel); } catch {} }
+    if (s.yellowLevel) { try { localStorage.setItem("straznik_zolty_poziom", s.yellowLevel); } catch { } }
     renderYellowLevel();
-  } catch {}
+  } catch { }
 }
 
 /* ── głośność żółtego sygnału uwagi ───────────────────────────────────────── */
@@ -5518,10 +5770,10 @@ function renderYellowLevel() {
 for (const b of document.querySelectorAll("#yellow-volume .chip")) {
   b.addEventListener("click", async () => {
     const poziom = b.dataset.poziom;
-    try { localStorage.setItem("straznik_zolty_poziom", poziom); } catch {}
+    try { localStorage.setItem("straznik_zolty_poziom", poziom); } catch { }
     renderYellowLevel();
     // zapis natywny decyduje o kanale powiadomienia przy zgaszonym ekranie
-    try { await BG()?.setYellowLevel?.({ level: poziom }); } catch {}
+    try { await BG()?.setYellowLevel?.({ level: poziom }); } catch { }
     if (poziom !== "silent" && !(IS_APP && blockedByAlertsOff())) attentionChime();
   });
 }
@@ -5541,8 +5793,8 @@ if (alertsOnBox) {
     try {
       if (off) localStorage.setItem(ALERTS_OFF_KEY, "1");
       else { localStorage.removeItem(ALERTS_OFF_KEY); localStorage.removeItem(BGWARN_HIDDEN_KEY); }
-    } catch {}
-    try { await syncObservedRegions(); } catch {}
+    } catch { }
+    try { await syncObservedRegions(); } catch { }
     refreshBgStatus(); refreshBgWarning();
     // potwierdzenie z Firebase przychodzi po chwili — odświeżamy status jeszcze dwa razy
     setTimeout(() => refreshBgStatus(), 3000); setTimeout(() => refreshBgStatus(), 9000);
@@ -5597,7 +5849,7 @@ for (const kind of ["neptun", "adsb"]) {
   if (!sel) continue;
   sel.value = trailMode(kind);
   sel.addEventListener("change", () => {
-    try { localStorage.setItem(TRAIL_KEYS[kind], sel.value); } catch {}
+    try { localStorage.setItem(TRAIL_KEYS[kind], sel.value); } catch { }
     if (kind === "adsb" && mapReady) drawFollowTrail();
   });
 }
@@ -5632,7 +5884,7 @@ document.getElementById("btn-push").onclick = async () => {
   }
   if (!IS_APP && !standalone) {
     let sub = null;
-    try { sub = Notification.permission === "granted" ? await browserPushSubscription() : null; } catch {}
+    try { sub = Notification.permission === "granted" ? await browserPushSubscription() : null; } catch { }
     if (sub) {
       openSettings();
       document.querySelector('#settings .set-tab[data-pane="alarmy"]')?.click();
@@ -5654,11 +5906,11 @@ function pokazStan3d() {
   if (!b3) return;
   b3.classList.toggle("active", is3d);
   b3.title = is3d ? (UI.t("Przełącz na widok 2D", "Switch to 2D view", "Перемкнути на вигляд 2D"))
-                  : (UI.t("Przełącz na widok 3D", "Switch to 3D view", "Перемкнути на вигляд 3D"));
+    : (UI.t("Przełącz na widok 3D", "Switch to 3D view", "Перемкнути на вигляд 3D"));
 }
 document.getElementById("btn-3d").onclick = () => {
   is3d = !is3d;
-  try { localStorage.setItem("straznik_widok", is3d ? "3d" : "2d"); } catch {}
+  try { localStorage.setItem("straznik_widok", is3d ? "3d" : "2d"); } catch { }
   map?.easeTo({ pitch: is3d ? 45 : 0, bearing: is3d ? -8 : 0, duration: 700 });
   pokazStan3d();
 };
@@ -5752,11 +6004,11 @@ addEventListener("resize", () => requestAnimationFrame(fitMapActions));
     box.classList.toggle("schowane", schowane);
     btn.setAttribute("aria-expanded", String(!schowane));
     btn.title = schowane ? (UI.t("Pokaż przyciski mapy", "Show map buttons", "Показати кнопки мапи"))
-                         : (UI.t("Schowaj przyciski mapy", "Hide map buttons", "Сховати кнопки мапи"));
-    try { localStorage.setItem("straznik_kafelki_schowane", schowane ? "1" : "0"); } catch {}
+      : (UI.t("Schowaj przyciski mapy", "Hide map buttons", "Сховати кнопки мапи"));
+    try { localStorage.setItem("straznik_kafelki_schowane", schowane ? "1" : "0"); } catch { }
   };
   let start = false;
-  try { start = localStorage.getItem("straznik_kafelki_schowane") === "1"; } catch {}
+  try { start = localStorage.getItem("straznik_kafelki_schowane") === "1"; } catch { }
   ustaw(start);
   btn.addEventListener("click", () => ustaw(!box.classList.contains("schowane")));
   // Schowany kafelek najpierw się wysuwa — dotknięcie paska nie może od razu przesunąć mapy.
@@ -5789,9 +6041,11 @@ function dopasujOknoAktualizacji() {
 
 const stackEl = document.getElementById("bottom-stack");
 if (stackEl && window.ResizeObserver) {
-  const setStackH = () => { document.documentElement.style
+  const setStackH = () => {
+    document.documentElement.style
     .setProperty("--stack-h", stackEl.offsetHeight + "px"); requestAnimationFrame(fitMapActions);
-    dopasujOknoAktualizacji(); };
+    dopasujOknoAktualizacji();
+  };
   new ResizeObserver(setStackH).observe(stackEl);
   setStackH();
 }
@@ -5799,9 +6053,11 @@ if (stackEl && window.ResizeObserver) {
    systemowa + komunikat MiG-31K wypychały „mój region” na przyciski paska). */
 const topbarEl = document.getElementById("topbar");
 if (topbarEl && window.ResizeObserver) {
-  const setTopbarB = () => { document.documentElement.style
+  const setTopbarB = () => {
+    document.documentElement.style
     .setProperty("--topbar-bottom", Math.round(topbarEl.getBoundingClientRect().bottom) + "px");
-    requestAnimationFrame(fitMapActions); dopasujOknoAktualizacji(); };
+    requestAnimationFrame(fitMapActions); dopasujOknoAktualizacji();
+  };
   new ResizeObserver(setTopbarB).observe(topbarEl);
   addEventListener("resize", setTopbarB);
   setTopbarB();
@@ -5831,7 +6087,7 @@ if (attrEl) {
   document.getElementById("attr-x")?.addEventListener("click", (e) => {
     e.stopPropagation();
     attrEl.classList.add("mini");
-    try { localStorage.setItem("straznik_attr_mini", "1"); } catch {}
+    try { localStorage.setItem("straznik_attr_mini", "1"); } catch { }
   });
   attrEl.addEventListener("click", (e) => {
     if (!attrEl.classList.contains("mini")) {
@@ -5842,7 +6098,7 @@ if (attrEl) {
       return;
     }
     attrEl.classList.remove("mini");
-    try { localStorage.removeItem("straznik_attr_mini"); } catch {}
+    try { localStorage.removeItem("straznik_attr_mini"); } catch { }
   });
   attrEl.style.cursor = "pointer";
 }
@@ -5866,7 +6122,7 @@ function wczytajGrote() {
       const s = document.createElement("script");
       s.src = "grota/widok.js";
       s.onload = () => (window.Grota ? ok(window.Grota)
-                                     : zle(new Error("grota/widok.js nie wystawił window.Grota")));
+        : zle(new Error("grota/widok.js nie wystawił window.Grota")));
       s.onerror = () => zle(new Error("nie udało się wczytać grota/widok.js"));
       document.head.appendChild(s);
     }).catch(e => { grotaLadowanie = null; throw e; });   // pozwól spróbować ponownie
@@ -5933,12 +6189,12 @@ document.addEventListener("pointerdown", (e) => {
      zostawało otwarte (zgłoszone 12.09.2026). */
   const wKarcie = karta && !karta.classList.contains("hidden") && path.includes(karta);
   if (!panel.classList.contains("collapsed") && !wKarcie
-      && !path.includes(panel) && !path.includes(panelBtn)) setPanel(false);
+    && !path.includes(panel) && !path.includes(panelBtn)) setPanel(false);
 
   const legend = document.getElementById("legend");
   const legendBtn = document.getElementById("btn-legend");
   if (!legend.classList.contains("hidden") && !wKarcie
-      && !path.includes(legend) && !path.includes(legendBtn)) {
+    && !path.includes(legend) && !path.includes(legendBtn)) {
     legend.classList.add("hidden");
     legendBtn.classList.remove("active");
   }
@@ -6022,10 +6278,10 @@ async function restoreAlertsOff() {
       if (s.alertsOff) localStorage.setItem(ALERTS_OFF_KEY, "1");
       else localStorage.removeItem(ALERTS_OFF_KEY);
     }
-  } catch {}
+  } catch { }
   const box = document.getElementById("set-alerts-on");
   if (box) box.checked = !alertsOff();
 }
 setTimeout(async () => { await restoreAlertsOff(); syncObservedRegions(); }, 2500);
 if ("serviceWorker" in navigator && !IS_APP)
-  navigator.serviceWorker.register("sw.js").catch(() => {});
+  navigator.serviceWorker.register("sw.js").catch(() => { });
